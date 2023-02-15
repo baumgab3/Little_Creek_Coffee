@@ -56,10 +56,16 @@ const getDropDownForAboutUs = () => {
     return aboutUsOptions;
 }
 
+// opens a url in a new window
+const openURLInNewWindow = (url) => {
+    window.open(url, '_blank', 'noreferrer');
+}
+
 export {
     slugify,
     getDropDownForShop,
     getDropDownForCafes,
     getDropDownForLearning,
-    getDropDownForAboutUs
+    getDropDownForAboutUs,
+    openURLInNewWindow
 };
