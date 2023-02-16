@@ -61,11 +61,27 @@ const openURLInNewWindow = (url) => {
     window.open(url, '_blank', 'noreferrer');
 }
 
+// returns top navbar links
+const getTopNavbarLinks = () => {
+    const topNavOptions = [
+        {name: "Get The App", url: "/mobile-ordering"},
+        {name: "Brewing Change", url: "/brewing-change"},
+        {name: "Join Our Team", url: "/join-our-team"},
+        {name: "Wholesale Login", url: "/TODO"},
+        {name: "Contact Us", url: "/contact"},
+
+
+    ];
+
+    return topNavOptions;
+}
+
 export {
     slugify,
     getDropDownForShop,
     getDropDownForCafes,
     getDropDownForLearning,
     getDropDownForAboutUs,
-    openURLInNewWindow
+    openURLInNewWindow,
+    getTopNavbarLinks
 };

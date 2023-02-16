@@ -102,7 +102,7 @@ const BigNavbar = () => {
               Little Creek Coffee
             </Typography> */}
             <Button sx = {{color: '#fff' }} >
-                <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link to="/" style={{ textDecoration: 'none', color: 'inherit', marginTop: '2px' }}>
                     <Typography 
                     variant="h6"
                     component="div"
@@ -267,31 +267,16 @@ const BigNavbar = () => {
         </Grid>
     
         <Grid item md={3} lg={3} sx={{textAlign: 'right'}} pt={1} >
-            <Button color="inherit">
+            <Button component={Link} to="my-account" color="inherit">
                 Login
             </Button>
                 |
-            <Button color="inherit" >
+            <Button component={Link} to="cart" color="inherit" >
                 <Box sx={{marginRight: '2px'}}>$00.00</Box>
                 <ShoppingCartOutlinedIcon />
             </Button>
         </Grid>
-
-
         </Grid>
-
-
-        {/* <Box sx={{marginLeft: '20px', display: { xs: 'none', sm: 'none', md: 'block'} }} >
-            <Button color="inherit">
-                Login
-            </Button>
-                |
-            <Button color="inherit" >
-                <Box sx={{marginRight: '2px'}}>$00.00</Box>
-                <ShoppingCartOutlinedIcon />
-            </Button>
-        </Box> */}
-
     </Toolbar> 
     )
 }
