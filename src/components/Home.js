@@ -1,13 +1,16 @@
 import { Box } from '@mui/material'
 import React from 'react'
+import ImageCarousel from './ImageCarousel'
+import HighlightSection from './HighlightSection';
+
 
 const Home = () => {
   return (
-    <Box >
-        Home
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident itaque perferendis veniam, quia sed aliquam autem neque corporis iste eius!</p>
-         <br></br>
-         test
+    <Box sx={{height: "400px"}}>
+      <ImageCarousel />
+      <HighlightSection sectionName="Never Stop Learning" />
+      <HighlightSection sectionName="Wholesale Information" />
+
     </Box>
   )
 }

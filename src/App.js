@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import About from './components/About';
 import Home from "./components/Home";
@@ -13,16 +13,16 @@ function App() {
     <Router>
       <Navbar drawerWidth={drawerWidth} />
       
-      <Container sx={{ flexGrow: 1, p: 15, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
+      <Box sx={{ mt: 15 }}>
         <Routes>
           <Route exact path="/" element={ <Home/> } />
           <Route exact path="/home" element={ <Home/> } />
           <Route exact path="/about" element={ <About/> } />
           <Route exact path="/sandbox" element={ <Sandbox/> } />
           <Route exact path="/product-category/:category" element={ <ProductCategoryList/> } />
-
         </Routes>
-      </Container>
+      </Box>
+
     </Router>   
   );
 }
