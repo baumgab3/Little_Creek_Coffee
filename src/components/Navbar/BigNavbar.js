@@ -13,8 +13,10 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import * as AdminUtil from '../../util/AdminUtil';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { useAuth } from '../AuthProvider';
 
 const BigNavbar = () => {
+    const { auth, user } = useAuth();
 
     const shopOptions = AdminUtil.getDropDownForShop();
     const cafeOptions = AdminUtil.getDropDownForCafes();
@@ -88,6 +90,10 @@ const BigNavbar = () => {
         setAnchorAboutUsEl(null);
     };
     
+    // login function
+    const handleLogin = () => {
+        console.log('logging in');
+    }
 
     return (
         <Toolbar sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
@@ -267,9 +273,12 @@ const BigNavbar = () => {
         </Grid>
     
         <Grid item md={3} lg={3} sx={{textAlign: 'right'}} pt={1} >
-            <Button component={Link} to="my-account" color="inherit">
+            {auth ?
+                <Button component={Link} to="my-account" color="inherit">Welcome {user}</Button> : <Button component={Link} to="my-account" color="inherit">Login</Button>
+            }
+            {/* <Button component={Link} to="my-account" color="inherit">
                 Login
-            </Button>
+            </Button> */}
                 |
             <Button component={Link} to="cart" color="inherit" >
                 <Box sx={{marginRight: '2px'}}>$00.00</Box>
