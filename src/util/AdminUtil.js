@@ -154,9 +154,23 @@ const getWholesaleSection = () => {
         ]
     };
 
-    
-    
     return wholesaleInfo;
+}
+
+//returns faq sections for about us accordian
+const getFAQs = () => {
+    const FAQs = [
+        {idx: 0, question: "What are the delivery charges for orders from the Online Shop?", answer: "Nothing. We rock free shipping on all orders. That said, if you need your order rushed, we can make that happen, but you're gonna have to pick up the tab."},
+        {idx: 1, question: "Which payment methods are accepted in the Online Shop?", answer: "Credit Card, Debit Card, Amazon Pay, PayPal, and Republic Credits."},
+        {idx: 2, question: "How long will delivery take?", answer: "Nothing. We rock free shipping on all orders. That said, if you need your order rushed, we can make that happen, but you're gonna have to pick up the tab."},
+        {idx: 3, question: "How secure is shopping in the Online Shop? Is my data protected?", answer: "Pretty darn secure. Make sure you have a great password when you set up your account. Our server is secure in Odin's vault. So, we should be set unless Loki or Hela were to be resurrected and pursue a career in computer hacking."},
+        {idx: 4, question: "What exactly happens after ordering?", answer: "Nothing. We rock free shipping on all orders. That said, if you need your order rushed, we can make that happen, but you're gonna have to pick up the tab."},
+        {idx: 5, question: "WILL I RECEIVE TRACKING INFORMATION?", answer: "When you place an online order with us, you will receive an initial \"Order Received\" email with your receipt and order number.  Once we process your order and it leaves our facility, you will receive an \"Order Shipped\" email with your tracking number embedded in the body of the email."},
+        {idx: 6, question: "Do I receive an invoice for my order?", answer: "As soon as you submit your order, you should receive a confirmation email from us. You should also receive a follow up with shipping and tracking information as soon as your order is processed."},
+        {idx: 7, question: "WHAT IF THERE'S A MISTAKE WITH MY ORDER?", answer: "Well, crap. That's on us. We work hard to make things great, but we do make mistakes from time to time. Just send an email to customers@.com and we will make it right."}
+    ]
+
+    return FAQs;
 }
 
 export {
@@ -167,5 +181,6 @@ export {
     getDropDownForAboutUs,
     openURLInNewWindow,
     getTopNavbarLinks,
-    getHighlighSectionInfo
+    getHighlighSectionInfo,
+    getFAQs
 };

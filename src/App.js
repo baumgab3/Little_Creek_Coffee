@@ -1,8 +1,8 @@
-import { Box, Container } from '@mui/material';
-import { useContext } from 'react';
+import { Box } from '@mui/material';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import About from './components/About';
-import AuthProvider, { useAuth } from './components/AuthProvider';
+import  { useAuth } from './components/AuthProvider';
+import Contact from './components/Contact';
 import Home from "./components/Home";
 import Login from './components/Login';
 import Navbar from './components/Navbar/Navbar';
@@ -13,7 +13,7 @@ import UserDashboard from './components/UserDashboard.js';
 
 function App() {
   const drawerWidth = 240;
-  const {auth, user} = useAuth();
+  const {auth} = useAuth();
 
   return (
     <Router>
@@ -25,6 +25,8 @@ function App() {
           <Route exact path="/home" element={ <Home/> } />
           {!auth ? <Route exact path="/my-account" element={ <Login/> } /> : <Route exact path="/my-account" element={ <UserDashboard/> } /> }
           <Route exact path="/about" element={ <About/> } />
+          <Route exact path="/contact" element={ <Contact/> } />
+
           <Route exact path="/sandbox" element={ <Sandbox/> } />
           <Route exact path="/product-category/:category" element={ <ProductCategoryList/> } />
         </Routes>

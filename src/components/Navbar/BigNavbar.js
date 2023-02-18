@@ -89,11 +89,6 @@ const BigNavbar = () => {
     const handleAboutUsDropDownClose = () => {
         setAnchorAboutUsEl(null);
     };
-    
-    // login function
-    const handleLogin = () => {
-        console.log('logging in');
-    }
 
     return (
         <Toolbar sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { Button, Grid, Modal, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { useAuth } from './AuthProvider';
 import { useNavigate } from "react-router-dom";
 

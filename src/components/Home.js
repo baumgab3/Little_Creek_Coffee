@@ -6,7 +6,7 @@ import HighlightSection from './HighlightSection';
 
 const Home = () => {
   return (
-    <Box sx={{height: "400px"}}>
+    <Box mt={8}>
       <ImageCarousel />
       <HighlightSection sectionName="Never Stop Learning" />
       <HighlightSection sectionName="Wholesale Information" />
