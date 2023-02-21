@@ -1,7 +1,7 @@
 import { Grid, Paper, Typography } from '@mui/material'
 import { Box, Container } from '@mui/system'
 import React from 'react'
-import { getOurStory, getOurStoryCardSection } from '../util/AdminUtil'
+import { getOurStory, getOurStoryCardSection } from '../../util/AdminUtil'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';

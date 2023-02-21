@@ -3,7 +3,7 @@ import { Button, Divider, Grid, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { Link as RouterLink  } from 'react-router-dom';
 import Link from '@mui/material/Link';
-import * as AdminUtil from '../util/AdminUtil';
+import * as AdminUtil from '../../util/AdminUtil';
 
 const HighlightSection = (props) => {
 

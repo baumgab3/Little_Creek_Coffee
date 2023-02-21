@@ -57,6 +57,7 @@ const getDropDownForAboutUs = () => {
     const aboutUsOptions = [
         {name: "Contact Us", url: "/contact"},
         {name: "Our Story", url: "/our-story"},
+        {name: "Brewing Change", url: "/brewing-change"},
         {name: "Inside Little Creek", url: "/abc-corporation"},
         {name: "Join Our Team", url: "/join-our-team"}
     ];
@@ -198,6 +199,82 @@ const getOurStoryCardSection = () => {
     return ourStoryCardInfo;
 }
 
+// returns brewing change sections
+const getBrewingChangeSections = () => {
+    const sections = [
+        {   
+            imagePath: "../images/holder_2.jpg",
+            header: "SCHEDULING CLASSES WITH HUMANITIX", 
+            projectSummary: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, quia aut praesentium soluta reiciendis adipisci accusamus necessitatibus odio possimus, nesciunt quisquam itaque nisi excepturi minima maiores dolorem voluptate vero ea ipsam. Debitis, porro? Sequi fugit necessitatibus, minima culpa itaque ipsum.",
+            impact: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi veniam nobis quas dicta iure at dolores minus earum fugit natus.",
+            projectLeader: "Lorem ipsum dolor sit amet consectetur",
+            projectTimeLine: "November 2022 - ongoing",
+            buttons: [
+                {text: "schedule a public class or tour", url: "/public-classes"},
+                {text: "learn about humanitix", url: "https://www.humanitix.com/us/impact"}
+            ]
+        },
+        {   
+            imagePath: "../images/holder_2.jpg",
+            header: "Lab Coffee Donations for Bay View Community Center Food Pantry", 
+            projectSummary: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, quia aut praesentium soluta reiciendis adipisci accusamus necessitatibus odio possimus, nesciunt quisquam itaque nisi excepturi minima maiores dolorem voluptate vero ea ipsam. Debitis, porro? Sequi fugit necessitatibus, minima culpa itaque ipsum.",
+            impact: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi veniam nobis quas dicta iure at dolores minus earum fugit natus.",
+            projectLeader: "Lorem ipsum dolor sit amet consectetur",
+            projectTimeLine: "February 9th, 2021 - Ongoing",
+            buttons: [
+                {text: "learn about bay view community center food pantry", url: "https://bayviewcenter.org/food-pantry/"}
+            ]
+        },
+        {   
+            imagePath: "../images/holder_2.jpg",
+            header: "Community Fridge Milwaukee", 
+            projectSummary: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, quia aut praesentium soluta reiciendis adipisci accusamus necessitatibus odio possimus, nesciunt quisquam itaque nisi excepturi minima maiores dolorem voluptate vero ea ipsam. Debitis, porro? Sequi fugit necessitatibus, minima culpa itaque ipsum.",
+            impact: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi veniam nobis quas dicta iure at dolores minus earum fugit natus.",
+            projectLeader: "Lorem ipsum dolor sit amet consectetur",
+            projectTimeLine: "October 19th, 2020 - Ongoing",
+            buttons: [
+                {text: "support community fridge milwaukee", url: "https://www.facebook.com/pages/category/Community-Organization/MKE-Community-Fridge-106248081188387/"}
+            ]
+        },
+        {   
+            imagePath: "../images/holder_2.jpg",
+            header: "Great Cycle Challenge", 
+            projectSummary: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, quia aut praesentium soluta reiciendis adipisci accusamus necessitatibus odio possimus, nesciunt quisquam itaque nisi excepturi minima maiores dolorem voluptate vero ea ipsam. Debitis, porro? Sequi fugit necessitatibus, minima culpa itaque ipsum.",
+            impact: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi veniam nobis quas dicta iure at dolores minus earum fugit natus.",
+            projectLeader: "Lorem ipsum dolor sit amet consectetur",
+            projectTimeLine: "September 2022",
+            buttons: [
+                {text: "sponsor the great cycle challenge", url: "https://greatcyclechallenge.com/"}
+            ]
+        },
+        {   
+            imagePath: "../images/holder_2.jpg",
+            header: "Osito Coffee Colombian Farmer Fund", 
+            projectSummary: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, quia aut praesentium soluta reiciendis adipisci accusamus necessitatibus odio possimus, nesciunt quisquam itaque nisi excepturi minima maiores dolorem voluptate vero ea ipsam. Debitis, porro? Sequi fugit necessitatibus, minima culpa itaque ipsum.",
+            impact: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi veniam nobis quas dicta iure at dolores minus earum fugit natus.",
+            projectLeader: "Lorem ipsum dolor sit amet consectetur",
+            projectTimeLine: "June 25th, 2021",
+            buttons: [
+                {text: "learn about osito coffee colombian farmer fund", url: "https://www.gofundme.com/f/osito-farmer-fund?mc_cid=a69dd7fa59&mc_eid=a8925e3c0e"}
+            ]
+        },
+        {   
+            imagePath: "../images/holder_2.jpg",
+            header: "WE LOVE TEACHERS BLEND", 
+            projectSummary: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, quia aut praesentium soluta reiciendis adipisci accusamus necessitatibus odio possimus, nesciunt quisquam itaque nisi excepturi minima maiores dolorem voluptate vero ea ipsam. Debitis, porro? Sequi fugit necessitatibus, minima culpa itaque ipsum.",
+            impact: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi veniam nobis quas dicta iure at dolores minus earum fugit natus.",
+            projectLeader: "Lorem ipsum dolor sit amet consectetur",
+            projectTimeLine: "November 2022 - ongoing",
+            buttons: [
+                {text: "shop we love teachers", url: "/product/we-love-teachers-blend-2-half-pound-bags"},
+                {text: "learn about city forward collective", url: "https://www.cityforwardcollective.org/teachers"}
+            ]
+        }
+    ]
+
+    return sections;
+}
+
 
 export {
     slugify,
@@ -210,5 +287,6 @@ export {
     getHighlighSectionInfo,
     getFAQs,
     getOurStory,
-    getOurStoryCardSection
+    getOurStoryCardSection,
+    getBrewingChangeSections
 };

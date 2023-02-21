@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 import React from 'react'
-import ImageCarousel from './ImageCarousel'
+import ImageCarousel from '../ImageCarousel'
 import HighlightSection from './HighlightSection';
 
 

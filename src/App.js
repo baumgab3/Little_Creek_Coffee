@@ -1,14 +1,15 @@
 import { Box } from '@mui/material';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import  { useAuth } from './components/AuthProvider';
-import Contact from './components/Contact';
-import Home from "./components/Home";
+import Contact from './components/AboutUs/Contact';
+import Home from "./components/Home/Home";
 import Login from './components/Login';
 import Navbar from './components/Navbar/Navbar';
-import OurStory from './components/OurStory';
+import OurStory from './components/AboutUs/OurStory';
 import ProductCategoryList from './components/ProductCategoryList';
 import Sandbox from './components/Sandbox';
 import UserDashboard from './components/UserDashboard.js';
+import BrewingChange from './components/AboutUs/BrewingChange';
 
 
 function App() {
@@ -28,6 +29,8 @@ function App() {
           {/* About Us */}
           <Route exact path="/contact" element={ <Contact/> } />
           <Route exact path="/our-story" element={ <OurStory/> } />
+          <Route exact path="/brewing-change" element={ <BrewingChange/> } />
+
 
           {/* Sandbox */}
           <Route exact path="/sandbox" element={ <Sandbox/> } />
