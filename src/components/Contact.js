@@ -107,7 +107,7 @@ const Contact = () => {
                 aria-controls={`panel-${faq.idx}-content`}
                 id={`panel-${faq.idx}-header`}
                 >
-                 <Typography>{faq.question}</Typography>   
+                 <Typography sx={{textTransform: 'uppercase'}}>{faq.question}</Typography>   
                 </AccordionSummary>
                 <AccordionDetails>
                 <Typography>{faq.answer}</Typography>

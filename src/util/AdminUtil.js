@@ -5,6 +5,7 @@ import LooksOutlinedIcon from '@mui/icons-material/LooksOutlined';
 import HandymanOutlinedIcon from '@mui/icons-material/HandymanOutlined';
 import WhatshotOutlinedIcon from '@mui/icons-material/WhatshotOutlined';
 
+
 // returns string as lowercase with all spaces replaced with a '-'
 const slugify = (toClean) => {
     return toClean.toLowerCase().replace(/\s+/g, " ").replace(/\s/g, "-");
@@ -13,7 +14,7 @@ const slugify = (toClean) => {
 // returns array for the 'Shop' option in the navbar
 const getDropDownForShop = () => {
     const shopOptions = [
-        {name: "Coffee", url: "/product-category/coffee"},
+        {name: "Coffee", url: "/product-category/roast/light"},
         {name: "Subscription", url: "/product-category/subscription"},
         {name: "Cold Brew", url: "/product-category/cold-brew"},
         {name: "Merchandise", url: "/product-category/merchandise"},
@@ -96,7 +97,7 @@ const getLearningSection = () => {
             {
                 icon : <LightbulbOutlinedIcon fontSize="large" />,
                 heading: "Public Classes",
-                text: "Sign up for one of our public classes and learn hands-on how to pull a shot, create latte art, or simply brew your coffee like an actual Stone Creek barista!",
+                text: "Sign up for one of our public classes and learn hands-on how to pull a shot, create latte art, or simply brew your coffee like an actual Little Creek barista!",
                 isLink: true,
                 url: "/public-classes",
                 buttonText: "check out our classes"
@@ -104,15 +105,15 @@ const getLearningSection = () => {
             {
                 icon : <FreeBreakfastOutlinedIcon fontSize="large" />,
                 heading: "Brewing Guides",
-                text: "Do you need tips on how to use your Aeropress or V60? Then check out one of our manual brewing guides so that you can brew a great cup of Stone Creek Coffee at home.",
+                text: "Do you need tips on how to use your Aeropress or V60? Then check out one of our manual brewing guides so that you can brew a great cup of Little Creek Coffee at home.",
                 isLink: true,
                 url: "/brewing-guides",
                 buttonText: "brew better"
             },
             {
                 icon : <RssFeedOutlinedIcon fontSize="large" />,
-                heading: "Stone Creek Coffee Blog",
-                text: "Get the inside scoop of how Stone Creek Coffee operates. Just click over to our blog to learn about new coffees, new endeavors, and more.",
+                heading: "Little Creek Coffee Blog",
+                text: "Get the inside scoop of how Little Creek Coffee operates. Just click over to our blog to learn about new coffees, new endeavors, and more.",
                 isLink: true,
                 url: "/blog",
                 buttonText: "check out our classes"
@@ -173,6 +174,31 @@ const getFAQs = () => {
     return FAQs;
 }
 
+
+// returns Our Story section info
+const getOurStory = () => {
+    const ourStory = [
+            {imagePath: "../images/holder.jpg", leftImage: true, smallHeader: "where we've been", bigHeader: "our history", sectionText: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptate esse, quam, eveniet perferendis repellendus sint voluptatibus, a sunt saepe dolorum fugiat odit quia cupiditate ab dicta! Nobis debitis provident consequatur hic! Maxime sed rerum, saepe blanditiis eaque et facere dignissimos doloremque perferendis voluptate fugiat in tempora cumque animi. Nam iste quia excepturi? Explicabo animi rerum nisi fugit rem aperiam officiis."},
+            {imagePath: "../images/holder.jpg", leftImage: false, smallHeader: "what we are about", bigHeader: "serious play", sectionText: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptate esse, quam, eveniet perferendis repellendus sint voluptatibus, a sunt saepe dolorum fugiat odit quia cupiditate ab dicta! Nobis debitis provident consequatur hic! Maxime sed rerum, saepe blanditiis eaque et facere dignissimos doloremque perferendis voluptate fugiat in tempora cumque animi. Nam iste quia excepturi? Explicabo animi rerum nisi fugit rem aperiam officiis."},
+            {imagePath: "../images/holder.jpg", leftImage: true, smallHeader: "what we are doing", bigHeader: "our business", sectionText: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptate esse, quam, eveniet perferendis repellendus sint voluptatibus, a sunt saepe dolorum fugiat odit quia cupiditate ab dicta! Nobis debitis provident consequatur hic! Maxime sed rerum, saepe blanditiis eaque et facere dignissimos doloremque perferendis voluptate fugiat in tempora cumque animi. Nam iste quia excepturi? Explicabo animi rerum nisi fugit rem aperiam officiis."},
+            {imagePath: "../images/holder.jpg", leftImage: false, smallHeader: "where we are going", bigHeader: "the future", sectionText: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptate esse, quam, eveniet perferendis repellendus sint voluptatibus, a sunt saepe dolorum fugiat odit quia cupiditate ab dicta! Nobis debitis provident consequatur hic! Maxime sed rerum, saepe blanditiis eaque et facere dignissimos doloremque perferendis voluptate fugiat in tempora cumque animi. Nam iste quia excepturi? Explicabo animi rerum nisi fugit rem aperiam officiis."}
+    ]
+
+    return ourStory;
+}
+
+// returns Our Story 3 card section info
+const getOurStoryCardSection = () => {
+    const ourStoryCardInfo = [
+        {imagePath: "../images/holder.jpg", header: "our cafes", text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates doloremque dolore est enim officiis nisi magni aperiam quae deserunt vel voluptatum voluptate maiores nobis fuga, porro libero magnam quasi. Praesentium ipsam veniam placeat assumenda maxime doloremque explicabo nesciunt deleniti voluptatem asperiores, error voluptas iure debitis.", buttonText: "get directions", url: "/cafes"},
+        {imagePath: "../images/holder.jpg", header: "our blog", text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates doloremque dolore est enim officiis nisi magni aperiam quae deserunt vel voluptatum voluptate maiores nobis fuga, porro libero magnam quasi. Praesentium ipsam veniam placeat assumenda maxime doloremque explicabo nesciunt deleniti voluptatem asperiores, error voluptas iure debitis.", buttonText: "read the blog", url: "/blog"},
+        {imagePath: "../images/holder.jpg", header: "partner with us", text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates doloremque dolore est enim officiis nisi magni aperiam quae deserunt vel voluptatum voluptate maiores nobis fuga, porro libero magnam quasi. Praesentium ipsam veniam placeat assumenda maxime doloremque explicabo nesciunt deleniti voluptatem asperiores, error voluptas iure debitis.", buttonText: "contact us", url: "/wholesale2b"}
+    ]
+
+    return ourStoryCardInfo;
+}
+
+
 export {
     slugify,
     getDropDownForShop,
@@ -182,5 +208,7 @@ export {
     openURLInNewWindow,
     getTopNavbarLinks,
     getHighlighSectionInfo,
-    getFAQs
+    getFAQs,
+    getOurStory,
+    getOurStoryCardSection
 };
