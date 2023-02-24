@@ -106,12 +106,12 @@ const OurStory = () => {
                 return <Grid item xs={12} sm={4} md={4} key={section.header} >
                         <Card>
                         <CardActionArea component={Link} to={section.url} sx={{transition: "transform 0.35s ease-in-out", "&:hover": { transform: "scale3d(1.05, 1.05, 1)" }}}>
-                        <CardMedia
-                        component="img"
-                        height="300"
-                        image={section.imagePath}
-                        alt={section.header}
-                        />
+                            <CardMedia
+                            component="img"
+                            height="300"
+                            image={section.imagePath}
+                            alt={section.header}
+                            />
                         </CardActionArea>
                         <CardContent>
                         <Typography gutterBottom variant="h5" component="div" sx={{textTransform: 'uppercase'}}>

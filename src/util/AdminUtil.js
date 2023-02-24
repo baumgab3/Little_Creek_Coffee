@@ -275,6 +275,150 @@ const getBrewingChangeSections = () => {
     return sections;
 }
 
+// returns modal section for Inside Little Creek commitments section
+const getCompanyCommitments = () => {
+    const sections = [
+        {
+            header: 'serving our community',
+            paragraphs: [
+                {variant: "p", paragraph: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam obcaecati illum minus similique totam alias iste, sunt maxime, corporis non, incidunt dolores!"},
+                {variant: "p", paragraph: "Lorem ipsum dolor sit amet consectetur adipisicing elit. In ipsa laboriosam soluta minima ratione labore, qui atque quasi temporibus nemo ea placeat voluptas quos laudantium deleniti at est accusamus amet a optio similique! Fuga, natus ex. Corrupti voluptas quod consequatur commodi tenetur mollitia porro, praesentium hic et est perferendis eos quaerat sint eum necessitatibus molestiae qui molestias saepe minima ad sequi cupiditate voluptatibus. Doloribus, culpa perspiciatis nobis temporibus aliquam consequuntur dolor rerum minus quis tenetur."},
+                {variant: "p", paragraph: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione placeat nostrum doloribus, quas similique nulla?"},
+                {variant: "h6", header: "serving local customers"},
+                {variant: "p", paragraph: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint modi tenetur iure et non quidem a odio sequi autem voluptatibus sapiente, libero est itaque vitae, unde delectus fugit mollitia!\n Error maiores - minus recusandae possimus repudiandae illo dicta temporibus ullam voluptatum"},
+                {variant: "p", paragraph: "Ted Jenkins, Mr Manager"}
+            ]
+        },
+        {
+            header: 'environmental commitment',
+            paragraphs: [
+                {variant: "p", paragraph: "Temporibus, aspernatur expedita! Saepe quasi, natus explicabo laborum temporibus quia corporis neque provident eaque quis necessitatibus aliquam quae voluptas, rem at dolorem non ex omnis amet modi iusto voluptatum odio repellendus. Earum, nemo doloribus."},
+                {variant: "p", paragraph: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed perferendis ab eveniet accusantium fuga laudantium itaque est nostrum libero veritatis, placeat ut quisquam deserunt error culpa laboriosam assumenda iste quidem eaque deleniti, iusto vitae amet rerum mollitia. Quo et ullam molestiae at laborum. Delectus odio ea doloribus maiores facere in mollitia fugit quidem commodi, nesciunt rerum vitae totam laborum exercitationem nihil! Magnam, tempora commodi? Ipsa non quaerat similique ad accusamus!"},
+                {variant: "p", paragraph: "Ted Jenkins, Mr Manager"}
+            ]
+        },
+        {
+            header: 'suppliers & accountability',
+            paragraphs: [
+                {variant: "p", paragraph: "s."},
+                {variant: "p", paragraph: "Losamus!"},
+                {variant: "p", paragraph: "Ted Jenkins, Mr Manager"}
+            ]
+        },
+        {
+            header: 'impact report',
+            paragraphs: [
+                {variant: "p", paragraph: "oluptatum odio repellendus. Earum, nemo doloribus."},
+                {variant: "p", paragraph: "Loommodi, nesciunt rerum vitae e ad accusamus!"},
+                {variant: "p", paragraph: "Ted Jenkins, Mr Manager"}
+            ]
+        }
+    ]
+
+    return sections;
+}
+
+
+const getServingOurCommunity = () => {
+    const paragraphs =  [
+        {idx: 0, variant: "p", text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam obcaecati illum minus similique totam alias iste, sunt maxime, corporis non, incidunt dolores!"},
+        {idx: 1, variant: "p", text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. In ipsa laboriosam soluta minima ratione labore, qui atque quasi temporibus nemo ea placeat voluptas quos laudantium deleniti at est accusamus amet a optio similique! Fuga, natus ex. Corrupti voluptas quod consequatur commodi tenetur mollitia porro, praesentium hic et est perferendis eos quaerat sint eum necessitatibus molestiae qui molestias saepe minima ad sequi cupiditate voluptatibus. Doloribus, culpa perspiciatis nobis temporibus aliquam consequuntur dolor rerum minus quis tenetur."},
+        {idx: 2, variant: "p", text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione placeat nostrum doloribus, quas similique nulla?"},
+        {idx: 3, variant: "h6", text: "serving local customers"},
+        {idx: 4, variant: "p", text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint modi tenetur iure et non quidem a odio sequi autem voluptatibus sapiente, libero est itaque vitae, unde delectus fugit mollitia!\n Error maiores - minus recusandae possimus repudiandae illo dicta temporibus ullam voluptatum"},
+        {idx: 5, variant: "p", text: "Ted Jenkins, Mr Manager"}
+    ]
+
+    return paragraphs;
+}
+
+const getEnvironmentalCommitments = () => {
+    const paragraphs = [
+        {variant: "p", text: "Temporibus, aspernatur expedita! Saepe quasi, natus explicabo laborum temporibus quia corporis neque provident eaque quis necessitatibus aliquam quae voluptas, rem at dolorem non ex omnis amet modi iusto voluptatum odio repellendus. Earum, nemo doloribus."},
+        {variant: "p", text: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed perferendis ab eveniet accusantium fuga laudantium itaque est nostrum libero veritatis, placeat ut quisquam deserunt error culpa laboriosam assumenda iste quidem eaque deleniti, iusto vitae amet rerum mollitia. Quo et ullam molestiae at laborum. Delectus odio ea doloribus maiores facere in mollitia fugit quidem commodi, nesciunt rerum vitae totam laborum exercitationem nihil! Magnam, tempora commodi? Ipsa non quaerat similique ad accusamus!"},
+        {variant: "p", text: "Ted Jenkins, Mr Manager"}
+    ]
+
+    return paragraphs;
+}
+
+// returns founder owners info for Abouts Us/Inside Little Creek
+const getFoundingOwners = () => {
+    const info = {
+        header: 'founding owners',
+        text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem molestiae quidem voluptas dolorem esse, ratione quam odio ipsam! Dolorum perspiciatis maiores id molestiae quas libero quam quidem. Ipsam debitis, vel ipsa, autem perferendis nobis expedita quo, modi voluptatum in quae labore odio suscipitquos non maiores saepe quod cum? Enim nobis officiis libero? Odio esse saepe quia.',
+        owners: [
+            {name: 'Ted Kemper', title: 'mangaging director and founder', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Lisa Maker', title: 'co-owner', imagePath: '../images/holder_4.jpg'},
+        ]
+    }
+
+    return info;
+}
+
+// returns employee owners info for Abouts Us/Inside Little Creek
+const getEmployeeOwners = () => {
+    const info = {
+        header: 'employee owners',
+        text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem molestiae quidem voluptas dolorem esse, ratione quam odio ipsam! Dolorum perspiciatis maiores id molestiae quas libero quam quidem. Ipsam debitis, vel ipsa, autem perferendis nobis expedita quo, modi voluptatum in quae labore odio.',
+        owners: [
+            {name: 'Clayton Owen', title: 'director of development', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Maja Valdez', title: 'director of production', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Barry Tran', title: 'director of products', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Barbara Rivas', title: 'director of customer care', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Kye Winter', title: 'director of finance', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Lloyd Chambers', title: 'director of retail', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+        ]
+    }
+
+    return info;
+}
+
+// returns coffee geeks info for About Us/Inside LittleCreek
+const getCoffeeGeeks = () => {
+    const geeks = [
+            {name: 'Victoria Avila', title: 'director of coffee', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Virgil Mitchell', title: 'director of bakery', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Jenson Mcbride', title: 'lean production roaster', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Zain Kerr', title: 'accounting staff', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Helen Leonard', title: 'accounting assistant', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Alan Bradford', title: 'master coach', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Arran Lawson', title: 'customer care', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Florence Welch', title: 'employee care', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Lance Brandt', title: 'designer', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Humza Valentine', title: 'account manager', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Kyra Copeland', title: 'design direrctor', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Zane Deleon', title: 'director of kitchen', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Lorna Cochran', title: 'plumber', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Kelvin Cabrera', title: 'master coach', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Lacie Wright', title: 'designer', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+            {name: 'Saif Hanna', title: 'director of retail', imagePath: '../images/holder_4.jpg', socialMediaLink: 'https://twitter.com/?lang=en'},
+        ]
+
+    return geeks;
+}
+
+// returns core commitments for About Us/Inside LittleCreek
+const getCoreCommitments = () => {
+    const commitments = [
+        {title: "keep your commitments", text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores ad eaque quo quod eum eveniet? Nulla nemo aspernatur illum natus sunt reprehenderit odit consequuntur vel voluptas nesciunt quis, tempore alias sint, doloremque blanditiis adipisci voluptatum quaerat recusandae id. Perferendis."},
+        {title: "think hard", text: "Nulla nemo aspernatur illum natus sunt reprehenderit odit consequuntur vel voluptas nesciunt quis, tempore alias sint, doloremque blanditiis adipisci voluptatum quaerat recusandae id. Perferendis."},
+        {title: "clean the corners", text: "Maiores ad eaque quo quod eum eveniet? Nulla nemo aspernatur illum natus sunt reprehenderit odit consequuntur vel voluptas nesciunt quis, tempore alias sint, doloremque blanditiis adipisci voluptatum quaerat recusandae id. Perferendis."},
+        {title: "create remarkable care", text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores ad eaque quo quod eum eveniet? Nulla nemo aspernatur illum natus sunt reprehenderit odit consequuntur vel voluptas nesciunt quis, tempore alias sint, doloremque blanditiis adipisci voluptatum quaerat recusandae id"},
+        {title: "take care of co-workers", text: "Amet consectetur adipisicing elit. Maiores ad eaque quo quod eum eveniet? Nulla nemo aspernatur illum natus sunt reprehenderit odit consequuntur vel voluptas nesciunt quis, tempore alias sint, doloremque blanditiis adipisci voluptatum quaerat recusandae id. Perferendis."},
+        {title: "be here, physically & mentally", text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores ad eaque quo quod eum eveniet? illum natus sunt reprehenderit odit consequuntur vel voluptas nesciunt quis, tempore alias sint, doloremque blanditiis adipisci voluptatum quaerat recusandae id. Perferendis."},
+        {title: "prepare for your work", text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores ad eaque quo quod eum eveniet? Nulla nemo aspernatur illum natus sunt reprehenderit odit consequuntur vel voluptas nesciunt quis, tempore alias sint, doloremque blanditiis adipisci voluptatum."},
+        {title: "speak up", text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores ad eaque quo quod eum eveniet? Nulla nemo aspernatur illum natus sunt reprehenderit odit consequuntur vel voluptas nesciunt quis, tempore alias sint, doloremque blanditiis adipisci voluptatum quaerat recusandae id. Perferendis."},
+        {title: "look to the furture, not the past", text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla nemo aspernatur illum natus sunt reprehenderit odit consequuntur vel voluptas nesciunt quis, tempore alias sint, doloremque blanditiis adipisci voluptatum quaerat recusandae id. Perferendis."},
+        {title: "be a hero, find a hero", text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores ad eaque quo quod eum eveniet? Nulla nemo aspernatur illum natus sunt reprehenderit odit consequuntur vel voluptas nesciunt quis, tempore alias sint, doloremque blanditiis adipisci voluptatum quaerat recusandae id. Perferendis."},
+        {title: "take risks", text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores ad eaque quo quod eum eveniet? Nulla nemo aspernatur illum natus sunt reprehenderit odit consequuntur vel voluptas nesciunt quis, tempore alias sint, doloremque blanditiis adipisci voluptatum quaerat recusandae id. Perferendis."},
+        {title: "be urgent to the customer", text: "Lorem ipsum dolor sit amet consectetur adipisicing elit Nulla nemo aspernatur illum natus sunt reprehenderit odit consequuntur vel voluptas nesciunt quis, tempore alias sint, doloremque blanditiis adipisci voluptatum quaerat recusandae id. Perferendis."},
+        {title: "never stop learning", text: " Nulla nemo aspernatur illum natus sunt reprehenderit odit consequuntur vel voluptas nesciunt quis, tempore alias sint, doloremque blanditiis adipisci voluptatum quaerat recusandae id. Perferendis."}
+    ]
+
+    return commitments;
+}
+
 
 export {
     slugify,
@@ -288,5 +432,12 @@ export {
     getFAQs,
     getOurStory,
     getOurStoryCardSection,
-    getBrewingChangeSections
+    getBrewingChangeSections,
+    getCompanyCommitments,
+    getServingOurCommunity,
+    getEnvironmentalCommitments,
+    getFoundingOwners,
+    getEmployeeOwners,
+    getCoffeeGeeks,
+    getCoreCommitments
 };

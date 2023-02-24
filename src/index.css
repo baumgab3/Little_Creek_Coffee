@@ -16,3 +16,7 @@ code {
   color:rebeccapurple;
 
  }
+
+ .css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+ }

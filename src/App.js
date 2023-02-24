@@ -10,6 +10,7 @@ import ProductCategoryList from './components/ProductCategoryList';
 import Sandbox from './components/Sandbox';
 import UserDashboard from './components/UserDashboard.js';
 import BrewingChange from './components/AboutUs/BrewingChange';
+import InsideLittleCreek from './components/AboutUs/InsideLittleCreek';
 
 
 function App() {
@@ -30,7 +31,8 @@ function App() {
           <Route exact path="/contact" element={ <Contact/> } />
           <Route exact path="/our-story" element={ <OurStory/> } />
           <Route exact path="/brewing-change" element={ <BrewingChange/> } />
-
+          <Route exact path="/abc-corporation" element={ <InsideLittleCreek/> } />
+          
 
           {/* Sandbox */}
           <Route exact path="/sandbox" element={ <Sandbox/> } />
