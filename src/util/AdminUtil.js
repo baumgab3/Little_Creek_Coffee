@@ -14,7 +14,7 @@ const slugify = (toClean) => {
 // returns array for the 'Shop' option in the navbar
 const getDropDownForShop = () => {
     const shopOptions = [
-        {name: "Coffee", url: "/product-category/roast/light"},
+        {name: "Coffee", url: "/product-category/roast/"},
         {name: "Subscription", url: "/product-category/subscription"},
         {name: "Cold Brew", url: "/product-category/cold-brew"},
         {name: "Merchandise", url: "/product-category/merchandise"},

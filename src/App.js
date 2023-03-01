@@ -6,11 +6,11 @@ import Home from "./components/Home/Home";
 import Login from './components/Login';
 import Navbar from './components/Navbar/Navbar';
 import OurStory from './components/AboutUs/OurStory';
-import ProductCategoryList from './components/ProductCategoryList';
 import Sandbox from './components/Sandbox';
 import UserDashboard from './components/UserDashboard.js';
 import BrewingChange from './components/AboutUs/BrewingChange';
 import InsideLittleCreek from './components/AboutUs/InsideLittleCreek';
+import ProductCategoryList from './components/Shop/ProductCategoryList';
 
 
 function App() {
@@ -27,16 +27,19 @@ function App() {
           <Route exact path="/home" element={ <Home/> } />
           {!auth ? <Route exact path="/my-account" element={ <Login/> } /> : <Route exact path="/my-account" element={ <UserDashboard/> } /> }
 
+          {/* Shop */}
+          <Route exact path="/product-category/:param1/:param2?" element={ <ProductCategoryList /> } /> 
+
+
           {/* About Us */}
           <Route exact path="/contact" element={ <Contact/> } />
           <Route exact path="/our-story" element={ <OurStory/> } />
           <Route exact path="/brewing-change" element={ <BrewingChange/> } />
           <Route exact path="/abc-corporation" element={ <InsideLittleCreek/> } />
-          
 
           {/* Sandbox */}
           <Route exact path="/sandbox" element={ <Sandbox/> } />
-          <Route exact path="/product-category/:category" element={ <ProductCategoryList/> } />
+
         </Routes>
       </Box>
 

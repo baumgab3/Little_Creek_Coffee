@@ -60,7 +60,7 @@ const MobileNavbar = (props) => {
         setOpenLearning(!openLearning);
     };
 
-    // Vars and functions for opening Learning List
+    // Vars and functions for opening About us List
     const [opeanAboutUs, setOpenAboutUs] = useState(false);
 
     const handleAboutUsOpen = () => {
