@@ -63,7 +63,8 @@ const ShopContainer = (props) => {
 
     return <>
             <Container>
-                <Box align="center"  mt={8} sx={{display: {xs:"block", sm: "block", md: "none"}}}>
+                <Box mt={6}>
+                <Box align="center" sx={{display: {xs:"block", sm: "block", md: "none"}}}>
                     <Box display="flex" align="center" justifyContent="center" mb={3}>
                     <SmallBreadCrumbs /> 
                     </Box>
@@ -73,7 +74,7 @@ const ShopContainer = (props) => {
                     </Button>
                 </Box>
 
-                <Grid container mt={10}>
+                <Grid container>
                     <Grid item md={4} sx={{display: {xs:"none", sm: "none", md: "block"}}}>
                         <SmallBreadCrumbs />
                         <BrowserDrawer /> 
@@ -84,6 +85,7 @@ const ShopContainer = (props) => {
                         {!param2 && <ProductCategoryListAll /> }
                     </Grid>
                 </Grid>
+                </Box>
             </Container>
 
 
