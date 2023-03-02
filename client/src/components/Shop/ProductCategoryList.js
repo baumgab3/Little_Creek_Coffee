@@ -8,7 +8,6 @@ import { Link as RouterLink } from 'react-router-dom';
 const ProductCategoryList = (props) => {
 
     const { param1, param2 } = useParams();
-    const [products, setProducts] = useState([]);
     const [category, setCategory] = useState();
     const [subCategory, setSubCategory] = useState();
 

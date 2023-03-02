@@ -10,9 +10,8 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
-import { getRoastOptions, getShopCategories } from '../../util/ShopUtil';
-import {  useParams } from 'react-router-dom';
-import SmallBreadCrumbs from '../SmallBreadCrumbs';
+import { getShopCategories } from '../../util/ShopUtil';
+import { useParams } from 'react-router-dom';
 
 const BrowserDrawer = () => {
     const { param1, param2 } = useParams();

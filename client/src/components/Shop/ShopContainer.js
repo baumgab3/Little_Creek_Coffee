@@ -1,4 +1,4 @@
-import { Box, Button, Drawer, Grid, Toolbar, Typography } from '@mui/material';
+import { Box, Button, Drawer, Grid, Toolbar } from '@mui/material';
 import { Container } from '@mui/system';
 import React, { useEffect, useState } from 'react'
 import {  useParams } from 'react-router-dom';
@@ -11,11 +11,11 @@ import ProductCategoryListAll from './ProductCategoryListAll';
 
 const ShopContainer = (props) => {
     const { param1, param2 } = useParams();
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [products, setProducts] = useState([]);
-    const [err, setErr] = useState(null);
+    // const [isLoaded, setIsLoaded] = useState(false);
+    // const [products, setProducts] = useState([]);
+    // const [err, setErr] = useState(null);
     
-    const url = 'http://localhost:8081/product-category' + `/${param1}/${param2}`;
+    // const url = 'http://localhost:8081/product-category' + `/${param1}/${param2}`;
 
 
     useEffect(() => {
@@ -40,11 +40,9 @@ const ShopContainer = (props) => {
         //     })
         // handleDrawerToggle();
         setMobileOpen(false);
-    }, [url, param1, param2])
+    }, [param1, param2])
 
     const [mobileOpen, setMobileOpen] = useState(false);
-
-    const drawerWidth = 240;
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
