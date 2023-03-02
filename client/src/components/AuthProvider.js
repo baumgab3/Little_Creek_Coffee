@@ -13,7 +13,7 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const isAuth = async () => {
-        setUser("brent");
+        setUser("Brent");
     };
 
     isAuth();
