@@ -10,7 +10,7 @@ import Sandbox from './components/Sandbox';
 import UserDashboard from './components/UserDashboard.js';
 import BrewingChange from './components/AboutUs/BrewingChange';
 import InsideLittleCreek from './components/AboutUs/InsideLittleCreek';
-import ProductCategoryList from './components/Shop/ProductCategoryList';
+import ShopContainer from './components/Shop/ShopContainer';
 
 
 function App() {
@@ -28,7 +28,7 @@ function App() {
           {!auth ? <Route exact path="/my-account" element={ <Login/> } /> : <Route exact path="/my-account" element={ <UserDashboard/> } /> }
 
           {/* Shop */}
-          <Route exact path="/product-category/:param1/:param2?" element={ <ProductCategoryList /> } /> 
+          <Route exact path="/product-category/:param1/:param2?" element={ <ShopContainer /> } /> 
 
 
           {/* About Us */}

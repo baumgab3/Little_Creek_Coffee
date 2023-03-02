@@ -1,122 +1,55 @@
-import { Box, Button, Drawer, Grid, Toolbar, Typography } from '@mui/material';
-import { Container } from '@mui/system';
+import { Grid, Link, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import {  useParams } from 'react-router-dom';
-import SmallBreadCrumbs from '../SmallBreadCrumbs';
-import BrowserDrawer from './BrowserDrawer';
-import TuneIcon from '@mui/icons-material/Tune';
-
+import ProductPreviewCard from './ProductPreviewCard';
+import { Link as RouterLink } from 'react-router-dom';
 
 
 const ProductCategoryList = (props) => {
-    const { param1, param2 } = useParams();
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [products, setProducts] = useState([]);
-    const [err, setErr] = useState(null);
-    
-    const url = 'http://localhost:8081/product-category' + `/${param1}/${param2}`;
 
+    const { param1, param2 } = useParams();
+    const [products, setProducts] = useState([]);
+    const [category, setCategory] = useState();
+    const [subCategory, setSubCategory] = useState();
 
     useEffect(() => {
-        // console.log("loading data", url);
-        // fetch(url)
-        //     .then(res => {
-        //         if (res.status >= 400) {
-        //             setIsLoaded(false);
-        //             throw new Error("Server Error!"); //TODO
-        //         }
-        //         return res.json();
-        //     })
-        //     .then(products => {
-        //         setProducts(products);
-        //         setIsLoaded(true);
-        //         console.log(products);
+        if (props.isWithParam) {
+            setCategory(props.category);
+            setSubCategory(props.subCategory);
+        } else {
+           setCategory(param1);
+           setSubCategory(param2);
+        }
 
-        //     }, err => {
-        //         console.log("error");
-        //         setErr(err);
-        //         setIsLoaded(false);
-        //     })
-        handleDrawerToggle();
-    }, [url, param1, param2])
+        // make request to get products
 
-    const [mobileOpen, setMobileOpen] = useState(false);
-
-    const drawerWidth = 240;
-
-    const handleDrawerToggle = () => {
-        setMobileOpen((prevState) => !prevState);
-    };
-
-    const drawer = (
-        <Box onClick={() => handleDrawerToggle} sx={{ textAlign: 'center' }}>
-            <BrowserDrawer />
-        </Box>
-    );
-
-    const { window } = props;
-
-    const container = window !== undefined ? () => window().document.body : undefined;    
+    }, [param1, param2]);
 
 
-    return <>
-            <Container>
-                <Box align="center"  mt={8} sx={{display: {xs:"block", sm: "block", md: "none"}}}>
-                    <Box display="flex" align="center" justifyContent="center" mb={3}>
-                    <SmallBreadCrumbs /> 
-                    </Box>
-                    
-                    <Button variant="outlined" onClick={handleDrawerToggle} >
-                        <TuneIcon sx={{fontSize: '25px'}}/> Filter
-                    </Button>
-                </Box>
+    return (
+        <>
+        <Link to={`/product-category/${category}/${subCategory}`} component={RouterLink} underline="hover">
+            <Typography variant="h5" sx={{textTransform: "uppercase", fontWeight: "bold"}} mb={2}>
+                {category} / {subCategory}
+            </Typography>
+        </Link>
 
-                <Grid container mt={10}>
-                    <Grid item md={4} sx={{display: {xs:"none", sm: "none", md: "block"}}}>
-                        <SmallBreadCrumbs />
-                        <BrowserDrawer /> 
-                    </Grid>
-
-                    <Grid item md={8} sx={{marginTop: {xs :"50px", sm: "50px", md: "85px"}}}>
-                        <Grid container spacing={2} >
-                            <Grid item xs={6} sm={4} md={3}>
-                                <img width="100%" src="/images/holder_2.jpg" alt="" />
-                            </Grid>
-                            <Grid item xs={6} sm={4} md={3}>
-                                <img width="100%" src="/images/holder_2.jpg" alt="" />
-                            </Grid>
-                            <Grid item xs={6} sm={4} md={3}>
-                                <img width="100%" src="/images/holder_2.jpg" alt="" />
-                            </Grid>
-                            <Grid item xs={6} sm={4} md={3}>
-                                <img width="100%" src="/images/holder_2.jpg" alt="" />
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </Container>
-
-
-            <Toolbar sx={{  display: { xs: 'block', sm: 'block', md: 'none' } }}>
-                <Box component="nav">
-                    <Drawer
-                        container={container}
-                        variant="temporary"
-                        open={mobileOpen}
-                        onClose={handleDrawerToggle}
-                        ModalProps={{
-                        keepMounted: true,
-                        }}
-                        sx={{
-                        display: { xs: 'block', sm: 'block', md: 'none' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: "240px" },
-                        }}
-                    >
-                        {drawer}
-                    </Drawer>
-                </Box>
-            </Toolbar>
+        <Grid container spacing={2} >
+            <Grid item xs={6} sm={4} md={3}>
+                <ProductPreviewCard />
+            </Grid>
+            <Grid item xs={6} sm={4} md={3}>
+                <ProductPreviewCard />
+            </Grid>
+            <Grid item xs={6} sm={4} md={3}>
+                <ProductPreviewCard />
+            </Grid>
+            <Grid item xs={6} sm={4} md={3}>
+                <ProductPreviewCard />
+            </Grid>
+        </Grid>
         </>
+    )
 }
 
-export default ProductCategoryList 
+export default ProductCategoryList

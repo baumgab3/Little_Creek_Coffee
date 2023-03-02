@@ -28,7 +28,6 @@ const BrowserDrawer = () => {
     const [isActivLight, setIsActiveLight] = useState(false);
 
     useEffect(() => {
-        console.log(param1, param2);
 
     }, [param1, param2]);
 

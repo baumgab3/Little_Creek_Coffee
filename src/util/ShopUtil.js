@@ -61,9 +61,9 @@ const getShopCategories = () => {
             toggleFunction: 'handleToggleSubscriptions',
             toggleBoolean: 'toggleSubscription',
             openAllFunction: 'handleOpenSubscriptions',
-            categoryUrl: "/product-category/coffee-of-the-month/",
+            categoryUrl: "/product-category/subscriptions/",
             subCategories: [
-                {name: "coffee", url: "/product-category/coffee-of-the-month/coffee-sub/"}
+                {name: "coffee", url: "/product-category/subscriptions/coffee/"}
             ]
         },
         {
