@@ -20,16 +20,8 @@ const BrowserDrawer = () => {
     const categoreis = getShopCategories();
     const categoryButtonStyle = {color: 'black', "&:hover": {backgroundColor: 'white', color: '#3c52b2'}};
 
-
     // handles Roast 
-    const [toggleRoasts, setToggleRoasts] = useState(true);
-    const [isActiveRoast, setIsActiveRoast] = useState(true);
-    const [isActivLight, setIsActiveLight] = useState(false);
-
-    useEffect(() => {
-
-    }, [param1, param2]);
-
+    const [toggleRoasts, setToggleRoasts] = useState(false);
 
     const handleToggleRoasts = () => {
         setToggleRoasts(!toggleRoasts);
@@ -79,6 +71,25 @@ const BrowserDrawer = () => {
             setToggleSubscription(true);
         }
     }
+
+
+    useEffect(() => {
+
+        const setOpenDrawer = () => {
+            console.log("here", param1);
+            switch (param1) {
+                case 'roast': setToggleRoasts(true); break;
+                case 'region': setToggleRegions(true); break;
+                case 'buy-in-bulk': setToggleBulk(true); break;
+                case 'subscription': setToggleSubscription(true); break;
+                default: // don't want anything to open for default
+            }
+        }
+
+        setOpenDrawer();
+
+    }, [param1, param2]);
+
 
     return (
         <Box align="left">

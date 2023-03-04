@@ -11,34 +11,8 @@ import ProductCategoryListAll from './ProductCategoryListAll';
 
 const ShopContainer = (props) => {
     const { param1, param2 } = useParams();
-    // const [isLoaded, setIsLoaded] = useState(false);
-    // const [products, setProducts] = useState([]);
-    // const [err, setErr] = useState(null);
-    
-    // const url = 'http://localhost:8081/product-category' + `/${param1}/${param2}`;
-
 
     useEffect(() => {
-        // console.log("loading data", url);
-        // fetch(url)
-        //     .then(res => {
-        //         if (res.status >= 400) {
-        //             setIsLoaded(false);
-        //             throw new Error("Server Error!"); //TODO
-        //         }
-        //         return res.json();
-        //     })
-        //     .then(products => {
-        //         setProducts(products);
-        //         setIsLoaded(true);
-        //         console.log(products);
-
-        //     }, err => {
-        //         console.log("error");
-        //         setErr(err);
-        //         setIsLoaded(false);
-        //     })
-        // handleDrawerToggle();
         setMobileOpen(false);
     }, [param1, param2])
 
@@ -57,7 +31,6 @@ const ShopContainer = (props) => {
     const { window } = props;
 
     const container = window !== undefined ? () => window().document.body : undefined;    
-
 
     return <>
             <Container>

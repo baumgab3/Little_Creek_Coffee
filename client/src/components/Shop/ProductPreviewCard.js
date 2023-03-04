@@ -5,7 +5,8 @@ import Typography from '@mui/material/Typography';
 import { Box, CardActionArea, Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 
-const ProductPreviewCard = () => {
+const ProductPreviewCard = (props) => {
+    const product = props.product;
     return (
         <Box sx={{ maxWidth: 345 }} align="center" mb={3}>
             <CardActionArea>
@@ -18,9 +19,9 @@ const ProductPreviewCard = () => {
             />
             </CardActionArea>
 
-            <CardContent>
+            <CardContent >
                 <Link to="/" component={RouterLink} underline="hover" color="inherit">
-                    Lorem, ipsum dolor.
+                    {product.name}
                 </Link>
                 {/* <Typography variant="body2" sx={{textTransform: 'uppercase'}}>
                     
@@ -28,7 +29,7 @@ const ProductPreviewCard = () => {
             </CardContent>
 
             <Typography sx={{fontWeight: 'bold'}}>
-                $18.00 - $75.00
+                {product.priceRange}
             </Typography>
             
         </Box>

@@ -9,8 +9,14 @@ const ProductCategoryListAll = () => {
     const [subCategories, setSubCategories] = useState([]);
 
     useEffect(() => {
-        setSubCategories(["light", "medium", "dark", "decaf"]);
-    }, []);
+        if (param1 == "roast") {
+            setSubCategories(["light", "medium", "dark", "decaf"]);
+        } else if (param1 === "region") {
+            setSubCategories(["africa", "central-america", "south-america", "compositions"]);
+        } else {
+            setSubCategories([]);
+        }
+    }, [param1]);
 
 
     return (

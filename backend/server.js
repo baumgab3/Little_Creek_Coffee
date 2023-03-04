@@ -1,21 +1,19 @@
 require('dotenv').config();
 
-const conn = require('./database/connection');
-const util = require('util');
 const cors = require('cors')
 const express = require('express');
-
+const productCategoryRoutes = require('./routes/product-category/productCategoryRoutes');
 
 const app = express();
 app.use(cors())
 app.use(express.json());
+// app.get("/", (req, res) => {
+//     res.send("Hello fron express.");
+// })
 
-app.get("/", (req, res) => {
-    res.send("Hello fron express.");
-})
+// end points
+app.use("/product-category", productCategoryRoutes);
 
-// test connection
-// const query = util.promisify(conn.query).bind(conn);
 
 app.listen('8081', () => {
     console.log("server started on port 8081");
