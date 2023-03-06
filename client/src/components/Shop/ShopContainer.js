@@ -37,7 +37,7 @@ const ShopContainer = (props) => {
                 <Box mt={6}>
                 <Box align="center" sx={{display: {xs:"block", sm: "block", md: "none"}}}>
                     <Box display="flex" align="center" justifyContent="center" mb={3}>
-                    <SmallBreadCrumbs /> 
+                        <SmallBreadCrumbs /> 
                     </Box>
                     
                     <Button variant="outlined" onClick={handleDrawerToggle} >

@@ -4,6 +4,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Box, CardActionArea, Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
+import { slugify } from '../../util/AdminUtil';
 
 const ProductPreviewCard = (props) => {
     const product = props.product;
@@ -20,12 +21,9 @@ const ProductPreviewCard = (props) => {
             </CardActionArea>
 
             <CardContent >
-                <Link to="/" component={RouterLink} underline="hover" color="inherit">
+                <Link to={`/product/${slugify(product.name)}`} component={RouterLink} underline="hover" color="inherit">
                     {product.name}
                 </Link>
-                {/* <Typography variant="body2" sx={{textTransform: 'uppercase'}}>
-                    
-                </Typography> */}
             </CardContent>
 
             <Typography sx={{fontWeight: 'bold'}}>

@@ -11,6 +11,7 @@ import UserDashboard from './components/UserDashboard.js';
 import BrewingChange from './components/AboutUs/BrewingChange';
 import InsideLittleCreek from './components/AboutUs/InsideLittleCreek';
 import ShopContainer from './components/Shop/ShopContainer';
+import ProductShowcase from './components/Shop/ProductShowcase';
 
 
 function App() {
@@ -29,6 +30,8 @@ function App() {
 
           {/* Shop */}
           <Route exact path="/product-category/:param1/:param2?" element={ <ShopContainer /> } /> 
+          <Route exact path="/product/:param1" element={ <ProductShowcase /> } /> 
+
 
 
           {/* About Us */}

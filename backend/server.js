@@ -3,6 +3,8 @@ require('dotenv').config();
 const cors = require('cors')
 const express = require('express');
 const productCategoryRoutes = require('./routes/product-category/productCategoryRoutes');
+const productRoutes = require('./routes/product/productRoutes');
+
 
 const app = express();
 app.use(cors())
@@ -13,7 +15,7 @@ app.use(express.json());
 
 // end points
 app.use("/product-category", productCategoryRoutes);
-
+app.use("/product", productRoutes);
 
 app.listen('8081', () => {
     console.log("server started on port 8081");

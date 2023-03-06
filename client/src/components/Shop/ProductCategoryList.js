@@ -40,8 +40,6 @@ const ProductCategoryList = (props) => {
                 })
         }
 
-
-        
         fetchProductPreviews();
         // make request to get products
 
@@ -71,16 +69,6 @@ const ProductCategoryList = (props) => {
                          <ProductPreviewCard product={product} />
                         </Grid>
             })}
-            {/* 
-            <Grid item xs={6} sm={4} md={3}>
-                <ProductPreviewCard />
-            </Grid>
-            <Grid item xs={6} sm={4} md={3}>
-                <ProductPreviewCard />
-            </Grid>
-            <Grid item xs={6} sm={4} md={3}>
-                <ProductPreviewCard />
-            </Grid> */}
         </Grid>
         </>
         }

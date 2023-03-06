@@ -76,7 +76,6 @@ const BrowserDrawer = () => {
     useEffect(() => {
 
         const setOpenDrawer = () => {
-            console.log("here", param1);
             switch (param1) {
                 case 'roast': setToggleRoasts(true); break;
                 case 'region': setToggleRegions(true); break;
