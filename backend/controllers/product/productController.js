@@ -14,7 +14,7 @@ const getProductDetails = async (req, res) => {
     // de-slugify
     const name = param1.replaceAll("-", " ");
 
-    const sqlStatement = `SELECT * FROM products WHERE Name LIKE LOWER('${name}')`;
+    const sqlStatement = `SELECT * FROM products WHERE Name LIKE LOWER('${name}') ORDER BY LENGTH(Id), Id`;
 
     try {
         const productArr = await query(sqlStatement);
@@ -30,7 +30,7 @@ const getProductDetails = async (req, res) => {
         product.priceRange = priceObj.priceRange;
         product.hasSale = priceObj.hasSale;
         // get actual price choices e.g. "One Pound - $18 Per Pound"
-        const sqlPriceStatement = `SELECT * FROM product_pricing WHERE ProductId='${product.Id}'`;
+        const sqlPriceStatement = `SELECT * FROM product_pricing WHERE ProductId='${product.Id}' ORDER BY LENGTH(Id), Id`;
         const priceOptionsObj = await query(sqlPriceStatement);
         const priceOptions = [];
         priceOptionsObj.forEach(option => {
