@@ -5,6 +5,8 @@ import BrowserDrawer from './BrowserDrawer'
 import {  useParams } from 'react-router-dom';
 import { Button, ButtonGroup, Drawer, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Toolbar, Typography } from '@mui/material';
 import TuneIcon from '@mui/icons-material/Tune';
+import { getGrindTypes } from '../../util/ShopUtil';
+import TabsSection from './TabsSection';
 
 
 
@@ -22,6 +24,11 @@ const ProductShowcase = (props) => {
     const [quantity, setQuantity] = useState(0);
     const [err, setErr] = useState(null);
     const [isSizeSet, setIsSizeSet] = useState(false);
+    const [isGrindSet, setIsGrindSet] = useState(false);
+    const [isAddToCart, setIsAddToCart] = useState(false);
+
+
+    const grindTypes = getGrindTypes();
 
     useEffect(() => {
         const fetchProductDetails = () => {
@@ -51,10 +58,13 @@ const ProductShowcase = (props) => {
             fetchProductDetails();
         } else {
             setPriceTotal(price * quantity);
+            if (grind && isSizeSet) {
+                setIsAddToCart(true);
+            }
         }
 
         setMobileOpen(false);
-    }, [quantity])
+    }, [quantity, grind])
 
     const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -85,9 +95,13 @@ const ProductShowcase = (props) => {
 
     }
 
+    const handleAddToCart = () => {
+        console.log('adding to cart...');
+    }
+
     return (
         <Container>
-            <Box mt={6}>
+            <Box mt={6} mb={6}>
                 <Box align="center" sx={{display: {xs:"block", sm: "block", md: "none"}}}>
                     <Box display="flex" align="center" justifyContent="center" mb={3}>
                     <SmallBreadCrumbs /> 
@@ -146,7 +160,7 @@ const ProductShowcase = (props) => {
                             </Select>
                         </FormControl>
                         </Box>
-                        {/* <Box sx={{ minWidth: 120 }} mt={3}>
+                        <Box sx={{ minWidth: 120 }} mt={3}>
                         <FormControl fullWidth>
                             <InputLabel id="grind-select-label">Grind Type</InputLabel>
                             <Select
@@ -156,36 +170,54 @@ const ProductShowcase = (props) => {
                             label="Grind Type"
                             onChange={(e) => setGrind(e.target.value)}
                             >
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
+                            {grindTypes.map(current => {
+                                return <MenuItem 
+                                        value={current.type}
+                                        key={current.id}
+                                        >
+                                            {current.type}
+                                        </MenuItem>
+                            })}
+                  
                             </Select>
                         </FormControl>
-                        </Box> */}
-
-                        <Box mt={2}>
-                            Total: {priceTotal}
                         </Box>
 
-                        <Box>
+                        <Box mt={2}>
+                            Total: ${priceTotal.toFixed(2)}
+                        </Box>
+
+                        <Box sx={{display: "flex", flexDirection: {xs: "column", sm: "row"}}} mt={1}>
+                        <Box mr={2}>
                         <ButtonGroup
                         disableElevation
                         variant="contained"
                         aria-label="Disabled elevation buttons"
+                        sx={{height: '40px'}}
                         >
                             <Button onClick={() => handleQuantity("-")} disabled={!isSizeSet}>-</Button>
-                            <TextField value={quantity} inputProps={{min: 0, style: { textAlign: 'center', width: "25px" }}}/>
+                            <TextField value={quantity} inputProps={{min: 0, style: { textAlign: 'center', width: "25px", height: '7px' }}}/>
                             <Button onClick={() => handleQuantity("+")} disabled={!isSizeSet}>+</Button>
                         </ButtonGroup>
                         </Box>
 
 
-                        
+                        <Button 
+                        variant="contained"
+                        sx={{marginTop: {xs: "10px", sm: "0"}, width: {xs: "135px", sx: "auto"}}}
+                        disabled={!isAddToCart}
+                        onClick={handleAddToCart}
+                        >
+                            add to cart
+                        </Button>
+                        </Box>
                     </Grid>
                     </>
                     }
                 </Grid>
             </Box>
+
+            {isLoaded && <TabsSection productDetails={productDetails} />}
 
             <Toolbar sx={{  display: { xs: 'block', sm: 'block', md: 'none' } }}>
                 <Box component="nav">

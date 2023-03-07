@@ -78,7 +78,22 @@ const getShopCategories = () => {
     return categories;
 }
 
+const getGrindTypes = () => {
+    const types = [
+        {id: 0, type: "#0 - Whole Bean"},
+        {id: 1, type: "#1 - Espresso"},
+        {id: 8, type: "#8 - Aeropress of Keurig"},
+        {id: 14, type: "#14 - Cone Filter"},
+        {id: 17, type: "#17 - Flat Fliter or Cold Brew"},
+        {id: 18, type: "#18 - Chemex or Kalita"},
+        {id: 20, type: "#20 - French Press of Clever"}
+    ]
+
+    return types;
+}
+
 export {
     getRoastOptions,
-    getShopCategories
+    getShopCategories,
+    getGrindTypes
 }
