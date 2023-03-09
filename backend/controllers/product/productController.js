@@ -50,7 +50,32 @@ const getProductDetails = async (req, res) => {
 
 }
 
+const getCoffeeDetails = async (req, res) => {
+    const params = req.params;
+    const id = params.productId;
+    console.log(id);
+    const sqlStatement = `SELECT * FROM coffee_details WHERE CoffeeDetailsId='${id}'`;
+
+    try {
+        const detailsArr = await query(sqlStatement);
+
+        if (!detailsArr || detailsArr.length === 0) {
+            return res.send([]);
+        }
+
+        const details = detailsArr[0];
+
+        console.log(details);
+
+        return res.send(details);
+    } catch(err) {
+        throw err;
+    }
+
+}
+
 
 module.exports = {
-    getProductDetails
+    getProductDetails,
+    getCoffeeDetails
  }

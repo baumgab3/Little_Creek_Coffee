@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
@@ -6,7 +6,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import { useMediaQuery } from '@mui/material';
 import CoffeeTable from './CoffeeTable';
-
+import parse from 'html-react-parser';
 
 
 const TabsSection = (props) => {
@@ -14,7 +14,6 @@ const TabsSection = (props) => {
     const [value, setValue] = React.useState(0);
     const smallScreen = useMediaQuery("(max-width: 500px)");
     const productDetails = props.productDetails;
-    const productParagraphs = productDetails.Description.split("<:::>");
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
@@ -66,21 +65,16 @@ const TabsSection = (props) => {
             </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                {productParagraphs.map((paragraph, idx) => {
-                    return <Box key={idx} mb={3}>
-                                <Typography >
-                                    {paragraph}
-                                </Typography>
-                            </Box>
-                })}
+                {parse(productDetails.Description)}
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <CoffeeTable productDetails={productDetails} />
+                <CoffeeTable coffeeDetails={productDetails.coffeeDetails} />
             </TabPanel>
             <TabPanel value={value} index={2}>
                 Item Three
             </TabPanel>
         </Box>
+        
         
     )
 }

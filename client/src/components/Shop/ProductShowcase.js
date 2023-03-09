@@ -17,22 +17,17 @@ const ProductShowcase = (props) => {
     const { param1, param2 } = useParams();
     const [productDetails, setProductDetails] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [priceTotal, setPriceTotal] = useState(0);
-    const [price, setPrice] = useState("");
-    const [description, setDescription] = useState('');
+    const [size, setSize] = useState('');
     const [grind, setGrind] = useState("");
     const [quantity, setQuantity] = useState(0);
     const [err, setErr] = useState(null);
-    const [isSizeSet, setIsSizeSet] = useState(false);
-    const [isGrindSet, setIsGrindSet] = useState(false);
-    const [isAddToCart, setIsAddToCart] = useState(false);
-
 
     const grindTypes = getGrindTypes();
 
     useEffect(() => {
         const fetchProductDetails = () => {
             const url = `http://localhost:8081/product/${param1}`;
+            console.log("fetching product details for", param1);
 
             fetch(url)
                 .then(res => {
@@ -43,10 +38,10 @@ const ProductShowcase = (props) => {
                     return res.json();
                 })
                 .then(product => {
-                    console.log("fetching...");
-                    setProductDetails(product);
-                    setIsLoaded(true);
-
+                   // setProductDetails(product);
+                    // adds coffee details to product
+                    addCoffeeDetails(product);
+                    //setIsLoaded(true);
                 }, err => {
                     console.log(err);
                     setErr(err);
@@ -54,17 +49,29 @@ const ProductShowcase = (props) => {
                 })
         }
 
-        if (!isLoaded) {
-            fetchProductDetails();
-        } else {
-            setPriceTotal(price * quantity);
-            if (grind && isSizeSet) {
-                setIsAddToCart(true);
-            }
+        const addCoffeeDetails = (product) => {
+            const url = `http://localhost:8081/product/${product.Id}/details`;
+
+            fetch(url)
+                .then(res => {
+                    if (res.status >= 400) {
+                        setIsLoaded(false);
+                        throw new Error("Server Error!");
+                    }
+                    return res.json();
+                })
+                .then(details => {
+                    product.coffeeDetails = details;
+                    setProductDetails(product);
+                    setIsLoaded(true);
+                }, err => {
+                    console.log(err);
+                })
         }
 
+        fetchProductDetails();
         setMobileOpen(false);
-    }, [quantity, grind])
+    }, [])
 
     const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -77,12 +84,13 @@ const ProductShowcase = (props) => {
             <BrowserDrawer />
         </Box>
     );
+    
+    const handleSizeUpdate = (size) => {
+        setSize(size);
+    }
 
-    const handleUpdate = (e) => {
-        setQuantity(1);
-        setPrice(Number(e.target.value));
-        setPriceTotal(Number(e.target.value));
-        setIsSizeSet(true);
+    const handleGrindUpdate = (grind) => {
+        setGrind(grind);
     }
 
     const handleQuantity = (parm) => {
@@ -96,7 +104,7 @@ const ProductShowcase = (props) => {
     }
 
     const handleAddToCart = () => {
-        console.log('adding to cart...');
+        console.log('adding to cart...', grind, size);
     }
 
     return (
@@ -127,7 +135,6 @@ const ProductShowcase = (props) => {
                     </Grid>
 
                     <Grid item xs={12} sm={12} md={7}>
-                        {/* {console.log(productDetails.priceOptions)} */}
                         <Typography variant="h5" sx={{textTransform: "uppercase", fontWeight: "bold"}} mb={1}>
                             {productDetails.Name}
                         </Typography>
@@ -145,13 +152,13 @@ const ProductShowcase = (props) => {
                             <Select
                             labelId="size-select-label"
                             id="size-select"
-                            value={price}
+                            value={size}
                             label="Size"
-                            onChange={handleUpdate}
+                            onChange={(e) => handleSizeUpdate(e.target.value)}
                             >
                             {productDetails.priceOptions.map(option => {
                                 return <MenuItem 
-                                        value={option.price}
+                                        value={option.description}
                                         key={option.description}
                                         >
                                             {option.description}
@@ -168,7 +175,7 @@ const ProductShowcase = (props) => {
                             id="grind-select"
                             value={grind}
                             label="Grind Type"
-                            onChange={(e) => setGrind(e.target.value)}
+                            onChange={(e) => handleGrindUpdate(e.target.value)}
                             >
                             {grindTypes.map(current => {
                                 return <MenuItem 
@@ -183,11 +190,7 @@ const ProductShowcase = (props) => {
                         </FormControl>
                         </Box>
 
-                        <Box mt={2}>
-                            Total: ${priceTotal.toFixed(2)}
-                        </Box>
-
-                        <Box sx={{display: "flex", flexDirection: {xs: "column", sm: "row"}}} mt={1}>
+                        <Box sx={{display: "flex", flexDirection: {xs: "column", sm: "row"}}} mt={4}>
                         <Box mr={2}>
                         <ButtonGroup
                         disableElevation
@@ -195,17 +198,16 @@ const ProductShowcase = (props) => {
                         aria-label="Disabled elevation buttons"
                         sx={{height: '40px'}}
                         >
-                            <Button onClick={() => handleQuantity("-")} disabled={!isSizeSet}>-</Button>
+                            <Button onClick={() => handleQuantity("-")} disabled={size ? false : true}>-</Button>
                             <TextField value={quantity} inputProps={{min: 0, style: { textAlign: 'center', width: "25px", height: '7px' }}}/>
-                            <Button onClick={() => handleQuantity("+")} disabled={!isSizeSet}>+</Button>
+                            <Button onClick={() => handleQuantity("+")} disabled={size ? false : true}>+</Button>
                         </ButtonGroup>
                         </Box>
-
 
                         <Button 
                         variant="contained"
                         sx={{marginTop: {xs: "10px", sm: "0"}, width: {xs: "135px", sx: "auto"}}}
-                        disabled={!isAddToCart}
+                        disabled={(grind && size) ? false : true}
                         onClick={handleAddToCart}
                         >
                             add to cart
@@ -238,6 +240,11 @@ const ProductShowcase = (props) => {
                     </Drawer>
                 </Box>
             </Toolbar>
+
+        <br />
+        <br />
+        <br />
+        <br />
 
         </Container>
     )

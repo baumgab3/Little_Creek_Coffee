@@ -1,18 +1,44 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import {  useParams } from 'react-router-dom';
 
 
 const CoffeeTable = (props) => {
     
-    const productDetails = props.productDetails;
+    const details = props.coffeeDetails;
+
+    // useEffect(() => {
+    //     const getCoffeeDetails = (id) => {
+    //         console.log("fetching coffee details with id", id);
+         
+    //         fetch(url)
+    //             .then(res => {
+    //                 if (res.status >= 400) {
+    //                     setIsLoaded(false);
+    //                     throw new Error("Server Error!");
+    //                 }
+    //                 return res.json();
+    //             })
+    //             .then(details => {
+    //                 setDetails(details);
+    //                 setIsLoaded(true);
+
+    //             }, err => {
+    //                 console.log(err);
+    //                 setErr(err);
+    //                 setIsLoaded(false);
+    //             })
+    //     }
+
+    //     getCoffeeDetails(props.productId);
+    // }, [url])
 
     return (
+        <>
         <TableContainer>
         <Table aria-label="coffee detials table">
         <TableBody>
@@ -21,7 +47,7 @@ const CoffeeTable = (props) => {
                     Tasting Notes
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    test
+                    {details.TastingNotes}
                 </TableCell>
             </TableRow>
             <TableRow>
@@ -29,7 +55,7 @@ const CoffeeTable = (props) => {
                     Body (1-5)
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    test
+                    {details.Body}
                 </TableCell>
             </TableRow>
             <TableRow>
@@ -37,7 +63,7 @@ const CoffeeTable = (props) => {
                     Brightness (1-5)
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    test
+                    {details.Brightness}
                 </TableCell>
             </TableRow>
             <TableRow>
@@ -45,7 +71,7 @@ const CoffeeTable = (props) => {
                     Farm
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    test
+                    {details.Farm}
                 </TableCell>
             </TableRow>
             <TableRow>
@@ -53,7 +79,7 @@ const CoffeeTable = (props) => {
                     Variety
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    test
+                    {details.Variety}
                 </TableCell>
             </TableRow>
             <TableRow>
@@ -61,7 +87,7 @@ const CoffeeTable = (props) => {
                     Altitude
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    test
+                    {details.Altitude}
                 </TableCell>
             </TableRow>
             <TableRow>
@@ -69,12 +95,13 @@ const CoffeeTable = (props) => {
                     Process
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    test
+                    {details.Process}
                 </TableCell>
             </TableRow>
         </TableBody>
         </Table>
     </TableContainer>
+    </>
     )
 }
 
