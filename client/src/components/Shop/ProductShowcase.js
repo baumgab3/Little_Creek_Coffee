@@ -38,10 +38,8 @@ const ProductShowcase = (props) => {
                     return res.json();
                 })
                 .then(product => {
-                   // setProductDetails(product);
-                    // adds coffee details to product
-                    addCoffeeDetails(product);
-                    //setIsLoaded(true);
+                    setProductDetails(product);
+                    setIsLoaded(true);
                 }, err => {
                     console.log(err);
                     setErr(err);
@@ -49,25 +47,6 @@ const ProductShowcase = (props) => {
                 })
         }
 
-        const addCoffeeDetails = (product) => {
-            const url = `http://localhost:8081/product/${product.Id}/details`;
-
-            fetch(url)
-                .then(res => {
-                    if (res.status >= 400) {
-                        setIsLoaded(false);
-                        throw new Error("Server Error!");
-                    }
-                    return res.json();
-                })
-                .then(details => {
-                    product.coffeeDetails = details;
-                    setProductDetails(product);
-                    setIsLoaded(true);
-                }, err => {
-                    console.log(err);
-                })
-        }
 
         fetchProductDetails();
         setMobileOpen(false);

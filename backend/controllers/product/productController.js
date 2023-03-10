@@ -1,6 +1,6 @@
 const conn = require('../../database/connection');
 const util = require('util');
-const {getPriceRange} = require('../../ServerUtil');
+const {getPriceRange, getProductPriceRange, getPriceDropDownOptions} = require('../../ServerUtil');
 
 
 const query = util.promisify(conn.query).bind(conn);
@@ -24,24 +24,25 @@ const getProductDetails = async (req, res) => {
             return res.send([]);
         }
 
-        // get price range/has Sale as string
-        const priceObj = await getPriceRange(product);
-        // add to product range
-        product.priceRange = priceObj.priceRange;
-        product.hasSale = priceObj.hasSale;
-        // get actual price choices e.g. "One Pound - $18 Per Pound"
-        const sqlPriceStatement = `SELECT * FROM product_pricing WHERE ProductId='${product.Id}' ORDER BY LENGTH(Id), Id`;
-        const priceOptionsObj = await query(sqlPriceStatement);
-        const priceOptions = [];
-        priceOptionsObj.forEach(option => {
-            priceOptions.push({
-                "description": option.Description,
-                "price": option.Price,
-                "salePrice": option.salePrice
-            });
-        })
-        
-        product.priceOptions = priceOptions;
+        if (product.Category.toLowerCase() === 'coffee') {
+            // get product price range
+           const priceObj = await getPriceRange(product.Id);
+           product.priceRange = priceObj.priceRange;
+           product.hasSale = priceObj.hasSale;
+
+           // get size options for drop down
+           const priceOptions = await getPriceDropDownOptions(product.Id)
+           product.priceOptions = priceOptions;
+
+            // add coffee details for table
+            const coffeeDetails = await getCoffeeDetails(product.Id);
+            product.coffeeDetails = coffeeDetails;
+
+            //add customer comments
+            const customerCommnets = await getCustomerComments(product.Id);
+            product.customerCommnets = customerCommnets;
+        }
+
 
         return res.send(product);
     } catch(err) {
@@ -50,32 +51,35 @@ const getProductDetails = async (req, res) => {
 
 }
 
-const getCoffeeDetails = async (req, res) => {
-    const params = req.params;
-    const id = params.productId;
-    console.log(id);
-    const sqlStatement = `SELECT * FROM coffee_details WHERE CoffeeDetailsId='${id}'`;
+const getCoffeeDetails = async (Id) => {
+    const sqlStatement = `SELECT * FROM coffee_details WHERE ProductId='${Id}'`;
+    const detailsArr = await query(sqlStatement);
 
-    try {
-        const detailsArr = await query(sqlStatement);
-
-        if (!detailsArr || detailsArr.length === 0) {
-            return res.send([]);
-        }
-
-        const details = detailsArr[0];
-
-        console.log(details);
-
-        return res.send(details);
-    } catch(err) {
-        throw err;
+    if (!detailsArr || detailsArr.length === 0) {
+        return [];
     }
+    
+    const details = detailsArr[0];
 
+    return details;
 }
 
 
+const getCustomerComments = async (Id) => {
+    const sqlStatement = `SELECT * FROM customer_comments WHERE ProductId='${Id}'`;
+    const commentsObj = await query(sqlStatement);
+    const comments = [];
+    commentsObj.forEach(comment => {
+        comments.push({
+            "id": comment.Id,
+            "comment": comment.Comment,
+            "commentPoster": comment.CommentPoster
+        });
+    })
+
+    return comments;
+}
+
 module.exports = {
-    getProductDetails,
-    getCoffeeDetails
+    getProductDetails
  }

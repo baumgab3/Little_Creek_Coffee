@@ -8,7 +8,6 @@ import {  useParams } from 'react-router-dom';
 
 
 const CoffeeTable = (props) => {
-    
     const details = props.coffeeDetails;
 
     // useEffect(() => {

@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
-import { useMediaQuery } from '@mui/material';
+import { CardMedia, useMediaQuery } from '@mui/material';
 import CoffeeTable from './CoffeeTable';
 import parse from 'html-react-parser';
-
+import CustomerComments from './CustomerComments';
+import Iframe from 'react-iframe'
 
 const TabsSection = (props) => {
 
@@ -71,7 +72,20 @@ const TabsSection = (props) => {
                 <CoffeeTable coffeeDetails={productDetails.coffeeDetails} />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                Item Three
+                <CustomerComments comments={productDetails.customerCommnets} />
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+            <Typography variant="h4">
+                <b>#BetterBrewing Video</b>
+            </Typography>
+            <Iframe url="http://www.youtube.com/embed/xDMP3i36naA"
+                width="100%"
+                height="550px"
+                id=""
+                className=""
+                display="block"
+                position="relative"
+            />
             </TabPanel>
         </Box>
         
@@ -80,3 +94,5 @@ const TabsSection = (props) => {
 }
 
 export default TabsSection
+
+
