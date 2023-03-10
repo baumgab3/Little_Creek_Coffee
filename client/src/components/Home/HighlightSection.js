@@ -4,6 +4,7 @@ import { Box } from '@mui/system';
 import { Link as RouterLink  } from 'react-router-dom';
 import Link from '@mui/material/Link';
 import * as AdminUtil from '../../util/AdminUtil';
+import CenterDivider from '../CenterDivider';
 
 const HighlightSection = (props) => {
 
@@ -11,13 +12,8 @@ const HighlightSection = (props) => {
     const sectionObj = AdminUtil.getHighlighSectionInfo(sectionName);
 
     return (
-        <>
-        <Divider>
-            <Typography variant='h5' sx={{textTransform: "uppercase"}}>
-                {sectionObj.title}
-            </Typography>
-        </Divider>
-
+        <Box mt={7} mb={7}>
+        <CenterDivider text={sectionObj.title} />
         <Grid container spacing={2} align="center" mt={2}>
             {sectionObj.section.map(section => {
                 return <Grid item xs={12} sm={4} md={4} key={section.heading}>
@@ -44,7 +40,7 @@ const HighlightSection = (props) => {
                         </Grid>
             })}
         </Grid>
-        </>
+        </Box>
       );
 }
 
