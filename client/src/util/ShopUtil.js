@@ -44,26 +44,41 @@ const getShopCategories = () => {
                 {name: "Compositions", url: "/product-category/region/compositions/"},
             ]
         },
+        // {
+        //     category: "buy in bulk",
+        //     toggleFunction: 'handleToggleBulk',
+        //     toggleBoolean: 'toggleBulk',
+        //     openAllFunction: 'handleOpenBulk',
+        //     categoryUrl: "/product-category/buy-in-bulk/",
+        //     subCategories: [
+        //         {name: "Light Roast", url: "/product-category/buy-in-bulk/bulk-light/"},
+        //         {name: "Medium Roast", url: "/product-category/buy-in-bulk/bulk-medium/"},
+        //         {name: "Dark Roast", url: "/product-category/buy-in-bulk/bulk-dark/"},
+        //     ]
+        // },
+        // {
+        //     category: "subscriptions",
+        //     toggleFunction: 'handleToggleSubscriptions',
+        //     toggleBoolean: 'toggleSubscription',
+        //     openAllFunction: 'handleOpenSubscriptions',
+        //     categoryUrl: "/product-category/subscriptions/",
+        //     subCategories: [
+        //         {name: "coffee", url: "/product-category/subscriptions/coffee/"}
+        //     ]
+        // },
         {
-            category: "buy in bulk",
-            toggleFunction: 'handleToggleBulk',
-            toggleBoolean: 'toggleBulk',
-            openAllFunction: 'handleOpenBulk',
-            categoryUrl: "/product-category/buy-in-bulk/",
+            category: "merchandise",
+            toggleFunction: 'handleToggleMerchandise',
+            toggleBoolean: 'toggleMerchandise',
+            openAllFunction: 'handleOpenMerchandise',
+            categoryUrl: "/product-category/merchandise/",
             subCategories: [
-                {name: "Light Roast", url: "/product-category/buy-in-bulk/bulk-light/"},
-                {name: "Medium Roast", url: "/product-category/buy-in-bulk/bulk-medium/"},
-                {name: "Dark Roast", url: "/product-category/buy-in-bulk/bulk-dark/"},
-            ]
-        },
-        {
-            category: "subscriptions",
-            toggleFunction: 'handleToggleSubscriptions',
-            toggleBoolean: 'toggleSubscription',
-            openAllFunction: 'handleOpenSubscriptions',
-            categoryUrl: "/product-category/subscriptions/",
-            subCategories: [
-                {name: "coffee", url: "/product-category/subscriptions/coffee/"}
+                {name: "Pride Posters", url: "/product-category/merchandise/pride-posters/"},
+                {name: "Brewing Tools", url: "/product-category/merchandise/brewing-tools/"},
+                {name: "Clothing", url: "/product-category/merchandise/clothing/"},
+                {name: "Drinkware", url: "/product-category/merchandise/drinkware/"},
+                {name: "Other Merch", url: "/product-category/merchandise/other-merch/"},
+                {name: "Posters & Prints", url: "/product-category/merchandise/posters-and-print/"},
             ]
         },
         {
@@ -72,6 +87,13 @@ const getShopCategories = () => {
             toggleBoolean: "",
             openAllFunction: "",
             categoryUrl: "/product-category/cold-brew/",
+        },
+        {
+            category: "tea",
+            toggleFunction: "",
+            toggleBoolean: "",
+            openAllFunction: "",
+            categoryUrl: "/product-category/tea/",
         },
     ]
 

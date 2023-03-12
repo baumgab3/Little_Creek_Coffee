@@ -188,7 +188,7 @@ const MobileNavbar = (props) => {
     const container = window !== undefined ? () => window().document.body : undefined;    
 
     return (
-        <Toolbar sx={{  display: { xs: 'block', sm: 'block', md: 'none' } }}>
+        <Toolbar sx={{  display: { xs: 'block', sm: 'block', md: 'block', lg: 'none' } }}>
 
         <Grid container pt={1} >        
 
@@ -198,7 +198,7 @@ const MobileNavbar = (props) => {
                 aria-label="open drawer"
                 edge="start"
                 onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { md: 'none' }}}
+                sx={{ mr: 2, display: { lg: 'none' }}}
                 >
                 <MenuIcon />
                 <Typography variant='h6' sx={{marginLeft: '2px', marginBottom: '2px'}}>
@@ -246,7 +246,7 @@ const MobileNavbar = (props) => {
                 keepMounted: true,
                 }}
                 sx={{
-                display: { xs: 'block', sm: 'block', md: 'none' },
+                display: { xs: 'block', sm: 'block', md: 'block', lg: 'none' },
                 '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
                 }}
             >

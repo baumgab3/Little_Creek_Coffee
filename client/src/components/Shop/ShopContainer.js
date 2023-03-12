@@ -45,13 +45,16 @@ const ShopContainer = (props) => {
                     </Button>
                 </Box>
 
+                <Box sx={{display: {xs:"none", sm: "none", md: "block"}}}>
+                    <SmallBreadCrumbs />
+                </Box>
+
                 <Grid container>
                     <Grid item md={4} sx={{display: {xs:"none", sm: "none", md: "block"}}}>
-                        <SmallBreadCrumbs />
                         <BrowserDrawer /> 
                     </Grid>
 
-                    <Grid item md={8} sx={{marginTop: {xs :"50px", sm: "50px", md: "85px"}}}>
+                    <Grid item md={8} sx={{marginTop: {xs :"50px", sm: "50px", md: "55px"}}}>
                         {(param1 && param2 || param1 == 'cold-brew') && <ProductCategoryList  /> }
                         {!param2 && <ProductCategoryListAll /> }
                     </Grid>

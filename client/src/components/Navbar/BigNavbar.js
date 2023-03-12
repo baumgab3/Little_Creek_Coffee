@@ -91,17 +91,11 @@ const BigNavbar = () => {
     };
 
     return (
-        <Toolbar sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
+        <Toolbar sx={{ display: { xs: 'none', sm: 'none', md: 'none', lg: 'block' } }}>
         <Grid container pt={1} >        
 
         <Grid item md={3} lg={3} sx={{textAlign: "left"}}>
-            {/* <Typography
-            variant="h6"
-            component="div"
-            pt={1}
-            >
-              Little Creek Coffee
-            </Typography> */}
+
             <Button sx = {{color: '#fff' }} >
                 <Link to="/" style={{ textDecoration: 'none', color: 'inherit', marginTop: '2px' }}>
                     <Typography 
@@ -115,7 +109,7 @@ const BigNavbar = () => {
         </Grid>
 
 
-        <Grid item md={6} lg={6} sx={{textAlign: "center", paddingTop: '2px'}} >
+        <Grid item md={6} sx={{textAlign: "center", paddingTop: '2px', width: "100%"}} >
         
         {/* search function */}
         <IconButton onClick={handleSearchClick} sx={{color: '#fff', marginTop: '4px' }}  >
@@ -271,9 +265,6 @@ const BigNavbar = () => {
             {auth ?
                 <Button component={Link} to="my-account" color="inherit">Welcome {user}</Button> : <Button component={Link} to="my-account" color="inherit">Login</Button>
             }
-            {/* <Button component={Link} to="my-account" color="inherit">
-                Login
-            </Button> */}
                 |
             <Button component={Link} to="cart" color="inherit" >
                 <Box sx={{marginRight: '2px'}}>$00.00</Box>

@@ -72,6 +72,20 @@ const BrowserDrawer = () => {
         }
     }
 
+    // handles Merchandise
+    const [toggleMerchandise, setToggleMerchandise] = useState(false);
+
+    const handleToggleMerchandise = () => {
+        setToggleMerchandise(!toggleMerchandise);
+    };
+
+    const handleOpenMerchandise = () => {
+        if (!toggleMerchandise) {
+            setToggleMerchandise(true);
+        }
+    }
+
+    // TODO - probably a more react way to do this, but for now straight js is the easiest
     const setActive = (name) => {
         document.getElementById(name).style.textDecoration = "underline";
         const btns = document.getElementsByClassName("btn");
@@ -83,11 +97,6 @@ const BrowserDrawer = () => {
                 document.getElementById(currentId).style.textDecoration="";
             } 
         }
-    }
-
-    const active = {
-        fontWeight: 'bold',
-        fontSize: '30px'
     }
 
     useEffect(() => {
@@ -116,6 +125,7 @@ const BrowserDrawer = () => {
                 <Divider sx={{width: '30px', borderBottomWidth: 3}} />
             </Box>
 
+            {/* TODO - using eval for now to get something on the screen */}
             {categoreis.map(current => {
                 return <Box key={current.category}>
                         <Button 
@@ -153,8 +163,6 @@ const BrowserDrawer = () => {
                         }
                     </Box>
             })}
-
-        
         </Box>
     )
 }
