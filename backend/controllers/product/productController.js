@@ -15,6 +15,7 @@ const getProductDetails = async (req, res) => {
     const name = param1.replaceAll("-", " ");
 
     const sqlStatement = `SELECT * FROM products WHERE Name LIKE LOWER('${name}') ORDER BY LENGTH(Id), Id`;
+   
 
     try {
         const productArr = await query(sqlStatement);
@@ -24,50 +25,48 @@ const getProductDetails = async (req, res) => {
             return res.send([]);
         }
 
+        // get product price range
+        const priceObj = await getPriceRange(product.Id);
+        product.priceRange = priceObj.priceRange;
+        product.hasSale = priceObj.hasSale;
+
+        // get size options for drop down
+        const priceOptions = await getPriceDropDownOptions(product.Id)
+        product.priceOptions = priceOptions;
+
         if (product.Category.toLowerCase() === 'coffee') {
-            // get product price range
-           const priceObj = await getPriceRange(product.Id);
-           product.priceRange = priceObj.priceRange;
-           product.hasSale = priceObj.hasSale;
-
-           // get size options for drop down
-           const priceOptions = await getPriceDropDownOptions(product.Id)
-           product.priceOptions = priceOptions;
-
             // add coffee details for table
-            const coffeeDetails = await getCoffeeDetails(product.Id);
+            const coffeeDetails = {
+                "tastingNotes": product.TastingNotes,
+                "body": product.Body,
+                "brightness": product.Brightness,
+                "farm": product.Farm,
+                "variety": product.Variety,
+                "altitude": product.Altitude,
+                "process": product.Process
+            };
+
             product.coffeeDetails = coffeeDetails;
 
             //add customer comments
-            const customerCommnets = await getCustomerComments(product.Id);
-            product.customerCommnets = customerCommnets;
+            const customerComments = await getCustomerComments(product.Id);
+            if (customerComments.length > 0) {
+                product.customerComments = customerComments;
+            }
+            
         }
-
 
         return res.send(product);
     } catch(err) {
         throw err;
     }
-
-}
-
-const getCoffeeDetails = async (Id) => {
-    const sqlStatement = `SELECT * FROM coffee_details WHERE ProductId='${Id}'`;
-    const detailsArr = await query(sqlStatement);
-
-    if (!detailsArr || detailsArr.length === 0) {
-        return [];
-    }
-    
-    const details = detailsArr[0];
-
-    return details;
 }
 
 
 const getCustomerComments = async (Id) => {
     const sqlStatement = `SELECT * FROM customer_comments WHERE ProductId='${Id}'`;
     const commentsObj = await query(sqlStatement);
+
     const comments = [];
     commentsObj.forEach(comment => {
         comments.push({

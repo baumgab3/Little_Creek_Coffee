@@ -52,7 +52,7 @@ const ShopContainer = (props) => {
                     </Grid>
 
                     <Grid item md={8} sx={{marginTop: {xs :"50px", sm: "50px", md: "85px"}}}>
-                        {param1 && param2 && <ProductCategoryList  /> }
+                        {(param1 && param2 || param1 == 'cold-brew') && <ProductCategoryList  /> }
                         {!param2 && <ProductCategoryListAll /> }
                     </Grid>
                 </Grid>

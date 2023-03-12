@@ -40,9 +40,8 @@ const ProductCategoryList = (props) => {
                 })
         }
 
-        fetchProductPreviews();
         // make request to get products
-
+        fetchProductPreviews();
     }, [param1, param2, props.subCategory]);
 
 

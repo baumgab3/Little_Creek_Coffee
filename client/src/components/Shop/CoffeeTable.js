@@ -1,40 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
-import {  useParams } from 'react-router-dom';
 
 
 const CoffeeTable = (props) => {
     const details = props.coffeeDetails;
-
-    // useEffect(() => {
-    //     const getCoffeeDetails = (id) => {
-    //         console.log("fetching coffee details with id", id);
-         
-    //         fetch(url)
-    //             .then(res => {
-    //                 if (res.status >= 400) {
-    //                     setIsLoaded(false);
-    //                     throw new Error("Server Error!");
-    //                 }
-    //                 return res.json();
-    //             })
-    //             .then(details => {
-    //                 setDetails(details);
-    //                 setIsLoaded(true);
-
-    //             }, err => {
-    //                 console.log(err);
-    //                 setErr(err);
-    //                 setIsLoaded(false);
-    //             })
-    //     }
-
-    //     getCoffeeDetails(props.productId);
-    // }, [url])
 
     return (
         <>
@@ -46,7 +19,7 @@ const CoffeeTable = (props) => {
                     Tasting Notes
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    {details.TastingNotes}
+                    {details.tastingNotes}
                 </TableCell>
             </TableRow>
             <TableRow>
@@ -54,7 +27,7 @@ const CoffeeTable = (props) => {
                     Body (1-5)
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    {details.Body}
+                    {details.body}
                 </TableCell>
             </TableRow>
             <TableRow>
@@ -62,7 +35,7 @@ const CoffeeTable = (props) => {
                     Brightness (1-5)
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    {details.Brightness}
+                    {details.brightness}
                 </TableCell>
             </TableRow>
             <TableRow>
@@ -70,7 +43,7 @@ const CoffeeTable = (props) => {
                     Farm
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    {details.Farm}
+                    {details.farm}
                 </TableCell>
             </TableRow>
             <TableRow>
@@ -78,7 +51,7 @@ const CoffeeTable = (props) => {
                     Variety
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    {details.Variety}
+                    {details.variety}
                 </TableCell>
             </TableRow>
             <TableRow>
@@ -86,7 +59,7 @@ const CoffeeTable = (props) => {
                     Altitude
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    {details.Altitude}
+                    {details.altitude}
                 </TableCell>
             </TableRow>
             <TableRow>
@@ -94,7 +67,7 @@ const CoffeeTable = (props) => {
                     Process
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    {details.Process}
+                    {details.process}
                 </TableCell>
             </TableRow>
         </TableBody>

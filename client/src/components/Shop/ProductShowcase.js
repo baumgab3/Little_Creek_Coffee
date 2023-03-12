@@ -14,7 +14,7 @@ const ProductShowcase = (props) => {
 
     const { window } = props;
     const container = window !== undefined ? () => window().document.body : undefined;    
-    const { param1, param2 } = useParams();
+    const { param1 } = useParams();
     const [productDetails, setProductDetails] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
     const [size, setSize] = useState('');
@@ -27,7 +27,6 @@ const ProductShowcase = (props) => {
     useEffect(() => {
         const fetchProductDetails = () => {
             const url = `http://localhost:8081/product/${param1}`;
-            console.log("fetching product details for", param1);
 
             fetch(url)
                 .then(res => {
@@ -83,12 +82,17 @@ const ProductShowcase = (props) => {
     }
 
     const handleAddToCart = () => {
-        console.log('adding to cart...', grind, size);
+        console.log('adding to cart...', grind, size, quantity);
+    }
+
+    if (err) {
+        return {err};
     }
 
     return (
         <Container>
             <Box mt={6} mb={6}>
+                {/* BreadCrumbs for small screens */}
                 <Box align="center" sx={{display: {xs:"block", sm: "block", md: "none"}}}>
                     <Box display="flex" align="center" justifyContent="center" mb={3}>
                     <SmallBreadCrumbs /> 
@@ -99,7 +103,7 @@ const ProductShowcase = (props) => {
                     </Button>
                 </Box>
 
-                {/* BreadCrumbs */}
+                {/* BreadCrumbs for bigger screens */}
                 <Grid container mb={3}>
                     <Grid item md={4} sx={{display: {xs:"none", sm: "none", md: "block"}}}>
                         <SmallBreadCrumbs />
@@ -146,7 +150,9 @@ const ProductShowcase = (props) => {
                             </Select>
                         </FormControl>
                         </Box>
-                        <Box sx={{ minWidth: 120 }} mt={3}>
+
+                        {/* Grind Types for coffee products */}
+                       {productDetails.Category === 'coffee' && <Box sx={{ minWidth: 120 }} mt={3}>
                         <FormControl fullWidth>
                             <InputLabel id="grind-select-label">Grind Type</InputLabel>
                             <Select
@@ -168,7 +174,9 @@ const ProductShowcase = (props) => {
                             </Select>
                         </FormControl>
                         </Box>
+                        }
 
+                        {/* -/+ buttons for quantity and add to cart button */}
                         <Box sx={{display: "flex", flexDirection: {xs: "column", sm: "row"}}} mt={4}>
                         <Box mr={2}>
                         <ButtonGroup
@@ -186,7 +194,7 @@ const ProductShowcase = (props) => {
                         <Button 
                         variant="contained"
                         sx={{marginTop: {xs: "10px", sm: "0"}, width: {xs: "135px", sx: "auto"}}}
-                        disabled={(grind && size) ? false : true}
+                        disabled={(size && (grind || productDetails.Category !== 'coffee')) ? false : true}
                         onClick={handleAddToCart}
                         >
                             add to cart

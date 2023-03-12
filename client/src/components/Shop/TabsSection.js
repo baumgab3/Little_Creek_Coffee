@@ -15,7 +15,9 @@ const TabsSection = (props) => {
     const [value, setValue] = React.useState(0);
     const smallScreen = useMediaQuery("(max-width: 500px)");
     const productDetails = props.productDetails;
-
+    const isCoffee = productDetails.Category === "coffee" ? true: false;
+    const hasComments = productDetails.customerComments ? true : false;
+    
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
@@ -57,24 +59,30 @@ const TabsSection = (props) => {
     return (
         <Box>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs orientation={smallScreen ? "vertical" : "horizontal"}  value={value} onChange={handleChange} aria-label="basic tabs example">
+            <Tabs orientation={smallScreen ? "vertical" : "horizontal"}  value={value} onChange={handleChange} aria-label="product tabs">
                 <Tab label="Description" {...a11yProps(0)} />
-                <Tab label="Coffee Details" {...a11yProps(1)} />
-                <Tab label="Customer Comments" {...a11yProps(2)} />
-                <Tab label="#BetterBrewing Video" {...a11yProps(3)} />
+                {isCoffee && <Tab label="Coffee Details" {...a11yProps(1)} /> }
+                {hasComments && <Tab label="Customer Comments" {...a11yProps(2)} /> }
+                {isCoffee && <Tab label="#BetterBrewing Video" {...a11yProps(3)} /> }
 
             </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
                 {parse(productDetails.Description)}
             </TabPanel>
-            <TabPanel value={value} index={1}>
+
+            {/* Display table about coffee info if product is coffee */}
+           {isCoffee && <TabPanel value={value} index={1}>
                 <CoffeeTable coffeeDetails={productDetails.coffeeDetails} />
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-                <CustomerComments comments={productDetails.customerCommnets} />
-            </TabPanel>
-            <TabPanel value={value} index={3}>
+            </TabPanel> }
+
+            {/* Display comments if product has comments */}
+            {hasComments && <TabPanel value={value} index={2}>
+                <CustomerComments comments={productDetails.customerComments} />
+            </TabPanel> }
+
+            {/* Display video for coffee products */}
+            {isCoffee && <TabPanel value={value} index={3}>
             <Typography variant="h4">
                 <b>#BetterBrewing Video</b>
             </Typography>
@@ -86,7 +94,8 @@ const TabsSection = (props) => {
                 display="block"
                 position="relative"
             />
-            </TabPanel>
+            </TabPanel> }
+        
         </Box>
         
         

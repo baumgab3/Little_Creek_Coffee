@@ -3,9 +3,10 @@ const productCategoryController = require('../../controllers/product-category/pr
 
 const router = express.Router();
 
-// route /users
 
 router.get("/:param1/:param2?", productCategoryController.getProductPreviews);
+
+
 
 
 module.exports = router;

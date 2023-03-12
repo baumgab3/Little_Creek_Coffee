@@ -14,6 +14,7 @@ const ProductCategoryListAll = () => {
         } else if (param1 === "region") {
             setSubCategories(["africa", "central-america", "south-america", "compositions"]);
         } else {
+            console.log("here");
             setSubCategories([]);
         }
     }, [param1]);
@@ -22,7 +23,7 @@ const ProductCategoryListAll = () => {
     return (
         <>
         {subCategories.map(sub => {
-            return <ProductCategoryList key={sub} isWithParam={true} category={param1} subCategory={sub} />
+            return <ProductCategoryList key={sub} category={param1} subCategory={sub} />
         })}
           
         </>

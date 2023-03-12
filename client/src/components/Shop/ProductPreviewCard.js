@@ -8,6 +8,7 @@ import { slugify } from '../../util/AdminUtil';
 
 const ProductPreviewCard = (props) => {
     const product = props.product;
+
     return (
         <Box sx={{ maxWidth: 345 }} align="center" mb={3}>
             <CardActionArea>

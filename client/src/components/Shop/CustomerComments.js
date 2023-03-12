@@ -4,7 +4,6 @@ import React from 'react'
 
 const CustomerComments = (props) => {
     const comments = props.comments;
-    console.log(comments);
 
     return (
         <Box mt={2}>
