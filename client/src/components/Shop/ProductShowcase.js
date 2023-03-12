@@ -19,8 +19,9 @@ const ProductShowcase = (props) => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [size, setSize] = useState('');
     const [grind, setGrind] = useState("");
-    const [quantity, setQuantity] = useState(0);
+    const [quantity, setQuantity] = useState(1);
     const [err, setErr] = useState(null);
+    const [isDropDown, setIsDropDown] = useState(true);
 
     const grindTypes = getGrindTypes();
 
@@ -39,6 +40,15 @@ const ProductShowcase = (props) => {
                 .then(product => {
                     setProductDetails(product);
                     setIsLoaded(true);
+                    
+                    // products with not description for priceOptions won't have a drop down size bar
+                    for (const option of product.priceOptions) {
+                        if (!option.description) {
+                            setIsDropDown(false);
+                            break;
+                        }
+                    }
+
                 }, err => {
                     console.log(err);
                     setErr(err);
@@ -129,7 +139,7 @@ const ProductShowcase = (props) => {
                         </Typography>
 
                         {/* disiplay dropdown options if product has sizing options*/}
-                        <Box sx={{ minWidth: 120 }} mt={2}>
+                        {isDropDown && <Box sx={{ minWidth: 120 }} mt={2}>
                         <FormControl fullWidth>
                             <InputLabel id="size-select-label">Size</InputLabel>
                             <Select
@@ -140,8 +150,8 @@ const ProductShowcase = (props) => {
                             onChange={(e) => handleSizeUpdate(e.target.value)}
                             >
                             {productDetails.priceOptions.map(option => {
-                                return <MenuItem 
-                                        value={option.description}
+                                return  <MenuItem 
+                                        value={option}
                                         key={option.description}
                                         >
                                             {option.description}
@@ -150,6 +160,8 @@ const ProductShowcase = (props) => {
                             </Select>
                         </FormControl>
                         </Box>
+                        }
+                        
 
                         {/* Grind Types for coffee products */}
                        {productDetails.Category === 'coffee' && <Box sx={{ minWidth: 120 }} mt={3}>
@@ -185,16 +197,16 @@ const ProductShowcase = (props) => {
                         aria-label="Disabled elevation buttons"
                         sx={{height: '40px'}}
                         >
-                            <Button onClick={() => handleQuantity("-")} disabled={size ? false : true}>-</Button>
+                            <Button onClick={() => handleQuantity("-")} disabled={(size || !isDropDown )? false : true}>-</Button>
                             <TextField value={quantity} inputProps={{min: 0, style: { textAlign: 'center', width: "25px", height: '7px' }}}/>
-                            <Button onClick={() => handleQuantity("+")} disabled={size ? false : true}>+</Button>
+                            <Button onClick={() => handleQuantity("+")} disabled={(size || !isDropDown) ? false : true}>+</Button>
                         </ButtonGroup>
                         </Box>
 
                         <Button 
                         variant="contained"
                         sx={{marginTop: {xs: "10px", sm: "0"}, width: {xs: "135px", sx: "auto"}}}
-                        disabled={(size && (grind || productDetails.Category !== 'coffee')) ? false : true}
+                        disabled={(size && (grind || productDetails.Category !== 'coffee') || !isDropDown) ? false : true}
                         onClick={handleAddToCart}
                         >
                             add to cart

@@ -10,15 +10,21 @@ const getProductPreviews = async (req, res) => {
     const param2 = params.param2;
 
     let sqlStatement;
-
-    if (param1 === 'roast') {
-        sqlStatement = `SELECT Id, Name FROM products WHERE Roast='${param2}'`;
-    } else if (param1 === 'region') {
-        sqlStatement = `SELECT Id, Name FROM products WHERE Region='${param2}'`;
-    } else if (param1 === 'cold-brew') {
-        sqlStatement = `SELECT Id, Name FROM products WHERE Category='cold-brew'`;
-    } else {
-        return res.send([]);
+    switch (param1) {
+        case 'roast':
+            sqlStatement = `SELECT Id, Name FROM products WHERE Roast='${param2}'`;
+            break;
+        case 'region':
+            sqlStatement = `SELECT Id, Name FROM products WHERE Region='${param2}'`;
+            break;
+        case 'cold-brew':
+            sqlStatement = `SELECT Id, Name FROM products WHERE Category='cold-brew'`;
+            break;
+        case 'tea':
+            sqlStatement = `SELECT Id, Name FROM products WHERE Category='tea'`;
+            break;
+        default:
+            return res.send([]);
     }
 
     try {
@@ -32,6 +38,7 @@ const getProductPreviews = async (req, res) => {
             const name = productObj.Name;
             toReturn.push({"name": name, "priceRange": priceObj.priceRange, "hasSale": priceObj.hasSale});
         }
+
         return res.send(toReturn);
     } catch(err) {
         throw err;

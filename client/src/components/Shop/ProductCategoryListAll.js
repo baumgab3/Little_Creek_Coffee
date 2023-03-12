@@ -14,7 +14,6 @@ const ProductCategoryListAll = () => {
         } else if (param1 === "region") {
             setSubCategories(["africa", "central-america", "south-america", "compositions"]);
         } else {
-            console.log("here");
             setSubCategories([]);
         }
     }, [param1]);

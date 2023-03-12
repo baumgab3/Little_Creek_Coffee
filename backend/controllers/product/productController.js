@@ -31,7 +31,7 @@ const getProductDetails = async (req, res) => {
         product.hasSale = priceObj.hasSale;
 
         // get size options for drop down
-        const priceOptions = await getPriceDropDownOptions(product.Id)
+        const priceOptions = await getPriceDropDownOptions(product.Id);
         product.priceOptions = priceOptions;
 
         if (product.Category.toLowerCase() === 'coffee') {
