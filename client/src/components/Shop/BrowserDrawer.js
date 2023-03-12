@@ -72,6 +72,23 @@ const BrowserDrawer = () => {
         }
     }
 
+    const setActive = (name) => {
+        document.getElementById(name).style.textDecoration = "underline";
+        const btns = document.getElementsByClassName("btn");
+
+        for (let i = 0; i < btns.length; i++) {
+            const currentId = btns[i].getAttribute("id");
+
+            if (currentId !== name) {
+                document.getElementById(currentId).style.textDecoration="";
+            } 
+        }
+    }
+
+    const active = {
+        fontWeight: 'bold',
+        fontSize: '30px'
+    }
 
     useEffect(() => {
 
@@ -99,33 +116,6 @@ const BrowserDrawer = () => {
                 <Divider sx={{width: '30px', borderBottomWidth: 3}} />
             </Box>
 
-                {/* <Box >
-                    <Button 
-                    component={Link}
-                    to="/product-category/roasts"
-                    onClick={handleOpenRoasts}
-                    sx={categoryButtonStyle} >
-                        <Typography sx={{width: '150px'}}>
-                            Roast
-                        </Typography>
-                    </Button>
-                    <Button onClick={handleToggleRoasts} sx={categoryToggleIconStyle} >
-                        {toggleRoasts ? <ExpandLess /> : <ExpandMore  />}
-                    </Button>
-                    <Collapse in={toggleRoasts} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                        <ListItemButton 
-                        sx={{width: '200px'}}
-                        component={Link}
-                        to="/product-category/roasts/light"
-                        >
-                            <ListItemText primary="Light" />
-                        </ListItemButton>
-                        </List>
-                    </Collapse>
-                </Box> */}
-
-
             {categoreis.map(current => {
                 return <Box key={current.category}>
                         <Button 
@@ -145,7 +135,15 @@ const BrowserDrawer = () => {
                             <Collapse in={eval(current.toggleBoolean)} timeout="auto" unmountOnExit>
                                 <List component="div" disablePadding>
                                 {current.subCategories.map(category => {
-                                return <ListItemButton sx={{width: '200px'}} component={Link} to={category.url} key={category.name} >
+                                return <ListItemButton
+                                        className="btn"
+                                        value={category.name}
+                                        onClick={() => setActive(category.name)}
+                                        id={category.name}
+                                        sx={{width: '200px'}}
+                                        component={Link} 
+                                        to={category.url}
+                                        key={category.name} >
                                             <ListItemText primary={category.name} />
                                         </ListItemButton>
                                 })}
@@ -156,28 +154,7 @@ const BrowserDrawer = () => {
                     </Box>
             })}
 
-            {/* <Box>
-                <Button component={Link} onClick={eval(roasts.openAllFunction)} to="/product-category/roast" sx={categoryButtonStyle} >
-                    <Typography sx={{width: '150px'}}>
-                        {roasts.category}
-                    </Typography>
-                </Button>
-
-                <Button onClick={eval(roasts.toggleFunction)} sx={categoryToggleIconStyle} >
-                    {eval(roasts.toggleBoolean) ? <ExpandLess /> : <ExpandMore  />}
-                </Button>
-                <Collapse in={eval(toggleRoasts)} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                    {roasts.subCategories.map(category => {
-                    return <ListItemButton sx={{width: '200px'}} component={Link} to={category.url} key={category.name} >
-                                <ListItemText primary={category.name} />
-                            </ListItemButton>
-                    })}
-                    </List>
-                </Collapse>
-            </Box> */}
-            
-
+        
         </Box>
     )
 }
