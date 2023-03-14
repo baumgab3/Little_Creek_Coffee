@@ -17,7 +17,9 @@ const TabsSection = (props) => {
     const productDetails = props.productDetails;
     const isCoffee = productDetails.Category === "coffee" ? true: false;
     const hasComments = productDetails.customerComments ? true : false;
-    
+    const hasEnvImpact = productDetails.EnvSocialImpact ? true : false;
+    let idx = 0;
+
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
@@ -60,10 +62,11 @@ const TabsSection = (props) => {
         <Box>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs orientation={smallScreen ? "vertical" : "horizontal"}  value={value} onChange={handleChange} aria-label="product tabs">
-                <Tab label="Description" {...a11yProps(0)} />
-                {isCoffee && <Tab label="Coffee Details" {...a11yProps(1)} /> }
-                {hasComments && <Tab label="Customer Comments" {...a11yProps(2)} /> }
-                {isCoffee && <Tab label="#BetterBrewing Video" {...a11yProps(3)} /> }
+                <Tab label="Description" {...a11yProps(idx)} />
+                {isCoffee && <Tab label="Coffee Details" {...a11yProps(++idx)} /> }
+                {hasComments && <Tab label="Customer Comments" {...a11yProps(++idx)} /> }
+                {isCoffee && <Tab label="#BetterBrewing Video" {...a11yProps(++idx)} /> }
+                {hasEnvImpact && <Tab label="ENVIRONMENTAL & SOCIAL IMPACT" {...a11yProps(++idx)} /> }
 
             </Tabs>
             </Box>
@@ -94,6 +97,11 @@ const TabsSection = (props) => {
                 display="block"
                 position="relative"
             />
+            </TabPanel> }
+
+            {/* ENVIRONMENTAL & SOCIAL IMPACT */}
+            {hasEnvImpact && <TabPanel value={value} index={idx}>
+                {parse(productDetails.EnvSocialImpact)}
             </TabPanel> }
         
         </Box>
