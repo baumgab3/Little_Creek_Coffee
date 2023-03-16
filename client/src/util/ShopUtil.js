@@ -73,7 +73,6 @@ const getShopCategories = () => {
             openAllFunction: 'handleOpenMerchandise',
             categoryUrl: "/product-category/merchandise/",
             subCategories: [
-                {name: "Pride Posters", url: "/product-category/merchandise/pride-posters/"},
                 {name: "Brewing Tools", url: "/product-category/merchandise/brewing-tools/"},
                 {name: "Clothing", url: "/product-category/merchandise/clothing/"},
                 {name: "Drinkware", url: "/product-category/merchandise/drinkware/"},

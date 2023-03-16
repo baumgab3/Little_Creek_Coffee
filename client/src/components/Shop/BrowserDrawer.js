@@ -107,6 +107,7 @@ const BrowserDrawer = () => {
                 case 'region': setToggleRegions(true); break;
                 case 'buy-in-bulk': setToggleBulk(true); break;
                 case 'subscription': setToggleSubscription(true); break;
+                case 'merchandise': setToggleMerchandise(true); break;
                 default: // don't want anything to open for default
             }
         }

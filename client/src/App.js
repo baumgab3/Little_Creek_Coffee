@@ -12,6 +12,8 @@ import BrewingChange from './components/AboutUs/BrewingChange';
 import InsideLittleCreek from './components/AboutUs/InsideLittleCreek';
 import ShopContainer from './components/Shop/ShopContainer';
 import ProductShowcase from './components/Shop/ProductShowcase';
+import Checkout from './components/Checkout/Checkout';
+import { CartProvider } from './context/CartContext';
 
 
 function App() {
@@ -19,6 +21,7 @@ function App() {
   const {auth} = useAuth();
 
   return (
+    <CartProvider>
     <Router>
       <Navbar drawerWidth={drawerWidth} />
       
@@ -40,13 +43,17 @@ function App() {
           <Route exact path="/brewing-change" element={ <BrewingChange/> } />
           <Route exact path="/abc-corporation" element={ <InsideLittleCreek/> } />
 
+          {/* Checkout */}
+          <Route exact path="/cart" element={ <Checkout/> } />
+
           {/* Sandbox */}
           <Route exact path="/sandbox" element={ <Sandbox/> } />
 
         </Routes>
       </Box>
 
-    </Router>   
+    </Router>
+    </CartProvider>
   );
 }
 

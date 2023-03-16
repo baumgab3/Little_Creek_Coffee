@@ -1,5 +1,5 @@
 import { Box, Container } from '@mui/system'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import SmallBreadCrumbs from '../SmallBreadCrumbs'
 import BrowserDrawer from './BrowserDrawer'
 import {  useParams } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { Button, ButtonGroup, Drawer, FormControl, Grid, InputLabel, MenuItem, S
 import TuneIcon from '@mui/icons-material/Tune';
 import { getGrindTypes } from '../../util/ShopUtil';
 import TabsSection from './TabsSection';
+import CartContext from '../../context/CartContext';
 
 
 
@@ -24,6 +25,7 @@ const ProductShowcase = (props) => {
     const [isDropDown, setIsDropDown] = useState(true);
 
     const grindTypes = getGrindTypes();
+    const {addToCart} = useContext(CartContext);
 
     useEffect(() => {
         const fetchProductDetails = () => {
@@ -92,7 +94,14 @@ const ProductShowcase = (props) => {
     }
 
     const handleAddToCart = () => {
-        console.log('adding to cart...', grind, size, quantity);
+        const toAdd = {
+            "name": productDetails.Name,
+            "description": size.description,
+            "price": size.price,
+            "quantity": quantity
+        }
+        // console.log(toAdd);
+        addToCart(toAdd);
     }
 
     if (err) {

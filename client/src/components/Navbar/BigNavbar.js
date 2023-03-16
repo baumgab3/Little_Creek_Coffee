@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -14,9 +14,13 @@ import * as AdminUtil from '../../util/AdminUtil';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { useAuth } from '../AuthProvider';
+import CartContext from '../../context/CartContext';
 
 const BigNavbar = () => {
     const { auth, user } = useAuth();
+
+    const {cartSize} = useContext(CartContext);
+
 
     const shopOptions = AdminUtil.getDropDownForShop();
     const cafeOptions = AdminUtil.getDropDownForCafes();
@@ -268,7 +272,7 @@ const BigNavbar = () => {
                 |
             <Button component={Link} to="cart" color="inherit" >
                 <Box sx={{marginRight: '2px'}}>$00.00</Box>
-                <ShoppingCartOutlinedIcon />
+                <ShoppingCartOutlinedIcon /> ({cartSize})
             </Button>
         </Grid>
         </Grid>
