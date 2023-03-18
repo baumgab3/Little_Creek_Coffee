@@ -6,7 +6,18 @@ import CartItem from './CartItem';
 
 const Checkout = () => {
     
-    const {cart} = useContext(CartContext);
+    const {cart, cartSize, getCartTotal} = useContext(CartContext);
+
+    if (!cart || cartSize === 0) {
+        return (
+            <Container>
+                <Box mt={10}>
+                    Your cart is currently empty.
+                </Box>
+            </Container>
+        )
+    }
+
     return (
     <Container>
 
@@ -34,8 +45,8 @@ const Checkout = () => {
                     return <CartItem key={cartItem.id} item={cartItem} />
                 })}
 
-                <Box align="right">
-                    SubTotal (4 items): $4444.44
+                <Box align="right" mt={1}>
+                    SubTotal ({cartSize} items): ${getCartTotal()}
                 </Box>
             </Grid>
 

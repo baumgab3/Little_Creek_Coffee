@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
@@ -21,6 +21,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import Tooltip from '@mui/material/Tooltip';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import HomeIcon from '@mui/icons-material/Home';
+import CartContext from '../../context/CartContext';
 
 
 const MobileNavbar = (props) => {
@@ -29,6 +30,7 @@ const MobileNavbar = (props) => {
     const cafeOptions = AdminUtil.getDropDownForCafes();
     const learningOptions = AdminUtil.getDropDownForLearning();
     const aboutUsOptions = AdminUtil.getDropDownForAboutUs();
+    const {cartSize} = useContext(CartContext);
 
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -232,6 +234,10 @@ const MobileNavbar = (props) => {
                     <Link to="/cart" style={{ textDecoration: 'none', color: 'inherit' }}>
                          <ShoppingCartOutlinedIcon />
                     </Link>
+                    <Box mb={1} sx={{display: {xs:"none", sm:"block"}}}>
+                       ({cartSize}) 
+                    </Box>
+                    
                 </Button>
             </ButtonGroup>
         </Grid>

@@ -1,4 +1,4 @@
-import { Divider, FormControl, Grid, MenuItem, Select, Typography } from '@mui/material'
+import { Divider, FormControl, Grid, MenuItem, Select, Stack, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { useContext } from 'react'
 import { useRef } from 'react';
@@ -40,12 +40,24 @@ const CartItem = ({item}) => {
                         {item.name}
                     </Box>
                     <Box ml={2}>
+                        {item.description && 
                         <Typography sx={{fontSize: '13px'}}>
                             SIZE: {item.description}
-                        </Typography>
+                        </Typography> }
+
+                        {item.grind && 
                         <Typography sx={{fontSize: '13px'}}>
-                            SIZE: {item.grind}
-                        </Typography>
+                            GRIND TYPE: {item.grind}
+                        </Typography>}
+
+                        <Stack direction="row">
+                            <Typography sx={{fontSize: '13px', display: {xs: "inherit", sm: "none"}}}>
+                                {item.quantity} x &nbsp;
+                            </Typography>
+                            <Typography sx={{fontSize: '13px', fontWeight: 'bold', display: {xs: "inherit", sm: "none"}}}>
+                                ${item.price.toFixed(2)}
+                            </Typography>
+                        </Stack>
                     </Box>
                 </Grid>
                 <Grid item sm={1} sx={{display: {xs:"none", sm: "block"}}} >

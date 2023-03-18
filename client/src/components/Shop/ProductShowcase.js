@@ -40,6 +40,7 @@ const ProductShowcase = (props) => {
                     return res.json();
                 })
                 .then(product => {
+                    console.log(product.priceOptions);
                     setProductDetails(product);
                     setIsLoaded(true);
                     
@@ -47,7 +48,9 @@ const ProductShowcase = (props) => {
                     for (const option of product.priceOptions) {
                         if (!option.description) {
                             setIsDropDown(false);
-                            break;
+                        }
+                        if (option.price) {
+                            setSize(option);
                         }
                     }
 
@@ -106,6 +109,7 @@ const ProductShowcase = (props) => {
             "price": size.price,
             "quantity": quantity,
         }
+        console.log("handleAddToCart...", toAdd);
         addToCart(toAdd);
     }
 

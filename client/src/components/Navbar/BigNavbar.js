@@ -19,7 +19,7 @@ import CartContext from '../../context/CartContext';
 const BigNavbar = () => {
     const { auth, user } = useAuth();
 
-    const {cartSize} = useContext(CartContext);
+    const {cartSize, getCartTotal} = useContext(CartContext);
 
 
     const shopOptions = AdminUtil.getDropDownForShop();
@@ -271,7 +271,7 @@ const BigNavbar = () => {
             }
                 |
             <Button component={Link} to="cart" color="inherit" >
-                <Box sx={{marginRight: '2px'}}>$00.00</Box>
+                <Box sx={{marginRight: '2px'}}>${getCartTotal()}</Box>
                 <ShoppingCartOutlinedIcon /> ({cartSize})
             </Button>
         </Grid>
