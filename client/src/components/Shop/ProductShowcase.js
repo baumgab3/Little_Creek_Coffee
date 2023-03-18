@@ -30,7 +30,7 @@ const ProductShowcase = (props) => {
     useEffect(() => {
         const fetchProductDetails = () => {
             const url = `http://localhost:8081/product/${param1}`;
-
+            console.log("fetchProductDetails...");
             fetch(url)
                 .then(res => {
                     if (res.status >= 400) {
@@ -61,7 +61,7 @@ const ProductShowcase = (props) => {
 
         fetchProductDetails();
         setMobileOpen(false);
-    }, [])
+    }, [param1])
 
     const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -84,23 +84,28 @@ const ProductShowcase = (props) => {
     }
 
     const handleQuantity = (parm) => {
-
         if (parm === "+") {
+            if (quantity + 1 > 10) {
+                alert("Cannot add more than 10!");
+                return;
+            }
             setQuantity(quantity + 1);
         } else {
-            setQuantity(quantity - 1 < 0 ? 0 : quantity - 1);
+            setQuantity(quantity - 1 <= 0 ? 1 : quantity - 1);
         }
+
 
     }
 
     const handleAddToCart = () => {
         const toAdd = {
+            "id": productDetails.Id,
             "name": productDetails.Name,
             "description": size.description,
+            "grind": grind,
             "price": size.price,
-            "quantity": quantity
+            "quantity": quantity,
         }
-        // console.log(toAdd);
         addToCart(toAdd);
     }
 
@@ -197,8 +202,14 @@ const ProductShowcase = (props) => {
                         </Box>
                         }
 
+                        <Box mt={2}>
+                            {size && grind && <Typography variant="h6">
+                                ${size.price.toFixed(2)}
+                            </Typography>}
+                        </Box>
+                    
                         {/* -/+ buttons for quantity and add to cart button */}
-                        <Box sx={{display: "flex", flexDirection: {xs: "column", sm: "row"}}} mt={4}>
+                        <Box sx={{display: "flex", flexDirection: {xs: "column", sm: "row"}}} mt={2}>
                         <Box mr={2}>
                         <ButtonGroup
                         disableElevation
@@ -215,7 +226,7 @@ const ProductShowcase = (props) => {
                         <Button 
                         variant="contained"
                         sx={{marginTop: {xs: "10px", sm: "0"}, width: {xs: "135px", sx: "auto"}}}
-                        disabled={(size && (grind || productDetails.Category !== 'coffee') || !isDropDown) ? false : true}
+                        disabled={((size && (grind || productDetails.Category !== 'coffee')) || !isDropDown) ? false : true}
                         onClick={handleAddToCart}
                         >
                             add to cart
