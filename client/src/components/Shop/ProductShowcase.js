@@ -3,11 +3,12 @@ import React, { useContext, useEffect, useState } from 'react'
 import SmallBreadCrumbs from '../SmallBreadCrumbs'
 import BrowserDrawer from './BrowserDrawer'
 import {  useParams } from 'react-router-dom';
-import { Button, ButtonGroup, Drawer, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Toolbar, Typography } from '@mui/material';
+import { Button, Drawer, Grid, Toolbar, Typography } from '@mui/material';
 import TuneIcon from '@mui/icons-material/Tune';
-import { getGrindTypes } from '../../util/ShopUtil';
 import TabsSection from './TabsSection';
 import CartContext from '../../context/CartContext';
+import ProductSelect from '../ProductSelect';
+import AddToCart from '../AddToCart';
 
 
 
@@ -18,14 +19,15 @@ const ProductShowcase = (props) => {
     const { param1 } = useParams();
     const [productDetails, setProductDetails] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [size, setSize] = useState('');
     const [grind, setGrind] = useState("");
     const [quantity, setQuantity] = useState(1);
     const [err, setErr] = useState(null);
-    const [isDropDown, setIsDropDown] = useState(true);
-
-    const grindTypes = getGrindTypes();
     const {addToCart} = useContext(CartContext);
+
+
+    // new to refactor
+    const [hasDropDowns, setHasDropDowns] = useState(true);
+    const [productPricingObj, setProductPricingObj] = useState('');
 
     useEffect(() => {
         const fetchProductDetails = () => {
@@ -40,17 +42,14 @@ const ProductShowcase = (props) => {
                     return res.json();
                 })
                 .then(product => {
-                    console.log(product.priceOptions);
                     setProductDetails(product);
                     setIsLoaded(true);
                     
-                    // products with not description for priceOptions won't have a drop down size bar
+                    // products with no description for priceOptions won't have a drop down size bar
                     for (const option of product.priceOptions) {
-                        if (!option.description) {
-                            setIsDropDown(false);
-                        }
-                        if (option.price) {
-                            setSize(option);
+                        if (!option.description && option.price && !option.grind) {
+                            setHasDropDowns(false);
+                            setProductPricingObj(option);
                         }
                     }
 
@@ -77,9 +76,9 @@ const ProductShowcase = (props) => {
             <BrowserDrawer />
         </Box>
     );
-    
-    const handleSizeUpdate = (size) => {
-        setSize(size);
+        
+    const handleProductPricingObjUpdate = (toUpdate) => {
+        setProductPricingObj(toUpdate);
     }
 
     const handleGrindUpdate = (grind) => {
@@ -96,17 +95,15 @@ const ProductShowcase = (props) => {
         } else {
             setQuantity(quantity - 1 <= 0 ? 1 : quantity - 1);
         }
-
-
     }
 
     const handleAddToCart = () => {
         const toAdd = {
             "id": productDetails.Id,
             "name": productDetails.Name,
-            "description": size.description,
+            "description": productPricingObj.description,
             "grind": grind,
-            "price": size.price,
+            "price": productPricingObj.price,
             "quantity": quantity,
         }
         console.log("handleAddToCart...", toAdd);
@@ -119,6 +116,7 @@ const ProductShowcase = (props) => {
 
     return (
         <Container>
+            {isLoaded && <>
             <Box mt={6} mb={6}>
                 {/* BreadCrumbs for small screens */}
                 <Box align="center" sx={{display: {xs:"block", sm: "block", md: "none"}}}>
@@ -133,14 +131,12 @@ const ProductShowcase = (props) => {
 
                 {/* BreadCrumbs for bigger screens */}
                 <Grid container mb={3}>
-                    <Grid item md={4} sx={{display: {xs:"none", sm: "none", md: "block"}}}>
+                    <Grid item md={12} sx={{display: {xs:"none", sm: "none", md: "block"}}}>
                         <SmallBreadCrumbs />
                     </Grid>
                 </Grid>
 
                 <Grid container spacing={3}>
-                    {isLoaded && 
-                    <>
                     <Grid item xs={12} sm={12} md={5}>
                         <img width="100%" src="/images/holder_6.jpg" alt="" />
                     </Grid>
@@ -155,95 +151,44 @@ const ProductShowcase = (props) => {
                         <Typography >
                             {productDetails.ShortDescription}
                         </Typography>
-
-                        {/* disiplay dropdown options if product has sizing options*/}
-                        {isDropDown && <Box sx={{ minWidth: 120 }} mt={2}>
-                        <FormControl fullWidth>
-                            <InputLabel id="size-select-label">Size</InputLabel>
-                            <Select
-                            labelId="size-select-label"
-                            id="size-select"
-                            value={size}
-                            label="Size"
-                            onChange={(e) => handleSizeUpdate(e.target.value)}
-                            >
-                            {productDetails.priceOptions.map(option => {
-                                return  <MenuItem 
-                                        value={option}
-                                        key={option.description}
-                                        >
-                                            {option.description}
-                                        </MenuItem>
-                            })}
-                            </Select>
-                        </FormControl>
-                        </Box>
-                        }
                         
-
-                        {/* Grind Types for coffee products */}
-                       {productDetails.Category === 'coffee' && <Box sx={{ minWidth: 120 }} mt={3}>
-                        <FormControl fullWidth>
-                            <InputLabel id="grind-select-label">Grind Type</InputLabel>
-                            <Select
-                            labelId="grind-select-label"
-                            id="grind-select"
-                            value={grind}
-                            label="Grind Type"
-                            onChange={(e) => handleGrindUpdate(e.target.value)}
-                            >
-                            {grindTypes.map(current => {
-                                return <MenuItem 
-                                        value={current.type}
-                                        key={current.id}
-                                        >
-                                            {current.type}
-                                        </MenuItem>
-                            })}
-                  
-                            </Select>
-                        </FormControl>
-                        </Box>
+                        {/* display dropdowns for needed products */}
+                        {hasDropDowns && 
+                        <ProductSelect
+                            handleProductPricingObjUpdate={handleProductPricingObjUpdate}
+                            productPricingObj={productPricingObj}
+                            handleGrindUpdate={handleGrindUpdate}
+                            priceOptions={productDetails.priceOptions}
+                            category={productDetails.Category}
+                            grind={grind}
+                        />
                         }
 
+                        {/* display product price */}
                         <Box mt={2}>
-                            {size && grind && <Typography variant="h6">
-                                ${size.price.toFixed(2)}
+                            {productPricingObj.description && grind && <Typography variant="h6">
+                                ${productPricingObj.price.toFixed(2)}
                             </Typography>}
                         </Box>
                     
                         {/* -/+ buttons for quantity and add to cart button */}
-                        <Box sx={{display: "flex", flexDirection: {xs: "column", sm: "row"}}} mt={2}>
-                        <Box mr={2}>
-                        <ButtonGroup
-                        disableElevation
-                        variant="contained"
-                        aria-label="Disabled elevation buttons"
-                        sx={{height: '40px'}}
-                        >
-                            <Button onClick={() => handleQuantity("-")} disabled={(size || !isDropDown )? false : true}>-</Button>
-                            <TextField value={quantity} inputProps={{min: 0, style: { textAlign: 'center', width: "25px", height: '7px' }}}/>
-                            <Button onClick={() => handleQuantity("+")} disabled={(size || !isDropDown) ? false : true}>+</Button>
-                        </ButtonGroup>
-                        </Box>
+                        <AddToCart
+                            category={productDetails.Category}
+                            productPricingObj={productPricingObj}
+                            quantity={quantity}
+                            grind={grind}
+                            handleQuantity={handleQuantity}
+                            handleAddToCart={handleAddToCart}
+                        />
 
-                        <Button 
-                        variant="contained"
-                        sx={{marginTop: {xs: "10px", sm: "0"}, width: {xs: "135px", sx: "auto"}}}
-                        disabled={((size && (grind || productDetails.Category !== 'coffee')) || !isDropDown) ? false : true}
-                        onClick={handleAddToCart}
-                        >
-                            add to cart
-                        </Button>
-                        </Box>
                     </Grid>
-                    </>
-                    }
                 </Grid>
             </Box>
 
-            {isLoaded && <TabsSection productDetails={productDetails} />}
+            {/* Tabs menu for product details */}
+            <TabsSection productDetails={productDetails} />
 
+            {/* Drawer for smaller screens */}
             <Toolbar sx={{  display: { xs: 'block', sm: 'block', md: 'none' } }}>
                 <Box component="nav">
                     <Drawer
@@ -269,6 +214,9 @@ const ProductShowcase = (props) => {
         <br />
         <br />
 
+        {/* close isLoaded check */}
+        </> }
+        
         </Container>
     )
 }

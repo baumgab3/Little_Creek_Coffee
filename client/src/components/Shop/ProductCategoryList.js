@@ -17,7 +17,7 @@ const ProductCategoryList = (props) => {
     useEffect(() => {
         const fetchProductPreviews = () => {
             const sub = !param2 ? props.subCategory : param2;
-            const url = `http://localhost:8081/product-category/${param1}/${sub}`;
+            const url = `http://localhost:8081/product-category/${param1}/${sub}/`;
             setCategory(param1);
             setSubCategory(sub);
 
@@ -56,11 +56,12 @@ const ProductCategoryList = (props) => {
 
         {isLoaded && 
         <>
-        <Link to={`/product-category/${category}/${subCategory}`} component={RouterLink} underline="hover">
+        <Link to={`/product-category/${category}/${subCategory}/`} component={RouterLink} underline="hover">
             <Typography variant="h5" sx={{textTransform: "uppercase", fontWeight: "bold"}} mb={2}>
-                {category} / {subCategory}
+                {category} {subCategory && <>/ {subCategory}</>}
             </Typography>
         </Link>
+
 
         <Grid container spacing={2} >
             {products && products.map(product => {

@@ -8,8 +8,12 @@ import WhatshotOutlinedIcon from '@mui/icons-material/WhatshotOutlined';
 
 // returns string as lowercase with all spaces replaced with a '-'
 const slugify = (toClean) => {
+    // remove any '-' string might have to prevent duplicate dashes being added
+    toClean = toClean.replaceAll("-", " ");
+    // now can add dashes
     return toClean.toLowerCase().replace(/\s+/g, " ").replace(/\s/g, "-");
 }
+
 
 // returns array for the 'Shop' option in the navbar
 const getDropDownForShop = () => {

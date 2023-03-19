@@ -34,6 +34,8 @@ function App() {
           {/* Shop */}
           <Route exact path="/product-category/:param1/:param2?" element={ <ShopContainer /> } /> 
           <Route exact path="/product/:param1" element={ <ProductShowcase /> } /> 
+          <Route exact path="/product/:param1/:args" element={ <ProductShowcase /> } /> 
+
 
 
 

@@ -1,9 +1,11 @@
-import { Divider, FormControl, Grid, MenuItem, Select, Stack, Typography } from '@mui/material'
+import { Divider, FormControl, Grid, Link, MenuItem, Select, Stack, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { useContext } from 'react'
 import { useRef } from 'react';
 import { useState } from 'react';
 import CartContext from '../../context/CartContext';
+import { Link as RouterLink } from 'react-router-dom';
+import { slugify } from '../../util/AdminUtil';
 
 const CartItem = ({item}) => {
 
@@ -12,6 +14,21 @@ const CartItem = ({item}) => {
     const total = useRef(item.quantity);
 
     const {removeFromCart, updateItemQuantity} = useContext(CartContext);
+    const slugName = slugify(item.name);
+    let url = `/product/${slugName}/`;
+
+    if (item.description) {
+        const slug = slugify(item.description);
+        url += `?product_size=${slug}`;
+    }
+
+    if (item.grind) {
+        const grindNumber = item.grind.split("-")[0].trim();
+        // const grindSlug = slugify(item.grind);
+        url += `&product_grind=${grindNumber}`;
+    }
+
+    console.log(url);
 
     const handleQuantityChange = (event) => {
         total.value = event.target.value;
@@ -32,7 +49,9 @@ const CartItem = ({item}) => {
             <Grid container >
                 <Grid item xs={3} sm={2}>
                     <Box p={1} >
-                        <img width="100%" src="../images/holder_2.jpg" alt="" /> 
+                        <Link component={RouterLink} to="/">
+                            <img width="100%" src="../images/holder_2.jpg" alt="" /> 
+                        </Link>
                     </Box>
                 </Grid>
                 <Grid item xs={7} sm={6} align="left">
