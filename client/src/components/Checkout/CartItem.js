@@ -28,8 +28,6 @@ const CartItem = ({item}) => {
         url += `&product_grind=${grindNumber}`;
     }
 
-    console.log(url);
-
     const handleQuantityChange = (event) => {
         total.value = event.target.value;
 
@@ -40,7 +38,7 @@ const CartItem = ({item}) => {
 
         setQuantity(event.target.value);
         setSubTotal(total.value * item.price);
-        updateItemQuantity(item.id, total.value);
+        updateItemQuantity(item, total.value);
     }
 
 

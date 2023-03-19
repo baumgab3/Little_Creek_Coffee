@@ -100,6 +100,7 @@ const ProductShowcase = (props) => {
     const handleAddToCart = () => {
         const toAdd = {
             "id": productDetails.Id,
+            "category": productDetails.Category,
             "name": productDetails.Name,
             "description": productPricingObj.description,
             "grind": grind,
@@ -216,7 +217,7 @@ const ProductShowcase = (props) => {
 
         {/* close isLoaded check */}
         </> }
-        
+
         </Container>
     )
 }

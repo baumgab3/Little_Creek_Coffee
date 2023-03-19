@@ -6,7 +6,7 @@ import CartItem from './CartItem';
 
 const Checkout = () => {
     
-    const {cart, cartSize, getCartTotal} = useContext(CartContext);
+    const {cart, cartSize, getCartTotal, getUniqueID} = useContext(CartContext);
 
     if (!cart || cartSize === 0) {
         return (
@@ -42,7 +42,7 @@ const Checkout = () => {
             <Divider />
 
                 {cart.map(cartItem => {
-                    return <CartItem key={cartItem.id} item={cartItem} />
+                    return <CartItem key={getUniqueID(cartItem)} item={cartItem} />
                 })}
 
                 <Box align="right" mt={1}>

@@ -6,7 +6,7 @@ const CustomerComments = (props) => {
     const comments = props.comments;
 
     return (
-        <Box mt={2}>
+        <Box mt={2} height="500px">
             {comments.map(comment => {
                 return <Box key={comment.id} mb={2}>
                         <Typography variant="p">
