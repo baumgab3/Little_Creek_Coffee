@@ -23,7 +23,7 @@ const CreateAccount = () => {
     const {createNewUser} = useContext(UserContext);
 
     
-    const handleLogin = (e) => {
+    const handleCreateAccount = (e) => {
         e.preventDefault();
         // TODO - more validation needs to be added/better error messages later, keeping it simple for now
 
@@ -71,7 +71,7 @@ const CreateAccount = () => {
                 <TextField error={hasUsernameError ? true : false} onChange={(e) => setUsername(e.target.value.trim())} value={userName} sx={textFieldStyle} label="Username or email" required />
                 <TextField error={hasPasswordError ? true : false} onChange={(e) => setPassword(e.target.value.trim())} value={password} sx={textFieldStyle} label="Password" type="password" required />
 
-                <Button onClick={(e) => handleLogin(e)} sx={{width: "100px"}} variant="contained">CREATE</Button>
+                <Button onClick={(e) => handleCreateAccount(e)} sx={{width: "100px"}} variant="contained">CREATE</Button>
             </FormControl>
         </Box>
         </>
