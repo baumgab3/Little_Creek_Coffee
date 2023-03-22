@@ -1,6 +1,6 @@
-const conn = require('../../database/connection');
+const conn = require('../database/connection');
 const util = require('util');
-const {getPriceRange, getProductPriceRange, getPriceDropDownOptions} = require('../../ServerUtil');
+const {getPriceRange, getProductPriceRange, getPriceDropDownOptions} = require('../ServerUtil');
 
 
 const query = util.promisify(conn.query).bind(conn);

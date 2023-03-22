@@ -52,7 +52,7 @@ const Login = () => {
                 <Button onClick={(e) => handleLogin(e)} sx={{width: "100px"}} variant="contained">LOG IN</Button>
 
                 <Box mt={2}> 
-                    <Link to="/create-account" component={RouterLink} underline="hover">Don't have account? Create one!</Link>
+                    <Link to="/create-account" component={RouterLink} underline="hover">Don't have an account? Create one!</Link>
                 </Box>
             </FormControl>
         </Box>
