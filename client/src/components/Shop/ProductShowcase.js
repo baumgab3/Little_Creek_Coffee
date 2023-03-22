@@ -2,7 +2,7 @@ import { Box, Container } from '@mui/system'
 import React, { useContext, useEffect, useState } from 'react'
 import SmallBreadCrumbs from '../SmallBreadCrumbs'
 import BrowserDrawer from './BrowserDrawer'
-import {  useParams } from 'react-router-dom';
+import {  useParams, useSearchParams } from 'react-router-dom';
 import { Button, Drawer, Grid, Toolbar, Typography } from '@mui/material';
 import TuneIcon from '@mui/icons-material/Tune';
 import TabsSection from './TabsSection';
@@ -23,11 +23,9 @@ const ProductShowcase = (props) => {
     const [quantity, setQuantity] = useState(1);
     const [err, setErr] = useState(null);
     const {addToCart} = useContext(CartContext);
-
-
-    // new to refactor
     const [hasDropDowns, setHasDropDowns] = useState(true);
     const [productPricingObj, setProductPricingObj] = useState('');
+
 
     useEffect(() => {
         const fetchProductDetails = () => {
@@ -85,8 +83,8 @@ const ProductShowcase = (props) => {
         setGrind(grind);
     }
 
-    const handleQuantity = (parm) => {
-        if (parm === "+") {
+    const handleQuantity = (param) => {
+        if (param === "+") {
             if (quantity + 1 > 10) {
                 alert("Cannot add more than 10!");
                 return;

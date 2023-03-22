@@ -13,6 +13,8 @@ const ProductCategoryListAll = () => {
             setSubCategories(["light", "medium", "dark", "decaf"]);
         } else if (param1 === "region") {
             setSubCategories(["africa", "central-america", "south-america", "compositions"]);
+        } else if (param1 === "merchandise") {
+            setSubCategories(["brewing-tools", "clothing", "drinkware", "other-merc", "posters-and-print"]);
         } else {
             setSubCategories([]);
         }

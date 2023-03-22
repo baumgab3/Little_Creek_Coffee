@@ -15,18 +15,20 @@ const CartItem = ({item}) => {
 
     const {removeFromCart, updateItemQuantity} = useContext(CartContext);
     const slugName = slugify(item.name);
-    let url = `/product/${slugName}/`;
+    let url = `/product/${slugName}/?product_quantity=${quantity}`;
 
     if (item.description) {
-        const slug = slugify(item.description);
-        url += `?product_size=${slug}`;
+        const sizeDescription = slugify(item.description);
+        url += `&product_size=${sizeDescription}`;
     }
 
     if (item.grind) {
-        const grindNumber = item.grind.split("-")[0].trim();
-        // const grindSlug = slugify(item.grind);
+        const grindNumber = slugify(item.grind);
         url += `&product_grind=${grindNumber}`;
     }
+
+    
+    console.log(url);
 
     const handleQuantityChange = (event) => {
         total.value = event.target.value;
@@ -47,14 +49,16 @@ const CartItem = ({item}) => {
             <Grid container >
                 <Grid item xs={3} sm={2}>
                     <Box p={1} >
-                        <Link component={RouterLink} to="/">
+                        <Link component={RouterLink} to={url}>
                             <img width="100%" src="../images/holder_2.jpg" alt="" /> 
                         </Link>
                     </Box>
                 </Grid>
                 <Grid item xs={7} sm={6} align="left">
                     <Box mt={1} ml={2}>
-                        {item.name}
+                        <Link component={RouterLink} to={url} underline="none">
+                            {item.name}
+                        </Link>
                     </Box>
                     <Box ml={2}>
                         {item.description && 

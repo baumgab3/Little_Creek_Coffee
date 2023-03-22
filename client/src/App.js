@@ -14,6 +14,8 @@ import ShopContainer from './components/Shop/ShopContainer';
 import ProductShowcase from './components/Shop/ProductShowcase';
 import Checkout from './components/Checkout/Checkout';
 import { CartProvider } from './context/CartContext';
+import CreateAccount from './components/CreateAccount';
+import { UserProvider } from './context/UserContext';
 
 
 function App() {
@@ -21,6 +23,7 @@ function App() {
   const {auth} = useAuth();
 
   return (
+    <UserProvider>
     <CartProvider>
     <Router>
       <Navbar drawerWidth={drawerWidth} />
@@ -29,14 +32,15 @@ function App() {
         <Routes>
           <Route exact path="/" element={ <Home/> } />
           <Route exact path="/home" element={ <Home/> } />
+
+          {/* Accounts */}
           {!auth ? <Route exact path="/my-account" element={ <Login/> } /> : <Route exact path="/my-account" element={ <UserDashboard/> } /> }
+          <Route exact path="/create-account" element={ <CreateAccount /> } /> 
 
           {/* Shop */}
           <Route exact path="/product-category/:param1/:param2?" element={ <ShopContainer /> } /> 
           <Route exact path="/product/:param1" element={ <ProductShowcase /> } /> 
           <Route exact path="/product/:param1/:args" element={ <ProductShowcase /> } /> 
-
-
 
 
           {/* About Us */}
@@ -56,6 +60,7 @@ function App() {
 
     </Router>
     </CartProvider>
+    </UserProvider>
   );
 }
 
