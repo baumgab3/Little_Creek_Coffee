@@ -4,6 +4,7 @@ const cors = require('cors')
 const express = require('express');
 const productCategoryRoutes = require('./routes/productCategoryRoutes');
 const productRoutes = require('./routes/productRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 
 const app = express();
@@ -16,6 +17,8 @@ app.use(express.json());
 // end points
 app.use("/product-category", productCategoryRoutes);
 app.use("/product", productRoutes);
+app.use("/", userRoutes);
+
 
 app.listen('8081', () => {
     console.log("server started on port 8081");

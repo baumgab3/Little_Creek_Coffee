@@ -1,8 +1,11 @@
 import { createContext, useState } from "react";
+import axios from 'axios';
 
 const UserContext = createContext();
 
 export const UserProvider = ({children}) => {
+
+    const [accountExists, setAccountExists] = useState(false);
 
     const loginUser = () => {
 
@@ -19,12 +22,28 @@ export const UserProvider = ({children}) => {
             isEmail = true;
         }
 
-        console.log(givenLogin, password, isEmail);
+        const url = 'http://localhost:8081/create-account';
+        const userInfo = {givenLogin, password, isEmail};
+        
+        axios.post(url, userInfo)
+        .then((response) => {
+            console.log(response.status);
+
+            setAccountExists(false);
+        })
+        .catch(err => {
+            console.log(err.response.status);
+            if (err.response.status === 409) {
+                setAccountExists(true);
+            }
+
+            // TODO - should add more error handling
+        })
     }
 
  
     return (
-        <UserContext.Provider value={{ createNewUser, loginUser }}>
+        <UserContext.Provider value={{ createNewUser, loginUser, accountExists }}>
             {children}
         </UserContext.Provider>
     );

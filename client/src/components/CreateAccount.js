@@ -8,19 +8,20 @@ import { Button, Typography, Link } from '@mui/material';
 import { useAuth } from './AuthProvider';
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import UserContext from '../context/UserContext';
+import { red } from '@mui/material/colors';
 
 const CreateAccount = () => {
 
     // const { setAuth } = useAuth();
     const navigate = useNavigate();
 
-    const textFieldStyle = {width: {xs: "100%", sm: "100%", md: "150%"} , marginBottom: "25px"};
+    const textFieldStyle = {width: {xs: "100%", sm: "100%", md: "190%"} , marginBottom: "25px"};
     const [userName, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [hasUsernameError, setUsernameError] = useState(false);
     const [hasPasswordError, setPasswordError] = useState(false);
 
-    const {createNewUser} = useContext(UserContext);
+    const {createNewUser, accountExists} = useContext(UserContext);
 
     
     const handleCreateAccount = (e) => {
@@ -63,8 +64,15 @@ const CreateAccount = () => {
             </Typography>
         </Box>
 
+        {/* errors */}
+        <Box align="center" mt={5}>
+            { accountExists && <Typography variant="p" sx={{color: red[500]}}>
+                Sorry, that account already exists!
+            </Typography> }
+        </Box>
+
         <Box mt={5} align="center">
-            <FormControl >
+            <FormControl>
                 <Typography variant='h5' align='left' mb={1}>
                     Create Account
                 </Typography>
@@ -72,6 +80,7 @@ const CreateAccount = () => {
                 <TextField error={hasPasswordError ? true : false} onChange={(e) => setPassword(e.target.value.trim())} value={password} sx={textFieldStyle} label="Password" type="password" required />
 
                 <Button onClick={(e) => handleCreateAccount(e)} sx={{width: "100px"}} variant="contained">CREATE</Button>
+
             </FormControl>
         </Box>
         </>
