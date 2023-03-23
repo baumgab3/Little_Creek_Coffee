@@ -5,9 +5,43 @@ const UserContext = createContext();
 
 export const UserProvider = ({children}) => {
 
-    const [accountExists, setAccountExists] = useState(false);
+    const [isAccountTaken, setIsAccountTaken] = useState(false);
+    const [isInvalidPassword, setIsInvalidPassword] = useState(false);
+    const [isInvalidLogin, setIsInvalidLogin] = useState(false);
 
-    const loginUser = () => {
+    const loginUser = (givenLogin, password) => {
+        let isEmail = false;
+
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(givenLogin)) {
+            isEmail = true;
+        }
+
+        const url = 'http://localhost:8081/my-account';
+        const userInfo = {givenLogin, password, isEmail};
+
+        
+        axios.post(url, userInfo)
+        .then((response) => {
+            console.log(response);
+
+            setIsInvalidPassword(false);
+            setIsInvalidLogin(false);
+        })
+        .catch(err => {
+            console.log(err.response.status);
+            // givenLogin not found
+            if (err.response.status === 404) {
+                setIsInvalidLogin(true);
+                setIsInvalidPassword(false);
+            }
+            // incorrect passowrd
+            if (err.response.status === 401) {
+                setIsInvalidPassword(true);
+                setIsInvalidLogin(false);
+            }
+
+            // TODO - should add more error handling
+        })
 
     }
 
@@ -29,12 +63,12 @@ export const UserProvider = ({children}) => {
         .then((response) => {
             console.log(response.status);
 
-            setAccountExists(false);
+            setIsAccountTaken(false);
         })
         .catch(err => {
             console.log(err.response.status);
             if (err.response.status === 409) {
-                setAccountExists(true);
+                setIsAccountTaken(true);
             }
 
             // TODO - should add more error handling
@@ -43,7 +77,7 @@ export const UserProvider = ({children}) => {
 
  
     return (
-        <UserContext.Provider value={{ createNewUser, loginUser, accountExists }}>
+        <UserContext.Provider value={{ createNewUser, loginUser, isAccountTaken, isInvalidPassword, isInvalidLogin }}>
             {children}
         </UserContext.Provider>
     );

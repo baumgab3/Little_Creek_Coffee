@@ -21,7 +21,7 @@ const CreateAccount = () => {
     const [hasUsernameError, setUsernameError] = useState(false);
     const [hasPasswordError, setPasswordError] = useState(false);
 
-    const {createNewUser, accountExists} = useContext(UserContext);
+    const {createNewUser, isAccountTaken} = useContext(UserContext);
 
     
     const handleCreateAccount = (e) => {
@@ -35,7 +35,6 @@ const CreateAccount = () => {
             return;
         }
 
-
         // if user is creating with email, make sure it is valid email
         if (userName.includes("@")) {
             if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userName))) {
@@ -43,7 +42,6 @@ const CreateAccount = () => {
                 return;
             } 
         }
-
 
         // everything is valid
         setUsernameError(false);
@@ -66,7 +64,7 @@ const CreateAccount = () => {
 
         {/* errors */}
         <Box align="center" mt={5}>
-            { accountExists && <Typography variant="p" sx={{color: red[500]}}>
+            { isAccountTaken && <Typography variant="p" sx={{color: red[500]}}>
                 Sorry, that account already exists!
             </Typography> }
         </Box>

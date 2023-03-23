@@ -3,6 +3,12 @@ const conn = require('./database/connection');
 const query = util.promisify(conn.query).bind(conn);
 
 
+const getRowCount = async (column, toFind) => {
+    const stm  = `SELECT COUNT(${column}) as count FROM users WHERE ${column}='${toFind}'`;
+    const result = await query(stm);
+    return !result ? 0 : result[0].count;
+}
+
 const getPriceDropDownOptions = async (productId) => {
 
     const sqlPriceStatement = `SELECT * FROM product_pricing WHERE ProductId='${productId}' ORDER BY LENGTH(Id), Id`;
@@ -58,5 +64,6 @@ const getPriceRange = async (productId) => {
 
 module.exports = {
     getPriceRange,
-    getPriceDropDownOptions
+    getPriceDropDownOptions,
+    getRowCount
 }

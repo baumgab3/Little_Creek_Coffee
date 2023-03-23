@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
@@ -7,11 +7,16 @@ import Checkbox from '@mui/material/Checkbox';
 import { Button, Typography, Link } from '@mui/material';
 import { useAuth } from './AuthProvider';
 import { Link as RouterLink, useNavigate } from "react-router-dom";
+import UserContext from '../context/UserContext';
+import { red } from '@mui/material/colors';
 
 const Login = () => {
 
     const { setAuth } = useAuth();
     const navigate = useNavigate();
+
+    const {loginUser, isInvalidPassword, isInvalidLogin} = useContext(UserContext);
+
 
     const textFieldStyle = {width: {xs: "100%", sm: "100%", md: "150%"} , marginBottom: "25px"};
     const [userName, setUsername] = useState("");
@@ -28,8 +33,15 @@ const Login = () => {
             return;
         }
 
-        setAuth(true);
-        navigate("/");
+        // TODO - do more validation
+
+        loginUser(userName, password);
+
+        setUsernameError(false);
+        setPasswordError(false);
+
+        // setAuth(true);
+        // navigate("/");
     }
 
     return (
@@ -38,6 +50,17 @@ const Login = () => {
             <Typography variant='h4'>
                 My Account
             </Typography>
+        </Box>
+
+        {/* errors */}
+        <Box align="center" mt={5}>
+            { isInvalidLogin && <Typography variant="p" sx={{color: red[500]}}>
+                Username or email not found!
+            </Typography> }
+
+            { isInvalidPassword && <Typography variant="p" sx={{color: red[500]}}>
+                Password is not correct!
+            </Typography> }
         </Box>
 
         <Box mt={5} align="center">

@@ -5,6 +5,7 @@ const express = require('express');
 const productCategoryRoutes = require('./routes/productCategoryRoutes');
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
+const sessionRoutes = require('./routes/sessionRoutes');
 
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use("/product-category", productCategoryRoutes);
 app.use("/product", productRoutes);
 app.use("/", userRoutes);
+app.use("/", sessionRoutes);
 
 
 app.listen('8081', () => {
