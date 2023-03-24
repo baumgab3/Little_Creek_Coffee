@@ -16,8 +16,18 @@ const Navbar = (props) => {
         <CssBaseline />
         <AppBar component="nav" elevation={0}>
             <TopNavbar />
-            <BigNavbar isLoggedIn={isLoggedIn} loggedInUser={loggedInUser} logoutUser={logoutUser} />
-            <MobileNavbar isLoggedIn={isLoggedIn} loggedInUser={loggedInUser} logoutUser={logoutUser} drawerWidth={props.drawerWidth} />
+
+            <BigNavbar
+            isLoggedIn={isLoggedIn}
+            loggedInUser={loggedInUser}
+            logoutUser={logoutUser}
+            
+            />
+            <MobileNavbar
+            isLoggedIn={isLoggedIn}
+            loggedInUser={loggedInUser}
+            logoutUser={logoutUser}
+            drawerWidth={props.drawerWidth} />
         </AppBar>
         <Toolbar />
         </Box>

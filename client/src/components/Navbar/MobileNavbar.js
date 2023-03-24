@@ -22,6 +22,7 @@ import Tooltip from '@mui/material/Tooltip';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import HomeIcon from '@mui/icons-material/Home';
 import CartContext from '../../context/CartContext';
+import UserContext from '../../context/UserContext';
 
 
 const MobileNavbar = (props) => {
@@ -31,6 +32,7 @@ const MobileNavbar = (props) => {
     const learningOptions = AdminUtil.getDropDownForLearning();
     const aboutUsOptions = AdminUtil.getDropDownForAboutUs();
     const {cartSize} = useContext(CartContext);
+    const {isLoggedIn, logoutUser} = useContext(UserContext);
 
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -76,6 +78,18 @@ const MobileNavbar = (props) => {
         // TODO
         setSearch("");
         handleDrawerToggle();
+    }
+
+    const [openLoggedIn, setOpenLoggedIn] = useState(false);
+
+    const handleLoggedInOpen = () => {
+        setOpenLoggedIn(!openLoggedIn);
+    }
+
+    const logout = () => {
+        setOpenLoggedIn(false);
+        setMobileOpen(false);
+        logoutUser();
     }
     
     const drawer = (
@@ -147,10 +161,35 @@ const MobileNavbar = (props) => {
                 </List>
             </Collapse>
 
+            
             {/* Login  */}
-            <ListItemButton component={Link} to="/my-account" >
+            {!isLoggedIn && <ListItemButton component={Link} to="/my-account" >
                <ListItemText onClick={handleDrawerToggle} primary="Login" />
+            </ListItemButton> }
+
+            {/* Logged In */}
+            {isLoggedIn && 
+            <>
+            <ListItemButton onClick={handleLoggedInOpen}>
+               <ListItemText primary="My Account" />
+                {openLoggedIn ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
+            <Collapse in={openLoggedIn} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                <ListItemButton component={Link} to="/" sx={{ pl: 4 }}>
+                    <ListItemText onClick={handleDrawerToggle} primary="Account Settings" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/" sx={{ pl: 4 }}>
+                    <ListItemText onClick={handleDrawerToggle} primary="My Orders" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/" sx={{ pl: 4 }}>
+                    <ListItemText onClick={logout}  primary="Logout" />
+                </ListItemButton>
+  
+                </List>
+            </Collapse>
+            </>
+            }
 
             {/* Geeks Report  */}
             <ListItem  disablePadding>

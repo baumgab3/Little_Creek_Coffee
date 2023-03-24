@@ -95,6 +95,7 @@ const BigNavbar = ({isLoggedIn, loggedInUser, logoutUser}) => {
     };
 
     // Vars and functions for logged in user  dropdown
+    // TODO - repeating code here, clean this up!
     const [anchorLoggedInEl, setAnchorLoggedInEl] = useState(null);
     const isLoggedInOpen = Boolean(anchorLoggedInEl);
 

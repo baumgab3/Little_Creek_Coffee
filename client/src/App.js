@@ -62,6 +62,7 @@ function App() {
     </CartProvider>
     </UserProvider>
     </Router>
+
     </>
   );
 }
