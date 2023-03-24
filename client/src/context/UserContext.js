@@ -1,13 +1,18 @@
 import { createContext, useState } from "react";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 const UserContext = createContext();
 
 export const UserProvider = ({children}) => {
 
+    const navigate = useNavigate();
+
     const [isAccountTaken, setIsAccountTaken] = useState(false);
     const [isInvalidPassword, setIsInvalidPassword] = useState(false);
     const [isInvalidLogin, setIsInvalidLogin] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [loggedInUser, setLoggedInUser] = useState(null);
 
     const loginUser = (givenLogin, password) => {
         let isEmail = false;
@@ -18,14 +23,18 @@ export const UserProvider = ({children}) => {
 
         const url = 'http://localhost:8081/my-account';
         const userInfo = {givenLogin, password, isEmail};
-
         
         axios.post(url, userInfo)
         .then((response) => {
             console.log(response);
 
-            setIsInvalidPassword(false);
-            setIsInvalidLogin(false);
+            if (response.status === 200) {
+                setIsInvalidPassword(false);
+                setIsInvalidLogin(false);
+                setIsLoggedIn(true);
+                setLoggedInUser(givenLogin);
+                navigate("/");
+            }
         })
         .catch(err => {
             console.log(err.response.status);
@@ -42,10 +51,24 @@ export const UserProvider = ({children}) => {
 
             // TODO - should add more error handling
         })
-
     }
 
     const logoutUser = () => {
+        const url = 'http://localhost:8081/logout';
+        
+        axios.post(url)
+        .then((response) => {
+            console.log(response);
+
+            if (response.status === 200) {
+                setIsLoggedIn(false);
+                setLoggedInUser(null);
+                navigate("/");
+            }
+        })
+        .catch(err => {
+            // TODO - should add more error handling
+        })
 
     }
 
@@ -63,7 +86,13 @@ export const UserProvider = ({children}) => {
         .then((response) => {
             console.log(response.status);
 
-            setIsAccountTaken(false);
+            if (response.status === 200) {
+                setIsAccountTaken(false);
+                setIsLoggedIn(true);
+                setLoggedInUser(givenLogin);
+                navigate("/");
+            }
+
         })
         .catch(err => {
             console.log(err.response.status);
@@ -77,7 +106,7 @@ export const UserProvider = ({children}) => {
 
  
     return (
-        <UserContext.Provider value={{ createNewUser, loginUser, isAccountTaken, isInvalidPassword, isInvalidLogin }}>
+        <UserContext.Provider value={{ createNewUser, loginUser, isAccountTaken, isInvalidPassword, isInvalidLogin, isLoggedIn, loggedInUser, logoutUser }}>
             {children}
         </UserContext.Provider>
     );

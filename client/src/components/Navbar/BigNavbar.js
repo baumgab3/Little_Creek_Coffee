@@ -16,7 +16,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { useAuth } from '../AuthProvider';
 import CartContext from '../../context/CartContext';
 
-const BigNavbar = () => {
+const BigNavbar = ({isLoggedIn, loggedInUser, logoutUser}) => {
     const { auth, user } = useAuth();
 
     const {cartSize, getCartTotal} = useContext(CartContext);
@@ -93,6 +93,22 @@ const BigNavbar = () => {
     const handleAboutUsDropDownClose = () => {
         setAnchorAboutUsEl(null);
     };
+
+    // Vars and functions for logged in user  dropdown
+    const [anchorLoggedInEl, setAnchorLoggedInEl] = useState(null);
+    const isLoggedInOpen = Boolean(anchorLoggedInEl);
+
+    const handleLoggedInDropDownClick = (event) => {
+        setAnchorLoggedInEl(event.currentTarget);
+    };
+
+    const handleLoggedInDropDownClose = () => {
+        setAnchorLoggedInEl(null);
+    };
+
+    const logout = () => {
+        logoutUser();
+    }
 
     return (
         <Toolbar sx={{ display: { xs: 'none', sm: 'none', md: 'none', lg: 'block' } }}>
@@ -266,9 +282,46 @@ const BigNavbar = () => {
         </Grid>
     
         <Grid item md={3} lg={3} sx={{textAlign: 'right'}} pt={1} >
-            {auth ?
-                <Button component={Link} to="my-account" color="inherit">Welcome {user}</Button> : <Button component={Link} to="my-account" color="inherit">Login</Button>
+            {isLoggedIn &&
+                // <Button component={Link} to="my-account" color="inherit">Welcome {loggedInUser}</Button>
+                <>
+                <Button
+                id="fade-button"
+                aria-controls={isLoggedInOpen ? 'fade-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={isLoggedInOpen ? 'true' : undefined}
+                onClick={handleLoggedInDropDownClick}
+                sx = {{color: '#fff' }}
+                endIcon={<KeyboardArrowDownIcon />}
+                >
+                  Welcome {loggedInUser}
+                </Button>
+                <Menu
+                id="fade-menu"
+                MenuListProps={{
+                'aria-labelledby': 'fade-button',
+                }}
+                anchorEl={anchorLoggedInEl}
+                open={isLoggedInOpen}
+                onClose={handleLoggedInDropDownClose}
+                >
+                    <ListItemButton component={Link} to="/">
+                        <ListItemText onClick={handleLoggedInDropDownClose}  primary="My Account" />
+                    </ListItemButton>
+                    <ListItemButton component={Link} to="/">
+                        <ListItemText onClick={handleLoggedInDropDownClose}  primary="My Orders" />
+                    </ListItemButton>
+                    <ListItemButton component={Link} onClick={logout}>
+                        <ListItemText onClick={handleLoggedInDropDownClose}  primary="Logout" />
+                    </ListItemButton>
+                </Menu>
+                </>
             }
+
+            {!isLoggedIn && 
+                <Button component={Link} to="my-account" color="inherit">Login</Button>
+            }
+
                 |
             <Button component={Link} to="cart" color="inherit" >
                 <Box sx={{marginRight: '2px'}}>${getCartTotal()}</Box>

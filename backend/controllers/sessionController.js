@@ -36,7 +36,12 @@ const login = async (req, res) => {
     return res.status(200).json({message: "Login was valid"});
 }
 
+const logout = async (req, res) => {
+    return res.status(200).json({message: "Logout was valid"});
+}
+
 
 module.exports = {
     login,
+    logout
 }

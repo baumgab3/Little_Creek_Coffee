@@ -15,7 +15,7 @@ const Login = () => {
     const { setAuth } = useAuth();
     const navigate = useNavigate();
 
-    const {loginUser, isInvalidPassword, isInvalidLogin} = useContext(UserContext);
+    const {loginUser, isInvalidPassword, isInvalidLogin, isLoggedIn} = useContext(UserContext);
 
 
     const textFieldStyle = {width: {xs: "100%", sm: "100%", md: "150%"} , marginBottom: "25px"};
@@ -39,6 +39,7 @@ const Login = () => {
 
         setUsernameError(false);
         setPasswordError(false);
+        console.log(isLoggedIn);
 
         // setAuth(true);
         // navigate("/");

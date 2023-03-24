@@ -23,9 +23,10 @@ function App() {
   const {auth} = useAuth();
 
   return (
+    <>
+    <Router>
     <UserProvider>
     <CartProvider>
-    <Router>
       <Navbar drawerWidth={drawerWidth} />
       
       <Box>
@@ -58,9 +59,10 @@ function App() {
         </Routes>
       </Box>
 
-    </Router>
     </CartProvider>
     </UserProvider>
+    </Router>
+    </>
   );
 }
 
