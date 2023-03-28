@@ -14,7 +14,7 @@ import * as AdminUtil from '../../util/AdminUtil';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { useAuth } from '../AuthProvider';
-import CartContext from '../../context/CartContext';
+import CartContext from '../context/CartContext';
 
 const BigNavbar = ({isLoggedIn, loggedInUser, logoutUser}) => {
     const { auth, user } = useAuth();
@@ -306,10 +306,10 @@ const BigNavbar = ({isLoggedIn, loggedInUser, logoutUser}) => {
                 open={isLoggedInOpen}
                 onClose={handleLoggedInDropDownClose}
                 >
-                    <ListItemButton component={Link} to="/">
+                    <ListItemButton component={Link} to="/my-account">
                         <ListItemText onClick={handleLoggedInDropDownClose}  primary="My Account" />
                     </ListItemButton>
-                    <ListItemButton component={Link} to="/">
+                    <ListItemButton component={Link} to="/my-orders">
                         <ListItemText onClick={handleLoggedInDropDownClose}  primary="My Orders" />
                     </ListItemButton>
                     <ListItemButton component={Link} onClick={logout}>
@@ -320,9 +320,8 @@ const BigNavbar = ({isLoggedIn, loggedInUser, logoutUser}) => {
             }
 
             {!isLoggedIn && 
-                <Button component={Link} to="my-account" color="inherit">Login</Button>
+                <Button component={Link} to="login" color="inherit">Login</Button>
             }
-
                 |
             <Button component={Link} to="cart" color="inherit" >
                 <Box sx={{marginRight: '2px'}}>${getCartTotal()}</Box>

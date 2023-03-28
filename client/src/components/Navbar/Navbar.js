@@ -5,7 +5,7 @@ import MobileNavbar from './MobileNavbar';
 import TopNavbar from './TopNavbar';
 import { Box } from '@mui/system';
 import { CssBaseline, Toolbar } from '@mui/material';
-import UserContext from '../../context/UserContext';
+import UserContext from '../context/UserContext';
 
 const Navbar = (props) => {
 

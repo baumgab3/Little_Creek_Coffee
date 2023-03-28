@@ -7,15 +7,16 @@ import Login from './components/Login';
 import Navbar from './components/Navbar/Navbar';
 import OurStory from './components/AboutUs/OurStory';
 import Sandbox from './components/Sandbox';
-import UserDashboard from './components/UserDashboard.js';
 import BrewingChange from './components/AboutUs/BrewingChange';
 import InsideLittleCreek from './components/AboutUs/InsideLittleCreek';
 import ShopContainer from './components/Shop/ShopContainer';
 import ProductShowcase from './components/Shop/ProductShowcase';
 import Checkout from './components/Checkout/Checkout';
-import { CartProvider } from './context/CartContext';
+import { CartProvider } from './components/context/CartContext';
 import CreateAccount from './components/CreateAccount';
-import { UserProvider } from './context/UserContext';
+import { UserProvider } from './components/context/UserContext';
+import UserAccount from './components/UserAccount';
+import UserOrders from './components/UserOrders';
 
 
 function App() {
@@ -35,8 +36,11 @@ function App() {
           <Route exact path="/home" element={ <Home/> } />
 
           {/* Accounts */}
-          {!auth ? <Route exact path="/my-account" element={ <Login/> } /> : <Route exact path="/my-account" element={ <UserDashboard/> } /> }
+          {/* {!auth ? <Route exact path="/my-account" element={ <Login/> } /> : <Route exact path="/my-account" element={ <UserDashboard/> } /> } */}
+          <Route exact path="/login" element={ <Login/> } /> 
           <Route exact path="/create-account" element={ <CreateAccount /> } /> 
+          <Route exact path="/my-account" element={ <UserAccount/> } />
+          <Route exact path="/my-orders" element={ <UserOrders /> } />
 
           {/* Shop */}
           <Route exact path="/product-category/:param1/:param2?" element={ <ShopContainer /> } /> 

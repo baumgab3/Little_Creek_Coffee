@@ -1,7 +1,7 @@
 import { Divider, Grid } from '@mui/material';
 import { Box, Container } from '@mui/system'
 import { useContext } from 'react'
-import CartContext from '../../context/CartContext';
+import CartContext from '../context/CartContext';
 import CartItem from './CartItem';
 
 const Checkout = () => {

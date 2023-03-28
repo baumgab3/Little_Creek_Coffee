@@ -6,7 +6,7 @@ import {  useParams, useSearchParams } from 'react-router-dom';
 import { Button, Drawer, Grid, Toolbar, Typography } from '@mui/material';
 import TuneIcon from '@mui/icons-material/Tune';
 import TabsSection from './TabsSection';
-import CartContext from '../../context/CartContext';
+import CartContext from '../context/CartContext';
 import ProductSelect from '../ProductSelect';
 import AddToCart from '../AddToCart';
 

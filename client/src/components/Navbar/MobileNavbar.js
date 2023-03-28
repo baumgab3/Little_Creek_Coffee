@@ -21,8 +21,8 @@ import MailIcon from '@mui/icons-material/Mail';
 import Tooltip from '@mui/material/Tooltip';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import HomeIcon from '@mui/icons-material/Home';
-import CartContext from '../../context/CartContext';
-import UserContext from '../../context/UserContext';
+import CartContext from '../context/CartContext';
+import UserContext from '../context/UserContext';
 
 
 const MobileNavbar = (props) => {
@@ -163,7 +163,7 @@ const MobileNavbar = (props) => {
 
             
             {/* Login  */}
-            {!isLoggedIn && <ListItemButton component={Link} to="/my-account" >
+            {!isLoggedIn && <ListItemButton component={Link} to="/login" >
                <ListItemText onClick={handleDrawerToggle} primary="Login" />
             </ListItemButton> }
 
@@ -176,10 +176,10 @@ const MobileNavbar = (props) => {
             </ListItemButton>
             <Collapse in={openLoggedIn} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                <ListItemButton component={Link} to="/" sx={{ pl: 4 }}>
+                <ListItemButton component={Link} to="/my-account" sx={{ pl: 4 }}>
                     <ListItemText onClick={handleDrawerToggle} primary="Account Settings" />
                 </ListItemButton>
-                <ListItemButton component={Link} to="/" sx={{ pl: 4 }}>
+                <ListItemButton component={Link} to="/my-orders" sx={{ pl: 4 }}>
                     <ListItemText onClick={handleDrawerToggle} primary="My Orders" />
                 </ListItemButton>
                 <ListItemButton component={Link} to="/" sx={{ pl: 4 }}>

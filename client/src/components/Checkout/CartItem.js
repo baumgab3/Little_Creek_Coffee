@@ -3,7 +3,7 @@ import { Box } from '@mui/system'
 import React, { useContext } from 'react'
 import { useRef } from 'react';
 import { useState } from 'react';
-import CartContext from '../../context/CartContext';
+import CartContext from '../context/CartContext';
 import { Link as RouterLink } from 'react-router-dom';
 import { slugify } from '../../util/AdminUtil';
 

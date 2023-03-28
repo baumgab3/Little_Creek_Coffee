@@ -7,7 +7,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { Button, Typography, Link } from '@mui/material';
 import { useAuth } from './AuthProvider';
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import UserContext from '../context/UserContext';
+import UserContext from './context/UserContext';
 import { red } from '@mui/material/colors';
 
 const CreateAccount = () => {
