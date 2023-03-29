@@ -23,17 +23,21 @@ const login = async (req, res) => {
     // get user info from table
     const sqlUserInfo = `SELECT * FROM users WHERE ${columnToUse}='${givenLogin}'`;
 
-    const hashedPassword = await query(sqlUserInfo).then(result => {
-        return result[0].Password;
-    });
+    const result = await query(sqlUserInfo);
+    const hashedPassword = result[0].Password;
 
     // verify hashedPassword in database to password used for login
     if (!await bcrypt.compare(password, hashedPassword )) {
         return res.status(401).json({message: "Failed login!"});
     }
 
+    const user = {
+        id: result[0].UserID,
+        user: result[0].UserName,
+    }
+
     // if here password and username was valid, return ok
-    return res.status(200).json({message: "Login was valid"});
+    return res.status(200).json({message: "Login was valid", user});
 }
 
 const logout = async (req, res) => {

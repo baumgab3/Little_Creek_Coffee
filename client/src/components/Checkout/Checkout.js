@@ -1,12 +1,14 @@
-import { Divider, Grid } from '@mui/material';
+import { Button, Divider, Grid, Typography } from '@mui/material';
 import { Box, Container } from '@mui/system'
 import { useContext } from 'react'
 import CartContext from '../context/CartContext';
+import UserContext from '../context/UserContext';
 import CartItem from './CartItem';
 
 const Checkout = () => {
     
-    const {cart, cartSize, getCartTotal, getUniqueID} = useContext(CartContext);
+    const {cart, cartSize, getCartTotal, getUniqueID, placeOrder} = useContext(CartContext);
+    const {isLoggedIn} = useContext(UserContext);
 
     if (!cart || cartSize === 0) {
         return (
@@ -47,6 +49,9 @@ const Checkout = () => {
 
                 <Box align="right" mt={1}>
                     SubTotal ({cartSize} items): ${getCartTotal()}
+                </Box>
+                <Box mt={4} align="right">
+                    {isLoggedIn && cartSize !== 0 && <Button onClick={placeOrder} variant="contained" mt={4}>Place Order</Button>}
                 </Box>
             </Grid>
 

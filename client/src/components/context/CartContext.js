@@ -1,5 +1,8 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { sha256 } from 'js-sha256';
+import axios from 'axios';
+import UserContext from "./UserContext";
+
 
 const CartContext = createContext();
 
@@ -19,6 +22,7 @@ export const CartProvider = ({children}) => {
 
     const [cart, setCart] = useState([]);
     const [cartSize, setCartSize] = useState(0);
+    const {user} = useContext(UserContext);
 
     const addToCart = (toAdd) => {
         const product = new CartItem(
@@ -108,8 +112,23 @@ export const CartProvider = ({children}) => {
         
     }
 
+    const placeOrder = () => {
+        console.log("placing order for", cart);
+        const url = 'http://localhost:8081/orders';
+        const order = {user, cart};
+        
+        axios.post(url, order)
+        .then((response) => {
+            setCart([]);
+            setCartSize(0);
+        })
+        .catch(err => {
+            // TODO - should add more error handling
+        })
+    }
+
     return (
-        <CartContext.Provider value={{cart, cartSize, addToCart, removeFromCart, updateItemQuantity, getCartTotal, getUniqueID}}>
+        <CartContext.Provider value={{cart, cartSize, addToCart, removeFromCart, updateItemQuantity, getCartTotal, getUniqueID, placeOrder}}>
             {children}
         </CartContext.Provider>
     );

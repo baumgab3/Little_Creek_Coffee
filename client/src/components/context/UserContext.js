@@ -13,6 +13,7 @@ export const UserProvider = ({children}) => {
     const [isInvalidLogin, setIsInvalidLogin] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loggedInUser, setLoggedInUser] = useState(null);
+    const [user, setUser] = useState({});
 
     const loginUser = (givenLogin, password) => {
         let isEmail = false;
@@ -26,13 +27,14 @@ export const UserProvider = ({children}) => {
         
         axios.post(url, userInfo)
         .then((response) => {
-            console.log(response);
+            console.log(response.data.user);
 
             if (response.status === 200) {
                 setIsInvalidPassword(false);
                 setIsInvalidLogin(false);
                 setIsLoggedIn(true);
                 setLoggedInUser(givenLogin);
+                setUser(response.data.user);
                 navigate("/");
             }
         })
@@ -104,9 +106,25 @@ export const UserProvider = ({children}) => {
         })
     }
 
+    const getUserOrders = () => {
+
+        const url = `http://localhost:8081/orders/${user.id}`;
+
+        console.log(user.id);
+
+        axios.get(url, user.id)
+        .then((response) => {
+
+        })
+        .catch(err => {
+            console.log("error fetching user orders", err);
+        })
+
+    }
+
  
     return (
-        <UserContext.Provider value={{ createNewUser, loginUser, isAccountTaken, isInvalidPassword, isInvalidLogin, isLoggedIn, loggedInUser, logoutUser }}>
+        <UserContext.Provider value={{ createNewUser, loginUser, isAccountTaken, isInvalidPassword, isInvalidLogin, isLoggedIn, loggedInUser, logoutUser, user, getUserOrders }}>
             {children}
         </UserContext.Provider>
     );
