@@ -4,6 +4,6 @@ const orderController = require('../controllers/orderController');
 const router = express.Router();
 
 router.post("/", orderController.placeOrder);
-router.get("/:userId", orderController.getPastOrdersPreview);
+router.get("/:userId", orderController.getOrders);
 
 module.exports = router;

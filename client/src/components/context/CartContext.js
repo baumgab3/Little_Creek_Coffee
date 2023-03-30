@@ -116,6 +116,7 @@ export const CartProvider = ({children}) => {
         console.log("placing order for", cart);
         const url = 'http://localhost:8081/orders';
         const order = {user, cart};
+        console.log(cart);
         
         axios.post(url, order)
         .then((response) => {

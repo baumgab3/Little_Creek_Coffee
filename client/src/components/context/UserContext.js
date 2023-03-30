@@ -14,6 +14,7 @@ export const UserProvider = ({children}) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loggedInUser, setLoggedInUser] = useState(null);
     const [user, setUser] = useState({});
+    const [orders, setOrders] = useState([]);
 
     const loginUser = (givenLogin, password) => {
         let isEmail = false;
@@ -114,7 +115,7 @@ export const UserProvider = ({children}) => {
 
         axios.get(url, user.id)
         .then((response) => {
-
+            setOrders(response.data);
         })
         .catch(err => {
             console.log("error fetching user orders", err);
@@ -124,7 +125,20 @@ export const UserProvider = ({children}) => {
 
  
     return (
-        <UserContext.Provider value={{ createNewUser, loginUser, isAccountTaken, isInvalidPassword, isInvalidLogin, isLoggedIn, loggedInUser, logoutUser, user, getUserOrders }}>
+        <UserContext.Provider value={{ 
+            createNewUser,
+            loginUser,
+            isAccountTaken,
+            isInvalidPassword,
+            isInvalidLogin,
+            isLoggedIn,
+            loggedInUser,
+            logoutUser,
+            user,
+            getUserOrders,
+            orders,
+        }}>
+
             {children}
         </UserContext.Provider>
     );

@@ -1,13 +1,19 @@
 import { Box, Container } from '@mui/system'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import UserContext from './context/UserContext';
 
 const UserOrders = () => {
 
-    const {getUserOrders} = useContext(UserContext);
+    const {getUserOrders, orders} = useContext(UserContext);
 
     useEffect(() => {
-        getUserOrders();
+
+        const loadOrders = () => {
+            getUserOrders();
+        }
+
+        loadOrders();
+
     }, []);
 
     return (
