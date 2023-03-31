@@ -1,7 +1,7 @@
 const conn = require('../database/connection');
 const util = require('util');
 const crypto = require('crypto');
-const { log } = require('console');
+const {getFormattedDate} = require("../ServerUtil");
 
 const query = util.promisify(conn.query).bind(conn);
 
@@ -13,12 +13,21 @@ const placeOrder = async (req, res) => {
     }
 
     const user = req.body.user;
+    const orderDetails = req.body.orderDetails;
 
     try {
         // create id for order
         const orderId = crypto.randomUUID();
-        // orders table just needs a new id; status and timestamp are set in database
-        const sqlInsert = `INSERT INTO orders (OrderId, UserId) VALUES ('${orderId}', '${user.id}')`;
+        // get currenet date and store it as yyyy-mm-dd
+        const dateObj = new Date();
+        const year = dateObj.getFullYear();
+        const month = dateObj.getMonth() + 1;
+        const day = dateObj.getDate();
+        const date = `${year}-${month}-${day}`;
+        
+        const sqlInsert = `INSERT INTO orders (OrderId, Quantity, SubTotal, PlacedDate, UserId) 
+                            VALUES ('${orderId}', '${orderDetails.quantity}', '${orderDetails.subtotal}', '${date}', '${user.id}')`;
+
         await query(sqlInsert); 
 
         // each item in cart needs to be placed in table order_items and associated with table orders
@@ -38,8 +47,40 @@ const placeOrder = async (req, res) => {
         return res.status(200).json({message: "Order placed"});
 
     } catch (err) {
+        console.log(err);
         return res.status(500).json({message: "Server Error", error: err});
     }
+}
+
+
+const getOrdersPreview = async (req, res) => {
+
+    try {
+        const userId = req.params.userId;
+        const sqlStatement = `SELECT * FROM orders WHERE UserId = '${userId}'`;
+        const orders = await query(sqlStatement);
+
+        const returnOrders = [];
+
+        for (const order of orders) {
+            const date = getFormattedDate(order.PlacedDate);
+            const status = order.Status;
+            const quantity = order.Quantity;
+            const total = order.SubTotal;
+
+            const pastOrder = {date, status, total, quantity};
+
+            returnOrders.push(pastOrder);
+        }
+
+
+        return res.send(returnOrders);
+
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({message: "Server Error", error: err});
+    }
+
 }
 
 
@@ -88,5 +129,6 @@ const getOrders = async (req, res) => {
 
 module.exports = {
     placeOrder,
+    getOrdersPreview,
     getOrders,
 }

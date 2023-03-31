@@ -107,7 +107,7 @@ export const UserProvider = ({children}) => {
         })
     }
 
-    const getUserOrders = () => {
+    const getOrdersPreview = () => {
 
         const url = `http://localhost:8081/orders/${user.id}`;
 
@@ -135,7 +135,7 @@ export const UserProvider = ({children}) => {
             loggedInUser,
             logoutUser,
             user,
-            getUserOrders,
+            getOrdersPreview,
             orders,
         }}>
 

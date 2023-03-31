@@ -4,15 +4,16 @@ import UserContext from './context/UserContext';
 
 const UserOrders = () => {
 
-    const {getUserOrders, orders} = useContext(UserContext);
+    const {getOrdersPreview, orders} = useContext(UserContext);
 
     useEffect(() => {
 
         const loadOrders = () => {
-            getUserOrders();
+            getOrdersPreview();
         }
 
         loadOrders();
+        console.log(orders);
 
     }, []);
 

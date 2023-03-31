@@ -62,8 +62,40 @@ const getPriceRange = async (productId) => {
 }
 
 
+// takes date as "yyyy-mm-dd" and returns something like 'March 30, 2023'
+const getFormattedDate = (date) => {
+   const dateParts = JSON.stringify(date).split("-");
+   console.log(date);
+   const year = dateParts[0];
+   const month = getDayAsMonth(dateParts[1]);
+   const day = dateParts[2];
+
+   return `${year} ${month}, ${day}`;
+}
+
+const getDayAsMonth = (day) => {
+    // replace padded 0's with blanks
+    day = day.startsWith("0") ? day.replaceAll("0", "") : day;
+
+    switch (day) {
+        case "1": return "January";
+        case "2": return "February";
+        case "3": return "March";
+        case "4": return "April";
+        case "5": return "May";
+        case "6": return "June";
+        case "7": return "July";
+        case "8": return "August";
+        case "9": return "September";
+        case "10": return "October";
+        case "11": return "November";
+        case "12": return "December";
+    }
+}
+
 module.exports = {
     getPriceRange,
     getPriceDropDownOptions,
-    getRowCount
+    getRowCount,
+    getFormattedDate
 }

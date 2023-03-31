@@ -113,11 +113,10 @@ export const CartProvider = ({children}) => {
     }
 
     const placeOrder = () => {
-        console.log("placing order for", cart);
         const url = 'http://localhost:8081/orders';
-        const order = {user, cart};
-        console.log(cart);
-        
+        const orderDetails = {"quantity": cartSize, "subtotal": getCartTotal()};
+        const order = {user, cart, orderDetails};
+
         axios.post(url, order)
         .then((response) => {
             setCart([]);
