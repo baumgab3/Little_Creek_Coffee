@@ -13,9 +13,9 @@ export const UserProvider = ({children}) => {
     const [isInvalidLogin, setIsInvalidLogin] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loggedInUser, setLoggedInUser] = useState(null);
-    const [user, setUser] = useState({});
-    const [orders, setOrders] = useState([]);
-    const [pastOrder, setPastOrder] = useState([]);
+    const [user, setUser] = useState(null);
+    const [orders, setOrders] = useState(null);
+    const [pastOrder, setPastOrder] = useState(null);
 
     const loginUser = (givenLogin, password) => {
         let isEmail = false;
@@ -29,7 +29,6 @@ export const UserProvider = ({children}) => {
         
         axios.post(url, userInfo)
         .then((response) => {
-            console.log(response.data.user);
 
             if (response.status === 200) {
                 setIsInvalidPassword(false);
@@ -62,11 +61,13 @@ export const UserProvider = ({children}) => {
         
         axios.post(url)
         .then((response) => {
-            console.log(response);
 
             if (response.status === 200) {
                 setIsLoggedIn(false);
                 setLoggedInUser(null);
+                setUser(null);
+                setPastOrder(null)
+                setOrders(null);
                 navigate("/");
             }
         })
@@ -88,7 +89,6 @@ export const UserProvider = ({children}) => {
         
         axios.post(url, userInfo)
         .then((response) => {
-            console.log(response.status);
 
             if (response.status === 200) {
                 setIsAccountTaken(false);
@@ -109,7 +109,7 @@ export const UserProvider = ({children}) => {
     }
 
     const getOrdersPreview = () => {
-        setPastOrder([]);
+        setPastOrder({});
 
         const url = `http://localhost:8081/orders/${user.id}`;
 

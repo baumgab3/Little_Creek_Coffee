@@ -62,7 +62,7 @@ const getOrdersPreview = async (req, res) => {
 
     try {
         const userId = req.params.userId;
-        const sqlStatement = `SELECT * FROM orders WHERE UserId = '${userId}'`;
+        const sqlStatement = `SELECT * FROM orders WHERE UserId = '${userId}' ORDER BY PlacedDate DESC`;
         const orders = await query(sqlStatement);
 
         const returnOrders = [];
@@ -94,10 +94,6 @@ const getOrders = async (req, res) => {
     
     try {
         const userId = req.params.userId;
-        // const sqlStatement = `SELECT * FROM orders JOIN order_items ON orders.OrderId = order_items.OrderId WHERE orders.UserId = '${userId}'`;
-        // const orders = await query(sqlStatement);
-        // return res.send(orders);
-
         // get all orders placed from user
         const sqlOrderIdSelect = `SELECT * FROM orders WHERE UserId = '${userId}' ORDER BY PlacedDate`;
         const orders = await query(sqlOrderIdSelect);
@@ -156,8 +152,27 @@ const getOrderById = async (req, res) => {
     
             returnOrders.push(item);
         }
+
+        // add Status, SubTotal and PlacedDate to returnOrers
+        const sqlOrderSelect = `SELECT OrderId, Status, SubTotal, PlacedDate FROM orders WHERE OrderId = '${orderId}'`;
+        const orderReturn = await query(sqlOrderSelect);
+        const orderInfo = orderReturn[0];
+        const info = {
+            id: orderInfo.OrderId,
+            status: orderInfo.Status,
+            subTotal: orderInfo.SubTotal,
+            placedDate: getFormattedDate(orderInfo.PlacedDate)
+        }
+
+        const orderResult = {
+            orderDetails : info,
+            order: returnOrders,
+        }
+
+        console.log(orderResult);
     
-        res.send(returnOrders);
+        // res.send(returnOrders);
+        res.send(orderResult);
 
     } catch (err) {
         console.log("getOrderById error", err);

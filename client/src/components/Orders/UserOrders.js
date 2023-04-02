@@ -18,12 +18,20 @@ const UserOrders = () => {
         
     }, []);
 
+    if (orders && orders.length === 0) {
+        return (
+            <Container>
+                <Box mt={10}>
+                    No Orders have been placed
+                </Box>
+            </Container>
+        )
+    }
+
     return (
         <Container>
         {orders && 
         <Box mt={10}>
-            Past Order
-
             <Grid container mt={10} align="left" mb={4} sx={{textTransform: 'uppercase', fontWeight: 'bold'}}>
                 <Grid item xs={3}>
                     <Typography>
