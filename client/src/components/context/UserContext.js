@@ -15,6 +15,7 @@ export const UserProvider = ({children}) => {
     const [loggedInUser, setLoggedInUser] = useState(null);
     const [user, setUser] = useState({});
     const [orders, setOrders] = useState([]);
+    const [pastOrder, setPastOrder] = useState([]);
 
     const loginUser = (givenLogin, password) => {
         let isEmail = false;
@@ -108,14 +109,24 @@ export const UserProvider = ({children}) => {
     }
 
     const getOrdersPreview = () => {
+        setPastOrder([]);
 
         const url = `http://localhost:8081/orders/${user.id}`;
-
-        console.log(user.id);
 
         axios.get(url, user.id)
         .then((response) => {
             setOrders(response.data);
+        })
+        .catch(err => {
+            console.log("error fetching user orders", err);
+        })
+    }
+
+    const getOrderById = (orderId) => {
+        const url = `http://localhost:8081/orders/view-order/${orderId}`;
+        axios.get(url)
+        .then((response) => {
+            setPastOrder(response.data);
         })
         .catch(err => {
             console.log("error fetching user orders", err);
@@ -137,6 +148,8 @@ export const UserProvider = ({children}) => {
             user,
             getOrdersPreview,
             orders,
+            getOrderById,
+            pastOrder
         }}>
 
             {children}

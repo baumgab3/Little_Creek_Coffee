@@ -7,8 +7,7 @@ import CartContext from '../context/CartContext';
 import { Link as RouterLink } from 'react-router-dom';
 import { slugify } from '../../util/AdminUtil';
 
-const CartItem = ({item}) => {
-
+const CartItem = ({item, isPlaced}) => {
     const [quantity, setQuantity] = useState(item.quantity);
     const [subTotal, setSubTotal] = useState(item.quantity * item.price);
     const total = useRef(item.quantity);
@@ -28,7 +27,7 @@ const CartItem = ({item}) => {
     }
 
     
-    console.log(url);
+    // console.log(url);
 
     const handleQuantityChange = (event) => {
         total.value = event.target.value;
@@ -93,6 +92,7 @@ const CartItem = ({item}) => {
                             inputProps={{ 'aria-label': 'Without label' }}
                             defaultValue={item.quantity}
                             value={quantity}
+                            disabled={isPlaced === true ? true : false}
                             onChange={handleQuantityChange}
                         >
                             <MenuItem value={0}>0</MenuItem>                            

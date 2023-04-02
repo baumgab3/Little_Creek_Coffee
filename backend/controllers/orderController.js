@@ -36,6 +36,11 @@ const placeOrder = async (req, res) => {
         for (const cartItem of cart) {
             //get new id for order_items
             const orderItemId = crypto.randomUUID();
+            
+            // not all items have description, prevent null from being put in db
+            if (cartItem.description === null) {
+                cartItem.description = "";
+            }
 
             const sqlItemInsert = `INSERT INTO order_items (OrderItemId, ProductName, Category, Quantity, IndividualPrice, Description, Grind, ProductId, OrderId) 
                                       VALUES ('${orderItemId}', '${cartItem.name}', '${cartItem.category}', '${cartItem.quantity}', '${cartItem.price}', 
@@ -63,12 +68,13 @@ const getOrdersPreview = async (req, res) => {
         const returnOrders = [];
 
         for (const order of orders) {
+            const id = order.OrderId;
             const date = getFormattedDate(order.PlacedDate);
             const status = order.Status;
             const quantity = order.Quantity;
             const total = order.SubTotal;
 
-            const pastOrder = {date, status, total, quantity};
+            const pastOrder = {id, date, status, total, quantity};
 
             returnOrders.push(pastOrder);
         }
@@ -105,8 +111,6 @@ const getOrders = async (req, res) => {
             const sqlSelect = `SELECT * FROM order_items WHERE OrderId = '${currentOrder.OrderId}'`;
             const orderItems = await query(sqlSelect);
 
-            console.log(orderItems);
-
             // build up object
             const orderObj = {
                 "placeDate" : currentOrder.PlacedDate,
@@ -122,8 +126,42 @@ const getOrders = async (req, res) => {
     } catch (err) {
         return res.status(500).json({message: "Server Error", error: err});
     }
+}
 
 
+const getOrderById = async (req, res) => {
+    try {
+
+        const orderId = req.params.orderId;
+        const sqlSelect = `SELECT * FROM order_items WHERE OrderId = '${orderId}'`;
+        const orders = await query(sqlSelect);
+        const returnOrders = [];
+    
+        for (const order of orders) {
+            const item = {
+                id: order.OrderItemId,
+                category: order.Category,
+                name: order.ProductName,
+                price: order.IndividualPrice,
+                quantity: order.Quantity
+            }
+
+            if (order.Grind) {
+                item.grind = order.Grind;
+            }
+
+            if (order.Description) {
+                item.description = order.Description;
+            }
+    
+            returnOrders.push(item);
+        }
+    
+        res.send(returnOrders);
+
+    } catch (err) {
+        console.log("getOrderById error", err);
+    }
 }
 
 
@@ -131,4 +169,5 @@ module.exports = {
     placeOrder,
     getOrdersPreview,
     getOrders,
+    getOrderById
 }

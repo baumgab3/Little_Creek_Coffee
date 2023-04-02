@@ -65,12 +65,12 @@ const getPriceRange = async (productId) => {
 // takes date as "yyyy-mm-dd" and returns something like 'March 30, 2023'
 const getFormattedDate = (date) => {
    const dateParts = JSON.stringify(date).split("-");
-   console.log(date);
    const year = dateParts[0];
    const month = getDayAsMonth(dateParts[1]);
    const day = dateParts[2];
+   const returnDate = `${year} ${month}, ${day}`.replaceAll("\"", "");
 
-   return `${year} ${month}, ${day}`;
+   return returnDate;
 }
 
 const getDayAsMonth = (day) => {

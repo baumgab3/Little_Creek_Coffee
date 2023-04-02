@@ -16,7 +16,8 @@ import { CartProvider } from './components/context/CartContext';
 import CreateAccount from './components/CreateAccount';
 import { UserProvider } from './components/context/UserContext';
 import UserAccount from './components/UserAccount';
-import UserOrders from './components/UserOrders';
+import PastOrder from './components/Orders/PastOrder';
+import UserOrders from './components/Orders/UserOrders';
 
 
 function App() {
@@ -41,6 +42,8 @@ function App() {
           <Route exact path="/create-account" element={ <CreateAccount /> } /> 
           <Route exact path="/my-account" element={ <UserAccount/> } />
           <Route exact path="/my-orders" element={ <UserOrders /> } />
+          <Route exact path="/my-orders/:orderId" element={ <PastOrder /> } />
+          
 
           {/* Shop */}
           <Route exact path="/product-category/:param1/:param2?" element={ <ShopContainer /> } /> 

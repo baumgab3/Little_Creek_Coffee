@@ -135,3 +135,4 @@ export const CartProvider = ({children}) => {
 }
 
 export default CartContext;
+// export default CartItem;
