@@ -11,11 +11,10 @@ const PastOrder = () => {
     const {orderId} = useParams();
     const {getOrderById, pastOrder} = useContext(UserContext);
     const orderStyle = {
-        backgroundColor: 'yellow',
+        backgroundColor: yellow[500],
     }
 
     useEffect(() => {
-
         const loadOrder = () => {
             getOrderById(orderId);
         }

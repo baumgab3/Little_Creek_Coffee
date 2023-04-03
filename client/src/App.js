@@ -18,6 +18,8 @@ import { UserProvider } from './components/context/UserContext';
 import UserAccount from './components/UserAccount';
 import PastOrder from './components/Orders/PastOrder';
 import UserOrders from './components/Orders/UserOrders';
+import UserAddress from './components/Orders/UserAddress';
+import UserAccountDetails from './components/Orders/UserAccountDetails';
 
 
 function App() {
@@ -43,6 +45,9 @@ function App() {
           <Route exact path="/my-account" element={ <UserAccount/> } />
           <Route exact path="/my-orders" element={ <UserOrders /> } />
           <Route exact path="/my-orders/:orderId" element={ <PastOrder /> } />
+          <Route exact path="/my-account/edit-address" element={ <UserAddress /> } />
+          <Route exact path="/my-account/edit-account" element={ <UserAccountDetails /> } />
+
           
 
           {/* Shop */}

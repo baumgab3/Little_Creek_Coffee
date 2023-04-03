@@ -1,8 +1,9 @@
-import { Grid, Typography } from '@mui/material';
+import { Divider, Grid, Typography } from '@mui/material';
 import { Box, Container } from '@mui/system'
 import React, { useContext, useEffect, useState } from 'react'
 import UserContext from '../context/UserContext';
 import PastOrderPreview from './PastOrderPreview';
+import UserDrawer from './UserDrawer';
 
 const UserOrders = () => {
 
@@ -32,32 +33,54 @@ const UserOrders = () => {
         <Container>
         {orders && 
         <Box mt={10}>
-            <Grid container mt={10} align="left" mb={4} sx={{textTransform: 'uppercase', fontWeight: 'bold'}}>
-                <Grid item xs={3}>
-                    <Typography>
-                        Date
-                    </Typography>
+            <Grid container spacing={2}>
+
+                <Grid item xs={12} sm={12} md={3}>
+                    <UserDrawer />
                 </Grid>
-                <Grid item xs={3} >
-                    <Typography>
-                        Status
-                    </Typography>
+
+                <Grid item xs={12} sm={12} md={9} sx={{marginTop: {xs :"15px", sm: "15px", md: "0"}}}>
+
+                    <Grid container mb={2} align="left" sx={{textTransform: 'uppercase'}}>
+                        <Grid item xs={3}>
+                            <Typography sx={{fontWeight: 'bold'}}>
+                                Date
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Typography sx={{fontWeight: 'bold'}}>
+                                Status
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Typography sx={{fontWeight: 'bold'}}>
+                                Total
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={3} align="right">
+                            <Typography sx={{fontWeight: 'bold'}}>
+                                Actions
+                            </Typography>
+                        </Grid>
+
+                    </Grid>
+
+                    <Box mt={-1} mb={2} >
+                        <Divider sx={{ borderBottomWidth: 5 }} />
+                    </Box>
+
+                
+                    {orders.map((order) => {
+                        return <PastOrderPreview key={order.id} order={order} />
+                    })}
+
                 </Grid>
-                <Grid item xs={3}>
-                    <Typography>
-                        Total
-                    </Typography>
-                </Grid>
-                <Grid item xs={3}>
-                    <Typography>
-                        Actions
-                    </Typography>
-                </Grid>
+
             </Grid>
 
-            {orders.map((order) => {
+            {/* {orders.map((order) => {
                 return <PastOrderPreview key={order.id} order={order} />
-            })}
+            })} */}
 
         </Box>
         }

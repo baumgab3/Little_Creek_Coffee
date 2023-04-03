@@ -21,7 +21,7 @@ const PastOrderPreview = ({order}) => {
                 <Grid item xs={3}>
                     ${order.total.toFixed(2)} for {order.quantity} {itemText}
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={3} align="right">
                     <Button component={RouterLink} to={`/my-orders/${order.id}`} variant="contained" >View</Button>   
                 </Grid>
             </Grid>
