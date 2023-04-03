@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import  { useAuth } from './components/AuthProvider';
 import Contact from './components/AboutUs/Contact';
 import Home from "./components/Home/Home";
 import Login from './components/Login';
@@ -15,16 +14,15 @@ import Checkout from './components/Checkout/Checkout';
 import { CartProvider } from './components/context/CartContext';
 import CreateAccount from './components/CreateAccount';
 import { UserProvider } from './components/context/UserContext';
-import UserAccount from './components/UserAccount';
 import PastOrder from './components/Orders/PastOrder';
 import UserOrders from './components/Orders/UserOrders';
 import UserAddress from './components/Orders/UserAddress';
 import UserAccountDetails from './components/Orders/UserAccountDetails';
+import Dashboard from './components/Dashboard';
 
 
 function App() {
   const drawerWidth = 240;
-  const {auth} = useAuth();
 
   return (
     <>
@@ -39,10 +37,9 @@ function App() {
           <Route exact path="/home" element={ <Home/> } />
 
           {/* Accounts */}
-          {/* {!auth ? <Route exact path="/my-account" element={ <Login/> } /> : <Route exact path="/my-account" element={ <UserDashboard/> } /> } */}
           <Route exact path="/login" element={ <Login/> } /> 
           <Route exact path="/create-account" element={ <CreateAccount /> } /> 
-          <Route exact path="/my-account" element={ <UserAccount/> } />
+          <Route exact path="/my-account" element={ <Dashboard/> } />
           <Route exact path="/my-orders" element={ <UserOrders /> } />
           <Route exact path="/my-orders/:orderId" element={ <PastOrder /> } />
           <Route exact path="/my-account/edit-address" element={ <UserAddress /> } />

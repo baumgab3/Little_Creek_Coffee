@@ -26,10 +26,10 @@ export const UserProvider = ({children}) => {
 
         const url = 'http://localhost:8081/my-account';
         const userInfo = {givenLogin, password, isEmail};
-        
+        console.log("here");
         axios.post(url, userInfo)
         .then((response) => {
-
+            console.log(response);
             if (response.status === 200) {
                 setIsInvalidPassword(false);
                 setIsInvalidLogin(false);

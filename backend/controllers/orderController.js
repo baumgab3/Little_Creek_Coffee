@@ -168,8 +168,6 @@ const getOrderById = async (req, res) => {
             orderDetails : info,
             order: returnOrders,
         }
-
-        console.log(orderResult);
     
         // res.send(returnOrders);
         res.send(orderResult);

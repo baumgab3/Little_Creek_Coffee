@@ -13,14 +13,11 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import * as AdminUtil from '../../util/AdminUtil';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { useAuth } from '../AuthProvider';
 import CartContext from '../context/CartContext';
 
 const BigNavbar = ({isLoggedIn, loggedInUser, logoutUser}) => {
-    const { auth, user } = useAuth();
 
     const {cartSize, getCartTotal} = useContext(CartContext);
-
 
     const shopOptions = AdminUtil.getDropDownForShop();
     const cafeOptions = AdminUtil.getDropDownForCafes();

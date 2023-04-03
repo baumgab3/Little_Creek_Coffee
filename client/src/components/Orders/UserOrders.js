@@ -31,7 +31,6 @@ const UserOrders = () => {
 
     return (
         <Container>
-        {orders && 
         <Box mt={10}>
             <Grid container spacing={2}>
 
@@ -70,7 +69,7 @@ const UserOrders = () => {
                     </Box>
 
                 
-                    {orders.map((order) => {
+                    {orders && orders.map((order) => {
                         return <PastOrderPreview key={order.id} order={order} />
                     })}
 
@@ -83,8 +82,6 @@ const UserOrders = () => {
             })} */}
 
         </Box>
-        }
-
         </Container>
     )
 }
