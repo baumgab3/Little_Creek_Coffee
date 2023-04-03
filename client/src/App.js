@@ -16,9 +16,10 @@ import CreateAccount from './components/CreateAccount';
 import { UserProvider } from './components/context/UserContext';
 import PastOrder from './components/Orders/PastOrder';
 import UserOrders from './components/Orders/UserOrders';
-import UserAddress from './components/Orders/UserAddress';
+import UserAddress from './components/User/UserAddress';
 import UserAccountDetails from './components/Orders/UserAccountDetails';
 import Dashboard from './components/Dashboard';
+import AddressForm from './components/User/AddressForm';
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
           <Route exact path="/my-orders/:orderId" element={ <PastOrder /> } />
           <Route exact path="/my-account/edit-address" element={ <UserAddress /> } />
           <Route exact path="/my-account/edit-account" element={ <UserAccountDetails /> } />
+          <Route exact path="/my-account/edit-address/:addressType" element={ <AddressForm /> } />
 
           
 

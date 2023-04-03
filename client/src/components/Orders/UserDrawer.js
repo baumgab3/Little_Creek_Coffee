@@ -20,6 +20,8 @@ const UserDrawer = () => {
                 break;
 
             case "/my-account/edit-address":
+            case "/my-account/edit-address/billing":
+            case "/my-account/edit-address/shipping":
                 setActive("addresses");
                 break;
 
