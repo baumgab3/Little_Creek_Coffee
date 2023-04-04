@@ -423,6 +423,64 @@ const getCoreCommitments = () => {
     return commitments;
 }
 
+// returns states for dropdown in user accounts
+const getStates = () => {
+    const states = [
+        "Alabama",
+        "Alaska",
+        "Arizona",
+        "Arkansas",
+        "California",
+        "Colorado",
+        "Connecticut",
+        "Delaware",
+        "Florida",
+        "Georgia",
+        "Hawaii",
+        "Idaho",
+        "Illinois",
+        "Indiana",
+        "Iowa",
+        "Kansas",
+        "Kentucky",
+        "Louisiana",
+        "Maine",
+        "Maryland",
+        "Massachusetts",
+        "Michigan",
+        "Minnesota",
+        "Mississippi",
+        "Missouri",
+        "Montana",
+        "Nebraska",
+        "Nevada",
+        "NewHampshire",
+        "NewJersey",
+        "NewMexico",
+        "NewYork",
+        "NorthCarolina",
+        "NorthDakota",
+        "Ohio",
+        "Oklahoma",
+        "Oregon",
+        "Pennsylvania",
+        "RhodeIsland",
+        "SouthCarolina",
+        "SouthDakota",
+        "Tennessee",
+        "Texas",
+        "Utah",
+        "Vermont",
+        "Virginia",
+        "Washington",
+        "WestVirginia",
+        "Wisconsin",
+        "Wyoming",
+    ]
+
+    return states;
+}
+
 
 export {
     slugify,
@@ -443,5 +501,6 @@ export {
     getFoundingOwners,
     getEmployeeOwners,
     getCoffeeGeeks,
-    getCoreCommitments
+    getCoreCommitments,
+    getStates
 };
