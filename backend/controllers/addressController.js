@@ -4,9 +4,6 @@ const crypto = require('crypto');
 
 const query = util.promisify(conn.query).bind(conn);
 
-// The two get functions in the file could easilty be put into just one function, same for save functions.
-// I like the idea of distinct functions for now.
-
 const getShippingAddressById = async (req, res) => {
 
     try {
@@ -117,15 +114,12 @@ const saveShippingAddress = async (req, res) => {
         const user = req.body.user;
         const addressObj = req.body.addressToUpdate;
 
-        console.log(addressObj);
-
         const sqlSelect = `SELECT * FROM shipping_addresses WHERE UserId='${user.id}'`;
         const queryResult = await query(sqlSelect);
 
         // if no array (a recored in db) is returned, then need to do an insert
         if (!queryResult || queryResult.length === 0) {
             // create id for new addreess
-            console.log("new shipping address");
             const shippingId = crypto.randomUUID();
             const sqlInsert = `INSERT INTO shipping_addresses (ShippingId, FirstName, LastName, CompanyName, StreetAddress, ApartmentSuit, City, State, ZipCode, UserId) 
                                 VALUES ('${shippingId}', '${addressObj.firstName}', '${addressObj.lastName}', '${addressObj.companyName}',
@@ -136,7 +130,6 @@ const saveShippingAddress = async (req, res) => {
             return res.status(200).json({message: "New shipping address created"});
         }
 
-        console.log("update shipping address");
         // something was in array, so user is updating their address. No insert now, just an update
         const sqlUpdate = `UPDATE shipping_addresses SET
                             FirstName='${addressObj.firstName}', LastName='${addressObj.lastName}', CompanyName='${addressObj.companyName}',
@@ -228,11 +221,42 @@ const getBillingAndShippingInfo = async (req, res)=> {
     }
 }
 
+const deleteBillingAddress = async (req, res) => {
+
+    try {
+        const userId = req.params.userId;
+        const sqlDelete = `DELETE FROM billing_addresses WHERE UserId='${userId}' LIMIT 1`;
+        await query(sqlDelete);
+
+        return res.status(200).json({message: "Billing Address has been deleted"});
+
+    } catch (err) {
+        console.log("deleteBillingAddress server error", err);
+        return res.status(500).json({message: "Server Error", error: err});
+    }
+}
+
+const deleteShippingAddress = async (req, res) => {
+
+    try {
+        const userId = req.params.userId;
+        const sqlDelete = `DELETE FROM shipping_addresses WHERE UserId='${userId}' LIMIT 1`;
+        await query(sqlDelete);
+
+        return res.status(200).json({message: "Shipping Address has been deleted"});
+
+    } catch (err) {
+        console.log("deleteShippingAddress server error", err);
+        return res.status(500).json({message: "Server Error", error: err});
+    }
+}
 
 module.exports = {
     getShippingAddressById,
     getBillingAddressById,
     saveShippingAddress,
     saveBillingAddress,
-    getBillingAndShippingInfo
+    getBillingAndShippingInfo,
+    deleteBillingAddress,
+    deleteShippingAddress
 }

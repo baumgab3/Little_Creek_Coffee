@@ -1,7 +1,7 @@
 import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
-import { Box, Container } from '@mui/system'
+import { Box, Container, Stack } from '@mui/system'
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import UserDrawer from '../Orders/UserDrawer'
 import { getStates } from '../../util/AdminUtil'
 import { blue, red } from '@mui/material/colors'
@@ -57,9 +57,12 @@ const AddressForm = () => {
 
     const [isAddressLoaded, setIsAddressLoaded] = useState(false);
     const [isAddressSaved, setIsAddressSaved] = useState(false);
+    
+    const [hasAddress, setHasAddress] = useState(false);
 
     const errors = useRef([]);
     const {user} = useContext(UserContext);
+    const navigate = useNavigate();
 
     useEffect(() => {
 
@@ -88,6 +91,11 @@ const AddressForm = () => {
                 setEmail(addressObj.email);
             }
 
+            // if firstname is set, then everything is set.  Set booleans that will allow user to drop address
+            if (addressObj.firstName) {
+                setHasAddress(true);
+            }
+
             setIsAddressLoaded(true);
         })
         .catch(err => {
@@ -99,6 +107,7 @@ const AddressForm = () => {
 
     const handleAddressUpdate = () => {
         errors.current = [];
+
 
         if (!firstName) {
             setFirstNameError(true);
@@ -200,7 +209,8 @@ const AddressForm = () => {
                     throw new Error("Error updating " + addressType + " address");
                 }
                 
-                setIsAddressSaved(true);    
+                setIsAddressSaved(true);
+                setHasAddress(true);
             })
             .catch(err => {
                 console.log("error", err);
@@ -215,7 +225,31 @@ const AddressForm = () => {
 
     const handleStateChange = (event) => {
         setState(event.target.value);
-      };
+    }
+
+    const handleDeleteAddress = () => {
+        const text = "Are you sure you want to forget this " + addressType + " address?"
+
+        if (!window.confirm(text)) {
+            return;
+        }
+
+        const pathToUse = (addressType === 'billing') ? 'billing' : 'shipping';
+        const url = `http://localhost:8081/addresses/${pathToUse}/${user.id}`;
+        
+        axios.delete(url)
+        .then((response) => {
+
+            if (response.status !== 200) {
+                throw new Error("Error deleting " + addressType + " address");
+            }
+
+            navigate("/my-account/edit-address");
+        })
+        .catch(err => {
+            console.log("error deleting address", err);
+        })
+    }
 
 
     return (
@@ -235,13 +269,13 @@ const AddressForm = () => {
                             })}
                         </Box>
 
-                        {/* Success Box */}
+                        {/* Success Update Box */}
                         {isAddressSaved && errors.current.length === 0 && 
                         <Box mt={1} mb={1} color={blue[500]}>
                             {type} Address has been saved!
                         </Box>
-                        }   
-
+                        }
+                        
                         <Typography variant='h6' sx={{fontWeight: 'bold'}}>
                             {type} Address
                         </Typography>
@@ -362,15 +396,28 @@ const AddressForm = () => {
                         </>
                         }
 
-                        <Box mt={3}>
+                        <Stack spacing={2} rowGap={2} mt={3} direction={{sm: "row"}}>
                             <Button
                             variant="contained"
                             sx={{textTransform: 'uppercase', height: "45px"}}
                             onClick={handleAddressUpdate}
+                            spacing={3}
                             >
                                 save address
                             </Button>
-                        </Box>
+
+                        {hasAddress && 
+                            <Button
+                            variant="contained"
+                            sx={{textTransform: 'uppercase', height: "45px"}}
+                            onClick={handleDeleteAddress}
+                            align="right"
+                            color="error"
+                            >
+                                Forget address
+                            </Button>
+                        }
+                        </Stack>
                     </Grid>
                     </>
                     }
@@ -386,4 +433,4 @@ const AddressForm = () => {
     )
 }
 
-export default AddressForm
+export default AddressForm;
