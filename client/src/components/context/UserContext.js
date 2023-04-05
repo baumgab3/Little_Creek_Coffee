@@ -16,7 +16,6 @@ export const UserProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [orders, setOrders] = useState(null);
     const [pastOrder, setPastOrder] = useState(null);
-    const [address, setAddress] = useState(null);
 
     const loginUser = (givenLogin, password) => {
         let isEmail = false;
@@ -69,7 +68,6 @@ export const UserProvider = ({children}) => {
                 setUser(null);
                 setPastOrder(null)
                 setOrders(null);
-                setAddress(null);
                 navigate("/");
             }
         })
@@ -136,18 +134,6 @@ export const UserProvider = ({children}) => {
 
     }
 
-    const getBillingAddress = () => {
-        console.log(user.id);
-        const url = `http://localhost:8081/addresses/billing/${user.id}`;
-        axios.get(url)
-        .then((response) => {
-            setAddress(response.data);
-        })
-        .catch(err => {
-            console.log("error fetching user orders", err);
-        })
-    }
-
  
     return (
         <UserContext.Provider value={{ 
@@ -164,8 +150,6 @@ export const UserProvider = ({children}) => {
             orders,
             getOrderById,
             pastOrder,
-            getBillingAddress,
-            address
         }}>
 
             {children}

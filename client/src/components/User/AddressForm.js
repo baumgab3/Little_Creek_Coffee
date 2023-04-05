@@ -4,8 +4,9 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import UserDrawer from '../Orders/UserDrawer'
 import { getStates } from '../../util/AdminUtil'
-import { red } from '@mui/material/colors'
+import { blue, red } from '@mui/material/colors'
 import UserContext from '../context/UserContext'
+import axios from 'axios'
 
 const AddressForm = () => {
 
@@ -50,22 +51,49 @@ const AddressForm = () => {
     const [email, setEmail] = useState("");
     const [emailError, setEmailError] = useState(false);
 
-    const errors = useRef([]);
-
-    const {getBillingAddress, address} = useContext(UserContext);
-    const billingAddress = useRef(null);
+    // two optional feields
+    const [companyName, setCompanyName] = useState("");
+    const [apartmentSuit, setApartmentSuit] = useState("");
 
     const [isAddressLoaded, setIsAddressLoaded] = useState(false);
+    const [isAddressSaved, setIsAddressSaved] = useState(false);
+
+    const errors = useRef([]);
+    const {user} = useContext(UserContext);
 
     useEffect(() => {
 
-        const loadBillingAddress = () => {
+        const pathToUse = (addressType === 'billing') ? 'billing' : 'shipping';
+        const url = `http://localhost:8081/addresses/${pathToUse}/${user.id}`;
+        axios.get(url)
+        .then((response) => {
+
+            if (response.status !== 200) {
+                throw new Error("Error retrieving address");   
+            }
+
+            const addressObj = response.data;
+            setFirstName(addressObj.firstName);
+            setLastName(addressObj.lastName);
+            setStreetAddress(addressObj.streetAddress);
+            setTownCity(addressObj.city);
+            setState(addressObj.state);
+            setZipCode(addressObj.zip);
+            setApartmentSuit(addressObj.apartmentSuit);
+            setCompanyName(addressObj.companyName);
+
+            // set billing fields if needed
+            if (addressType === 'billing') {
+                setPhone(addressObj.phone);
+                setEmail(addressObj.email);
+            }
+
             setIsAddressLoaded(true);
-            getBillingAddress();
-        }
+        })
+        .catch(err => {
+            console.log("error fetching user orders", err);
+        })
 
-
-        loadBillingAddress();
     }, [])
 
 
@@ -138,6 +166,47 @@ const AddressForm = () => {
                 removeError(AddressLabels.EMAIL);
             }
         }
+
+        // if not errors then can make update
+        if (errors.current.length === 0) {
+
+            const addressToUpdate = {
+                firstName,
+                lastName,
+                streetAddress,
+                city: townCity,
+                state,
+                zip: zipCode
+            }
+
+            // add two optional fields
+            addressToUpdate.apartmentSuit = apartmentSuit ? apartmentSuit : "";
+            addressToUpdate.companyName = companyName ? companyName : "";
+
+            // add two fields just for billing
+            if (addressType === 'billing') {
+                addressToUpdate.phone = phone;
+                addressToUpdate.email = email;
+            }
+
+            const pathToUse = (addressType === 'billing') ? 'billing' : 'shipping';
+            const url = `http://localhost:8081/addresses/${pathToUse}/${user.id}`;
+            const data = {user, addressToUpdate};
+            
+            axios.post(url, data)
+            .then((response) => {
+    
+                if (response.status !== 200) {
+                    throw new Error("Error updating " + addressType + " address");
+                }
+                
+                setIsAddressSaved(true);    
+            })
+            .catch(err => {
+                console.log("error", err);
+            })
+
+        }
     }
 
     const removeError = (toRemove) => {
@@ -151,12 +220,12 @@ const AddressForm = () => {
 
     return (
         <Container>
-            {isAddressLoaded && <>
             <Box mt={10}>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={12} md={3}>
                         <UserDrawer />
                     </Grid>
+                    {isAddressLoaded && <>
                     <Grid item xs={12} sm={12} md={9} sx={{marginTop: {xs :"15px", sm: "15px", md: "0"}}}>
 
                         {/* Error Box */}
@@ -166,6 +235,13 @@ const AddressForm = () => {
                             })}
                         </Box>
 
+                        {/* Success Box */}
+                        {isAddressSaved && errors.current.length === 0 && 
+                        <Box mt={1} mb={1} color={blue[500]}>
+                            {type} Address has been saved!
+                        </Box>
+                        }   
+
                         <Typography variant='h6' sx={{fontWeight: 'bold'}}>
                             {type} Address
                         </Typography>
@@ -173,26 +249,25 @@ const AddressForm = () => {
                         <Box mt={1} sx={{ '& .MuiTextField-root': { mr: 1, mt: {xs: "10px"}, width: {xs: "100%", sm: "47%", md: "45%"} },}}>
                             <TextField
                             onChange={(e) => setFirstName(e.target.value.trim())}
-                            id="outlined-multiline-flexible"
                             label={AddressLabels.FIRST_NAME}
                             error={firstNameError}
-                            value={address ? address.firstName : ""}
+                            defaultValue={firstName}
                             required 
                             />
 
                             <TextField
                             onChange={(e) => setLastName(e.target.value.trim())}
-                            id="outlined-multiline-flexible"
                             label={AddressLabels.LAST_NAME}
                             error={lastNameError}
-                            value={address ? address.lastName : ""}
+                            defaultValue={lastName}
                             required />
                         </Box>
 
                         <Box mt={3}>
                             <TextField 
-                            id="outlined-multiline-flexible"
+                            onChange={(e) => setCompanyName(e.target.value.trim())}
                             label="Company name (optional)"
+                            defaultValue={companyName}
                             sx={{width: {xs: "100%", sm: "95%", md: "91%"}}} />
                         </Box>
 
@@ -208,11 +283,15 @@ const AddressForm = () => {
                         <Box mt={1} sx={{ '& .MuiTextField-root': { mr: 1, mt: {xs: "10px"}, width: {xs: "100%", sm: "47%", md: "45%"} },}}>
                             <TextField
                             onChange={(e) => setStreetAddress(e.target.value.trim())}
-                            id="outlined-multiline-flexible"
                             label={AddressLabels.STREET_ADDRESS}
                             error={streetAddressError}
+                            defaultValue={streetAddress}
                             required />
-                            <TextField id="outlined-multiline-flexible" label="Apartment, suit, etc (optional)" />
+                            <TextField
+                            onChange={(e) => setApartmentSuit(e.target.value.trim())}
+                            label="Apartment, suit, etc (optional)"
+                            defaultValue={apartmentSuit}
+                            />
                         </Box>
 
                         <Box mt={3}>
@@ -221,27 +300,28 @@ const AddressForm = () => {
                             id="outlined-multiline-flexible"
                             label={AddressLabels.TOWN_CITY}
                             error={townCityError}
+                            defaultValue={townCity}
                             required
                             sx={{width: {xs: "100%", sm: "95%", md: "91%"}}} />
                         </Box>
 
                         <Box mt={3}>
-                            <FormControl sx={{width: {xs: "100%", sm: "95%", md: "91%"}}}>
+                            <FormControl id="demo-simple-select-label" sx={{width: {xs: "100%", sm: "95%", md: "91%"}}}>
                             <InputLabel
-                            id="state-select-label"
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
                             error={stateError}
                             required
                             >
                                 {AddressLabels.STATE}
                             </InputLabel>
                             <Select
-                                labelId="state-select-label"
-                                id="state-select-label"
-                                value={state}
                                 label={AddressLabels.STATE}
                                 onChange={handleStateChange}
                                 MenuProps={{ sx: {maxHeight: 250} }}
                                 error={stateError}
+                                defaultValue={state}
+                                value={state}
                             >
                                 {states.map((state) => {
                                     return <MenuItem key={state} value={state}>{state}</MenuItem>
@@ -252,10 +332,10 @@ const AddressForm = () => {
 
                         <Box mt={3}>
                             <TextField 
-                            id="outlined-multiline-flexible"
                             onChange={(e) => setZipCode(e.target.value.trim())}
                             label={AddressLabels.ZIP}
                             error={zipCodeError}
+                            defaultValue={zipCode}
                             required
                             sx={{width: {xs: "100%", sm: "95%", md: "91%"}}} />
                         </Box>
@@ -264,20 +344,20 @@ const AddressForm = () => {
                         <>
                         <Box mt={3}>
                             <TextField 
-                            id="outlined-multiline-flexible"
                             onChange={(e) => setPhone(e.target.value.trim())}
                             label={AddressLabels.PHONE}
                             error={phoneError}
+                            defaultValue={phone}
                             required
                             sx={{width: {xs: "100%", sm: "95%", md: "91%"}}} />
                         </Box>
 
                         <Box mt={3}>
                             <TextField 
-                            id="outlined-multiline-flexible"
                             onChange={(e) => setEmail(e.target.value.trim())}
                             label={AddressLabels.EMAIL}
                             error={emailError}
+                            defaultValue={email}
                             required
                             sx={{width: {xs: "100%", sm: "95%", md: "91%"}}} />
                         </Box>
@@ -294,6 +374,8 @@ const AddressForm = () => {
                             </Button>
                         </Box>
                     </Grid>
+                    </>
+                    }
                 </Grid>
             </Box>
 
@@ -302,8 +384,6 @@ const AddressForm = () => {
             <br/>
             <br/>
 
-            </>
-        }
         </Container>
     )
 }
