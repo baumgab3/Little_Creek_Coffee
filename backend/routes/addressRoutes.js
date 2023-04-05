@@ -7,5 +7,6 @@ router.get("/billing/:userId", addressController.getBillingAddressById);
 router.get("/shipping/:userId", addressController.getShippingAddressById);
 router.post("/billing/:userId", addressController.saveBillingAddress);
 router.post("/shipping/:userId", addressController.saveShippingAddress);
+router.get("/:userId", addressController.getBillingAndShippingInfo);
 
 module.exports = router;

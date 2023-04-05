@@ -29,7 +29,13 @@ const createNewUser = async (req, res) => {
 
         const sqlInsert = `INSERT INTO users (UserID, ${columnToUse}, Password) VALUES ('${userID}', '${givenLogin}', '${hashedPassword}')`;
         await query(sqlInsert); 
-        return res.status(200).json({message: "Added new user"});
+
+        const user = {
+            id: userID,
+            user: givenLogin,
+        }
+
+        return res.status(200).json({message: "Added new user", user});
       
     } catch(err) {
         console.log(err);

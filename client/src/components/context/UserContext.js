@@ -64,6 +64,8 @@ export const UserProvider = ({children}) => {
 
             if (response.status === 200) {
                 setIsLoggedIn(false);
+                setIsAccountTaken(false);
+                setIsInvalidLogin(false);
                 setLoggedInUser(null);
                 setUser(null);
                 setPastOrder(null)
@@ -94,6 +96,7 @@ export const UserProvider = ({children}) => {
                 setIsAccountTaken(false);
                 setIsLoggedIn(true);
                 setLoggedInUser(givenLogin);
+                setUser(response.data.user);
                 navigate("/");
             }
 

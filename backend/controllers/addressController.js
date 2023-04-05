@@ -190,10 +190,49 @@ const saveBillingAddress = async (req, res) => {
     }
 }
 
+const getBillingAndShippingInfo = async (req, res)=> {
+
+    try {
+        const userId = req.params.userId;
+        const sqlBillingSelect = `SELECT FirstName, LastName, StreetAddress, City, ZipCode, State
+                                    FROM billing_addresses
+                                    WHERE UserID='${userId}'`;
+
+        const queryBillingResult = await query(sqlBillingSelect);
+
+        const sqlShippingSelect = `SELECT FirstName, LastName, StreetAddress, City, ZipCode, State
+                                    FROM shipping_addresses
+                                    WHERE UserID='${userId}'`;
+
+        const queryShippingResult = await query(sqlShippingSelect);
+
+        const addressObj = {};
+
+        if (!queryBillingResult || queryBillingResult.length != 1) {
+            addressObj.billing = [];
+        } else {
+            addressObj.billing = queryBillingResult[0];
+        }
+
+        if (!queryShippingResult || queryShippingResult.length != 1) {
+            addressObj.shipping = [];
+        } else {
+            addressObj.shipping = queryShippingResult[0];
+        }
+        
+        return res.send(addressObj);
+        
+    } catch (err) {
+        console.log("getBillingAndShippingInfo server error", err);
+        return res.status(500).json({message: "Server Error", error: err});
+    }
+}
+
 
 module.exports = {
     getShippingAddressById,
     getBillingAddressById,
     saveShippingAddress,
-    saveBillingAddress
+    saveBillingAddress,
+    getBillingAndShippingInfo
 }

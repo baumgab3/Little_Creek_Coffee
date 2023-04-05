@@ -306,10 +306,8 @@ const AddressForm = () => {
                         </Box>
 
                         <Box mt={3}>
-                            <FormControl id="demo-simple-select-label" sx={{width: {xs: "100%", sm: "95%", md: "91%"}}}>
+                            <FormControl sx={{width: {xs: "100%", sm: "95%", md: "91%"}}}>
                             <InputLabel
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
                             error={stateError}
                             required
                             >
