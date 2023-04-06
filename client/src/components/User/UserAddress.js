@@ -5,6 +5,7 @@ import UserDrawer from '../Orders/UserDrawer'
 import { Link as RouterLink } from 'react-router-dom';
 import UserContext from '../context/UserContext';
 import axios from 'axios';
+import { getStateAbbreviation } from '../../util/AdminUtil';
 
 const UserAddress = () => {
 
@@ -63,7 +64,7 @@ const UserAddress = () => {
                                         {addressObj.billing.StreetAddress}
                                     </Typography>
                                     <Typography sx={{fontStyle: 'italic'}}>
-                                        {addressObj.billing.City}, {addressObj.billing.State} {addressObj.billing.ZipCode} 
+                                        {addressObj.billing.City}, {getStateAbbreviation(addressObj.billing.State)} {addressObj.billing.ZipCode} 
                                     </Typography>
                                 </Box>
                                 }
@@ -87,7 +88,7 @@ const UserAddress = () => {
                                         {addressObj.shipping.StreetAddress}
                                     </Typography>
                                     <Typography sx={{fontStyle: 'italic'}}>
-                                        {addressObj.shipping.City}, {addressObj.shipping.State} {addressObj.shipping.ZipCode}
+                                        {addressObj.shipping.City}, {getStateAbbreviation(addressObj.shipping.State)} {addressObj.shipping.ZipCode}
                                     </Typography>
                                 </Box>
                                 }

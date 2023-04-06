@@ -39,7 +39,6 @@ const Login = () => {
 
         setUsernameError(false);
         setPasswordError(false);
-        console.log(isLoggedIn);
 
         // setAuth(true);
         // navigate("/");

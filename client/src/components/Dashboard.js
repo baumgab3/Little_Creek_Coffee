@@ -37,10 +37,10 @@ const Dashboard = () => {
                                 <Button component={RouterLink} to="/my-orders" sx={{width: "100%"}} variant="outlined">Orders</Button>
                             </Grid>
                             <Grid item xs={12} sm={6} md={4}>
-                                <Button component={RouterLink} to="/my-account/edit-address/" sx={{width: "100%"}} variant="outlined">Addresses</Button>
+                                <Button component={RouterLink} to="/my-account/edit-address" sx={{width: "100%"}} variant="outlined">Addresses</Button>
                             </Grid>
                             <Grid item xs={12} sm={6} md={4}>
-                                <Button component={RouterLink} to="/my-account/edit-account/" sx={{width: "100%"}} variant="outlined">Account Details</Button>
+                                <Button component={RouterLink} to="/my-account/edit-account" sx={{width: "100%"}} variant="outlined">Account Details</Button>
                             </Grid>
                         </Grid> 
                         </Box>

@@ -92,7 +92,6 @@ const BigNavbar = ({isLoggedIn, loggedInUser, logoutUser}) => {
     };
 
     // Vars and functions for logged in user  dropdown
-    // TODO - repeating code here, clean this up!
     const [anchorLoggedInEl, setAnchorLoggedInEl] = useState(null);
     const isLoggedInOpen = Boolean(anchorLoggedInEl);
 
@@ -281,11 +280,10 @@ const BigNavbar = ({isLoggedIn, loggedInUser, logoutUser}) => {
     
         <Grid item md={3} lg={3} sx={{textAlign: 'right'}} pt={1} >
             {isLoggedIn &&
-                // <Button component={Link} to="my-account" color="inherit">Welcome {loggedInUser}</Button>
                 <>
                 <Button
-                id="fade-button"
-                aria-controls={isLoggedInOpen ? 'fade-menu' : undefined}
+                id="loggin-fade-button"
+                aria-controls={isLoggedInOpen ? 'loggin-fade-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={isLoggedInOpen ? 'true' : undefined}
                 onClick={handleLoggedInDropDownClick}
@@ -295,9 +293,9 @@ const BigNavbar = ({isLoggedIn, loggedInUser, logoutUser}) => {
                   Welcome {loggedInUser}
                 </Button>
                 <Menu
-                id="fade-menu"
+                id="loggin-fade-menu"
                 MenuListProps={{
-                'aria-labelledby': 'fade-button',
+                'aria-labelledby': 'loggin-fade-button',
                 }}
                 anchorEl={anchorLoggedInEl}
                 open={isLoggedInOpen}
