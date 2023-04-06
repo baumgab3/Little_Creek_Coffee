@@ -23,7 +23,16 @@ const UserOrders = () => {
         return (
             <Container>
                 <Box mt={10}>
-                    No Orders have been placed
+                <Grid container spacing={2}>
+                    <Grid item xs={12} sm={12} md={3}>
+                        <UserDrawer />
+                    </Grid>
+                    <Grid item>
+                        <Box>
+                            No Orders have been placed
+                        </Box>
+                    </Grid>
+                </Grid>
                 </Box>
             </Container>
         )
