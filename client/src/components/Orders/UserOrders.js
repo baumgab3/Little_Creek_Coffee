@@ -8,35 +8,19 @@ import UserDrawer from './UserDrawer';
 const UserOrders = () => {
 
     const {getOrdersPreview, orders} = useContext(UserContext);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
 
         const loadOrders = () => {
             getOrdersPreview();
+            setIsLoaded(true);
         }
 
         loadOrders();
         
     }, []);
 
-    if (orders && orders.length === 0) {
-        return (
-            <Container>
-                <Box mt={10}>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} sm={12} md={3}>
-                        <UserDrawer />
-                    </Grid>
-                    <Grid item>
-                        <Box>
-                            No Orders have been placed
-                        </Box>
-                    </Grid>
-                </Grid>
-                </Box>
-            </Container>
-        )
-    }
 
     return (
         <Container>
@@ -47,6 +31,13 @@ const UserOrders = () => {
                     <UserDrawer />
                 </Grid>
 
+                {isLoaded && orders && orders.length === 0 &&
+                    <Grid item xs={12} sm={12} md={9} sx={{marginTop: {xs :"15px", sm: "15px", md: "0"}}}>
+                            No Orders have been placed
+                    </Grid>
+                }
+
+                {isLoaded && orders && orders.length > 0 &&
                 <Grid item xs={12} sm={12} md={9} sx={{marginTop: {xs :"15px", sm: "15px", md: "0"}}}>
 
                     <Grid container mb={2} align="left" sx={{textTransform: 'uppercase'}}>
@@ -81,16 +72,12 @@ const UserOrders = () => {
                     {orders && orders.map((order) => {
                         return <PastOrderPreview key={order.id} order={order} />
                     })}
-
                 </Grid>
+                }
 
             </Grid>
-
-            {/* {orders.map((order) => {
-                return <PastOrderPreview key={order.id} order={order} />
-            })} */}
-
         </Box>
+
         </Container>
     )
 }
