@@ -43,7 +43,77 @@ const createNewUser = async (req, res) => {
     }  
 }
 
+const getAccountDetailsById = async (req, res) => {
+
+    try {
+        const userId = req.params.userId;
+        const sqlSelect = `SELECT * FROM users WHERE UserID='${userId}'`;
+        const queryResult = await query(sqlSelect);
+        
+        if (!queryResult || queryResult.length === 0) {
+            return res.status(404).json({message: "No account found"});
+        }
+
+        const result = queryResult[0];
+
+ 
+        const accountDetails = {
+            firstName: result.FirstName,
+            lastName: result.LastName,
+            displayName: result.DisplayName,
+            email: result.Email,
+        }
+
+        return res.send(accountDetails);
+
+    } catch (err) {
+        console.log("getAccountDetailsById error", err);
+        return res.status(500).json({message: "Server error"});
+    }
+
+}
+
+const updateAccountById = async (req, res) => {
+    try {
+        const userId = req.body.user.id;
+        const accountUpdate = req.body.accountDetailsUpdate;
+        let hashedPassword;
+        
+        // first we need to check if updating password
+        if (accountUpdate.newPassword && accountUpdate.newPasswordConfirm) {
+            
+            // TODO - can add more validation later, but do the easy one for now
+            if (accountUpdate.newPassword !== accountUpdate.newPasswordConfirm) {
+                return res.status(403).json({message: "Passwords do not match"});
+            }
+
+            const salt = await bcrypt.genSalt();
+            hashedPassword = await bcrypt.hash(accountUpdate.newPassword, salt);
+        }
+
+        let sqlUpdate = `UPDATE users SET FirstName='${accountUpdate.firstName}',  LastName='${accountUpdate.lastName}', DisplayName='${accountUpdate.displayName}',
+                            Email='${accountUpdate.email}'`;
+
+        if (hashedPassword) {
+            sqlUpdate = sqlUpdate + `, Password='${hashedPassword}'`;
+        }
+
+        // add WHERE
+        sqlUpdate = sqlUpdate + `WHERE UserID='${userId}'`;
+        
+        await query(sqlUpdate);
+  
+        return res.status(200).json({message: "Account updated"});
+
+    } catch (err) {
+        console.log("updateAccountById error", err);
+        return res.status(500).json({message: "Server error"});
+    }
+}
+
 
 module.exports = {
     createNewUser,
+    getAccountDetailsById,
+    updateAccountById
  }

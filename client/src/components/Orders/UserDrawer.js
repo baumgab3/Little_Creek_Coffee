@@ -1,12 +1,14 @@
 import { Box } from '@mui/system'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import UserContext from '../context/UserContext';
 
 
 const UserDrawer = () => {
 
     const [active, setActive] = useState("");
     const navigate = useNavigate();
+    const {logoutUser} = useContext(UserContext);
 
     useEffect(() => {
 
@@ -125,6 +127,16 @@ const UserDrawer = () => {
             onClick={(e) => handleSetActive(e.target.id)}
             >
                     Account Details
+            </Box>
+            <Box
+            sx={{borderBottom: 1, color: "gray",  height: '35px', padding: '5px'}}
+            className="box-dashboard"
+            id="userdrawer-logout"
+            onMouseEnter={(e) => handleMouseEnter(e.target.id)}
+            onMouseLeave={(e) => handleMouseOut(e.target.id)}
+            onClick={logoutUser}
+            >
+                    Logout
             </Box>
         </Box>
     )

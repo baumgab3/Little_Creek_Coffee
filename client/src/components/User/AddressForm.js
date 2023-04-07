@@ -176,7 +176,7 @@ const AddressForm = () => {
             }
         }
 
-        // if not errors then can make update
+        // if no errors then can make update
         if (errors.current.length === 0) {
 
             const addressToUpdate = {
