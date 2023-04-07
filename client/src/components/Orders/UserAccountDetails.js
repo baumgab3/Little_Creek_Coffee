@@ -15,7 +15,6 @@ const UserAccountDetails = () => {
         EMAIL: "Email address"
     };
 
-    
     const [firstName, setFirstName] = useState("");
     const [firstNameError, setFirstNameError] = useState(false);
     
@@ -30,6 +29,11 @@ const UserAccountDetails = () => {
 
     const [newPassword, setNewPassword] = useState("");
     const [newPasswordConfirm, setNewPasswordConfirm] = useState("");
+
+    const [emptyConfirmError, setEmptyConfirmError] = useState(false);
+    const [passwordMismatchError, setPasswordMismatchError] = useState(false);
+
+    const [emailTakenError, setEmailTakenError] = useState(false);
 
     const errors = useRef([]);
     const {user} = useContext(UserContext);
@@ -65,9 +69,14 @@ const UserAccountDetails = () => {
     const handleAccountDetailsUpdate = () => {
         errors.current = [];
 
+        const blankError = " cannot be set blank.";
+        setEmptyConfirmError(false);
+        setPasswordMismatchError(false);
+        setEmailTakenError(false);
+
         if (!firstName) {
             setFirstNameError(true);
-            errors.current.push(accountLabels.FIRST_NAME);
+            errors.current.push(accountLabels.FIRST_NAME + blankError);
         } else {
             setFirstNameError(false);
             removeError(accountLabels.FIRST_NAME);
@@ -75,7 +84,7 @@ const UserAccountDetails = () => {
 
         if (!lastName) {
             setLastNameError(true);
-            errors.current.push(accountLabels.LAST_NAME);
+            errors.current.push(accountLabels.LAST_NAME + blankError);
         } else {
             setLastNameError(false);
             removeError(accountLabels.LAST_NAME);
@@ -83,7 +92,7 @@ const UserAccountDetails = () => {
 
         if (!displayName) {
             setDisplayNameError(true);
-            errors.current.push(accountLabels.DISPLAY_NAME);
+            errors.current.push(accountLabels.DISPLAY_NAME + blankError);
         } else {
             setDisplayNameError(false);
             removeError(accountLabels.DISPLAY_NAME);
@@ -91,12 +100,23 @@ const UserAccountDetails = () => {
 
         if (!email) {
             setEmailError(true);
-            errors.current.push(accountLabels.EMAIL);
+            errors.current.push(accountLabels.EMAIL + blankError);
         } else {
             setEmailError(false);
             removeError(accountLabels.EMAIL);
         }
 
+        if ((newPassword && !newPasswordConfirm) || (!newPassword && newPasswordConfirm)) {
+            setEmptyConfirmError(true);
+            errors.current.push("New password and confirm password cannot both be blank.")
+        }
+
+        if (newPassword && newPasswordConfirm) {
+            if (newPassword !== newPasswordConfirm) {
+                setPasswordMismatchError(true);
+                errors.current.push("Passwords do not match.")
+            }
+        }
 
         // if no errors then can make update
         if (errors.current.length === 0) {
@@ -115,19 +135,14 @@ const UserAccountDetails = () => {
 
             axios.post(url, data)
             .then((response) => {
-    
-                if (response.status !== 200) {
-                    throw new Error("Error updating account details");
-                }
-
-                if (response.status === 403) {
-                   // TODO - passwords don't match 
-                }
-
                 setIsUpdated(true);
             })
             .catch(err => {
-                console.log("error", err);
+
+                if (err.response.status === 403) {
+                    setEmailTakenError(true);
+                    errors.current.push(err.response.data.message);
+                }
             })
         }
 
@@ -152,7 +167,7 @@ const UserAccountDetails = () => {
                         {/* Error Box */}
                         <Box mt={1} mb={1} color={red[500]}>
                             {errors.current.map((error) => {
-                                return <Box key={error}>{error} cannot be set blank.</Box>;
+                                return <Box key={error}>{error}</Box>;
                             })}
                         </Box>
 
@@ -163,7 +178,6 @@ const UserAccountDetails = () => {
                         </Box>
                         }
                         
-
                         <Box mt={1} sx={{ '& .MuiTextField-root': { mr: 1, mt: {xs: "10px"}, width: {xs: "100%", sm: "47%", md: "45%"} },}}>
                             <TextField
                             label="First name"
@@ -197,7 +211,7 @@ const UserAccountDetails = () => {
                             label="Email address"
                             onChange={(e) => setEmail(e.target.value.trim())}
                             sx={{width: {xs: "100%", sm: "95%", md: "91%"}}}
-                            error={emailError}
+                            error={emailError || emailTakenError}
                             defaultValue={email}
                             required
                             />
@@ -225,6 +239,7 @@ const UserAccountDetails = () => {
                             label="New password (blank to leave unchanged)"
                             type="password"
                             sx={{width: {xs: "100%", sm: "95%", md: "91%"}}}
+                            error={emptyConfirmError || passwordMismatchError}
                             />
                         </Box>
 
@@ -234,6 +249,7 @@ const UserAccountDetails = () => {
                             label="Confirm new password"
                             sx={{width: {xs: "100%", sm: "95%", md: "91%"}}}
                             type="password"
+                            error={emptyConfirmError || passwordMismatchError}
                             />
                         </Box>
 

@@ -91,6 +91,16 @@ const updateAccountById = async (req, res) => {
             hashedPassword = await bcrypt.hash(accountUpdate.newPassword, salt);
         }
 
+        // verify that user is not updating with an existing email
+        const sqlEmailSelect = `SELECT COUNT(*) as count FROM users WHERE Email = '${accountUpdate.email}' AND UserID != '${userId}' LIMIT 1`;
+        const emailCount = await query(sqlEmailSelect).then((resultCount) => resultCount[0].count);
+
+        if (emailCount !== 0) {
+            return res.status(403).json({message: "Given email already exists"});
+        }
+
+
+        // everything good here, can make update
         let sqlUpdate = `UPDATE users SET FirstName='${accountUpdate.firstName}',  LastName='${accountUpdate.lastName}', DisplayName='${accountUpdate.displayName}',
                             Email='${accountUpdate.email}'`;
 
