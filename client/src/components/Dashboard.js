@@ -9,7 +9,6 @@ import UserDrawer from './Orders/UserDrawer';
 const Dashboard = () => {
 
     const {user, logoutUser} = useContext(UserContext);
-    console.log(user.user);
 
     return (
         <Container>
@@ -44,10 +43,7 @@ const Dashboard = () => {
                             </Grid>
                         </Grid> 
                         </Box>
-
-
-
-
+                        
                     </Grid>
 
                 </Grid>

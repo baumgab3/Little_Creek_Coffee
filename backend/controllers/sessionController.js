@@ -36,6 +36,13 @@ const login = async (req, res) => {
         user: result[0].UserName,
     }
 
+    // check if user has a preferred display name
+    const displayName = result[0].DisplayName;
+
+    if (displayName) {
+        user.displayName = displayName;
+    }
+
     // if here password and username was valid, return ok
     return res.status(200).json({message: "Login was valid", user});
 }

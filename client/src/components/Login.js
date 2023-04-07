@@ -45,7 +45,7 @@ const Login = () => {
     }
 
     return (
-        <>
+        <Box sx={{minHeight: '600px'}}>
         <Box sx={{backgroundColor: 'blue', height: ''}} p={2} mt={3} align="center">
             <Typography variant='h4'>
                 My Account
@@ -79,7 +79,7 @@ const Login = () => {
                 </Box>
             </FormControl>
         </Box>
-        </>
+        </Box>
     )
 }
 

@@ -30,7 +30,7 @@ const ProductShowcase = (props) => {
     useEffect(() => {
         const fetchProductDetails = () => {
             const url = `http://localhost:8081/product/${param1}`;
-            console.log("fetchProductDetails...");
+
             fetch(url)
                 .then(res => {
                     if (res.status >= 400) {
@@ -42,7 +42,7 @@ const ProductShowcase = (props) => {
                 .then(product => {
                     setProductDetails(product);
                     setIsLoaded(true);
-                    
+
                     // products with no description for priceOptions won't have a drop down size bar
                     for (const option of product.priceOptions) {
                         if (!option.description && option.price && !option.grind) {

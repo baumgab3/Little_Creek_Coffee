@@ -9,7 +9,7 @@ import UserContext from '../context/UserContext';
 
 const Navbar = (props) => {
 
-    const {isLoggedIn, loggedInUser, logoutUser} = useContext(UserContext);
+    const {isLoggedIn, loggedInUser, logoutUser, user} = useContext(UserContext);
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -21,12 +21,13 @@ const Navbar = (props) => {
             isLoggedIn={isLoggedIn}
             loggedInUser={loggedInUser}
             logoutUser={logoutUser}
-            
+            user={user}
             />
             <MobileNavbar
             isLoggedIn={isLoggedIn}
             loggedInUser={loggedInUser}
             logoutUser={logoutUser}
+            user={user}
             drawerWidth={props.drawerWidth} />
         </AppBar>
         <Toolbar />

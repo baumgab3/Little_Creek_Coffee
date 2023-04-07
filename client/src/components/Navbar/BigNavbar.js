@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -15,7 +15,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import CartContext from '../context/CartContext';
 
-const BigNavbar = ({isLoggedIn, loggedInUser, logoutUser}) => {
+const BigNavbar = ({isLoggedIn, loggedInUser, logoutUser, user}) => {
 
     const {cartSize, getCartTotal} = useContext(CartContext);
 
@@ -120,7 +120,7 @@ const BigNavbar = ({isLoggedIn, loggedInUser, logoutUser}) => {
                     component="div"
                     >
                         Little Creek Coffee
-                    </Typography>  
+                    </Typography> 
                 </Link>
             </Button>
         </Grid>
@@ -290,7 +290,7 @@ const BigNavbar = ({isLoggedIn, loggedInUser, logoutUser}) => {
                 sx = {{color: '#fff' }}
                 endIcon={<KeyboardArrowDownIcon />}
                 >
-                  Welcome {loggedInUser}
+                  {user.displayName ? user.displayName : loggedInUser}
                 </Button>
                 <Menu
                 id="loggin-fade-menu"

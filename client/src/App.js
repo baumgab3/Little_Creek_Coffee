@@ -20,6 +20,7 @@ import UserAddress from './components/User/UserAddress';
 import UserAccountDetails from './components/Orders/UserAccountDetails';
 import Dashboard from './components/Dashboard';
 import AddressForm from './components/User/AddressForm';
+import Footer from './components/Footer/Footer';
 
 
 function App() {
@@ -69,6 +70,8 @@ function App() {
 
         </Routes>
       </Box>
+
+      {/* <Footer /> */}
 
     </CartProvider>
     </UserProvider>
