@@ -3,6 +3,7 @@ const util = require('util');
 const bcrypt = require("bcrypt");
 const crypto = require('crypto');
 const { getRowCount } = require('../ServerUtil');
+const jwt = require('jsonwebtoken');
 
 const query = util.promisify(conn.query).bind(conn);
 
@@ -34,6 +35,9 @@ const createNewUser = async (req, res) => {
             id: userID,
             user: givenLogin,
         }
+
+        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+        user.accessToken = accessToken;
 
         return res.status(200).json({message: "Added new user", user});
       

@@ -99,6 +99,7 @@ export const UserProvider = ({children}) => {
                 setIsLoggedIn(true);
                 setLoggedInUser(givenLogin);
                 setUser(response.data.user);
+                localStorage.setItem("accessToken", response.data.user.accessToken);
                 navigate("/");
             }
 

@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const { getRowCount } = require('../ServerUtil');
 const jwt = require('jsonwebtoken');
 
-
 const query = util.promisify(conn.query).bind(conn);
 
 const login = async (req, res) => {
@@ -53,6 +52,7 @@ const login = async (req, res) => {
 }
 
 const logout = async (req, res) => {
+    // TODO - need to do anything with token?
     return res.status(200).json({message: "Logout was valid"});
 }
 
