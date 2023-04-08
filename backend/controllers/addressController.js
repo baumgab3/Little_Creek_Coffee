@@ -7,6 +7,12 @@ const query = util.promisify(conn.query).bind(conn);
 const getShippingAddressById = async (req, res) => {
 
     try {
+
+        // verfiy authorized user
+        if (req.params.userId !== req.user.id) {
+            return res.status(401).json({message: "You are not authorized to update"});
+        }
+
         const userId = req.params.userId;
         const sqlSelect = `SELECT * FROM shipping_addresses WHERE UserId='${userId}'`;
         const queryResult = await query(sqlSelect);
@@ -56,8 +62,14 @@ const getShippingAddressById = async (req, res) => {
 }
 
 const getBillingAddressById = async (req, res) => {
-
+    
     try {
+
+        // verfiy authorized user
+        if (req.params.userId !== req.user.id) {
+            return res.status(401).json({message: "You are not authorized to update"});
+        }
+
         const userId = req.params.userId;
         const sqlSelect = `SELECT * FROM billing_addresses WHERE UserId='${userId}'`;
         const queryResult = await query(sqlSelect);
@@ -111,6 +123,12 @@ const getBillingAddressById = async (req, res) => {
 const saveShippingAddress = async (req, res) => {
     
     try {
+
+        // verfiy authorized user
+        if (req.params.userId !== req.user.id) {
+            return res.status(401).json({message: "You are not authorized to update"});
+        }
+        
         const user = req.body.user;
         const addressObj = req.body.addressToUpdate;
 
@@ -148,6 +166,12 @@ const saveShippingAddress = async (req, res) => {
 const saveBillingAddress = async (req, res) => {
     
     try {
+
+        // verfiy authorized user
+        if (req.params.userId !== req.user.id) {
+            return res.status(401).json({message: "You are not authorized to update"});
+        }
+
         const user = req.body.user;
         const addressObj = req.body.addressToUpdate;
 
@@ -186,6 +210,12 @@ const saveBillingAddress = async (req, res) => {
 const getBillingAndShippingInfo = async (req, res)=> {
 
     try {
+
+        // verfiy authorized user
+        if (req.params.userId !== req.user.id) {
+            return res.status(401).json({message: "You are not authorized to update"});
+        }
+
         const userId = req.params.userId;
         const sqlBillingSelect = `SELECT FirstName, LastName, StreetAddress, City, ZipCode, State
                                     FROM billing_addresses
@@ -224,6 +254,12 @@ const getBillingAndShippingInfo = async (req, res)=> {
 const deleteBillingAddress = async (req, res) => {
 
     try {
+        
+        // verfiy authorized user
+        if (req.params.userId !== req.user.id) {
+            return res.status(401).json({message: "You are not authorized to update"});
+        }
+
         const userId = req.params.userId;
         const sqlDelete = `DELETE FROM billing_addresses WHERE UserId='${userId}' LIMIT 1`;
         await query(sqlDelete);
@@ -239,6 +275,12 @@ const deleteBillingAddress = async (req, res) => {
 const deleteShippingAddress = async (req, res) => {
 
     try {
+
+        // verfiy authorized user
+        if (req.params.userId !== req.user.id) {
+            return res.status(401).json({message: "You are not authorized to update"});
+        }
+
         const userId = req.params.userId;
         const sqlDelete = `DELETE FROM shipping_addresses WHERE UserId='${userId}' LIMIT 1`;
         await query(sqlDelete);

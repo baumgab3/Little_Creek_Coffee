@@ -46,6 +46,12 @@ const createNewUser = async (req, res) => {
 const getAccountDetailsById = async (req, res) => {
 
     try {
+
+        // verfiy authorized user
+        if (req.params.userId !== req.user.id) {
+            return res.status(401).json({message: "You are not authorized to update"});
+        }
+
         const userId = req.params.userId;
         const sqlSelect = `SELECT * FROM users WHERE UserID='${userId}'`;
         const queryResult = await query(sqlSelect);
@@ -75,6 +81,12 @@ const getAccountDetailsById = async (req, res) => {
 
 const updateAccountById = async (req, res) => {
     try {
+
+        // verfiy authorized user
+        if (req.params.userId !== req.user.id) {
+            return res.status(401).json({message: "You are not authorized to update"});
+        }
+
         const userId = req.body.user.id;
         const accountUpdate = req.body.accountDetailsUpdate;
         let hashedPassword;
@@ -101,7 +113,7 @@ const updateAccountById = async (req, res) => {
 
 
         // everything good here, can make update
-        let sqlUpdate = `UPDATE users SET FirstName='${accountUpdate.firstName}',  LastName='${accountUpdate.lastName}', DisplayName='${accountUpdate.displayName}',
+        let sqlUpdate = `UPDATE users SET FirstName='${accountUpdate.firstName}', LastName='${accountUpdate.lastName}', DisplayName='${accountUpdate.displayName}',
                             Email='${accountUpdate.email}'`;
 
         if (hashedPassword) {

@@ -1,14 +1,15 @@
 const express = require('express');
 const addressController = require('../controllers/addressController');
+const {authenticateToken} = require('../authorize.js');
 
 const router = express.Router();
 
-router.get("/billing/:userId", addressController.getBillingAddressById);
-router.get("/shipping/:userId", addressController.getShippingAddressById);
-router.post("/billing/:userId", addressController.saveBillingAddress);
-router.post("/shipping/:userId", addressController.saveShippingAddress);
-router.delete("/billing/:userId", addressController.deleteBillingAddress);
-router.delete("/shipping/:userId", addressController.deleteShippingAddress);
-router.get("/:userId", addressController.getBillingAndShippingInfo);
+router.get("/billing/:userId", authenticateToken, addressController.getBillingAddressById);
+router.get("/shipping/:userId", authenticateToken, addressController.getShippingAddressById);
+router.post("/billing/:userId", authenticateToken, addressController.saveBillingAddress);
+router.post("/shipping/:userId", authenticateToken, addressController.saveShippingAddress);
+router.delete("/billing/:userId", authenticateToken, addressController.deleteBillingAddress);
+router.delete("/shipping/:userId", authenticateToken, addressController.deleteShippingAddress);
+router.get("/:userId", authenticateToken, addressController.getBillingAndShippingInfo);
 
 module.exports = router;

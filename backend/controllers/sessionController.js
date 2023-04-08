@@ -2,6 +2,8 @@ const conn = require('../database/connection');
 const util = require('util');
 const bcrypt = require("bcrypt");
 const { getRowCount } = require('../ServerUtil');
+const jwt = require('jsonwebtoken');
+
 
 const query = util.promisify(conn.query).bind(conn);
 
@@ -42,6 +44,9 @@ const login = async (req, res) => {
     if (displayName) {
         user.displayName = displayName;
     }
+
+    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+    user.accessToken = accessToken;
 
     // if here password and username was valid, return ok
     return res.status(200).json({message: "Login was valid", user});

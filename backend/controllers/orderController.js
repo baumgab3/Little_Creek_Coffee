@@ -61,6 +61,12 @@ const placeOrder = async (req, res) => {
 const getOrdersPreview = async (req, res) => {
 
     try {
+
+        // verfiy authorized user
+        if (req.params.userId !== req.user.id) {
+            return res.status(401).json({message: "You are not authorized to update"});
+        }
+
         const userId = req.params.userId;
         const sqlStatement = `SELECT * FROM orders WHERE UserId = '${userId}' ORDER BY PlacedDate DESC`;
         const orders = await query(sqlStatement);
@@ -93,6 +99,12 @@ const getOrdersPreview = async (req, res) => {
 const getOrders = async (req, res) => {
     
     try {
+
+        // // verfiy authorized user
+        if (req.params.id !== req.user.id) {
+            return res.status(401).json({message: "You are not authorized to update"});
+        }        
+
         const userId = req.params.userId;
         // get all orders placed from user
         const sqlOrderIdSelect = `SELECT * FROM orders WHERE UserId = '${userId}' ORDER BY PlacedDate`;
