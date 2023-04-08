@@ -71,7 +71,8 @@ function App() {
         </Routes>
       </Box>
 
-      {/* <Footer /> */}
+    {/*  */}
+      {/* <Footer /> */} 
 
     </CartProvider>
     </UserProvider>
