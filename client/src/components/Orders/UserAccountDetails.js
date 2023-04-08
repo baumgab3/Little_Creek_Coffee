@@ -43,8 +43,13 @@ const UserAccountDetails = () => {
     useEffect(() => {
 
         const url = `http://localhost:8081/account-details/${user.id}`;
+        const token = localStorage.getItem('accessToken');
 
-        axios.get(url)
+        axios.get(url, {
+            headers: {
+                'Authorization' : `Bearer ${token}`
+            }
+        })
         .then((response) => {
 
             if (response.status !== 200) {
@@ -132,16 +137,27 @@ const UserAccountDetails = () => {
 
             const url = `http://localhost:8081/update-account/${user.id}`;
             const data = {user, accountDetailsUpdate};
+            const token = localStorage.getItem('accessToken');
 
-            axios.post(url, data)
+            axios.post(url, data, {
+                headers: {
+                    'Authorization' : `Bearer ${token}`
+                }
+            })
             .then((response) => {
                 setIsUpdated(true);
             })
             .catch(err => {
 
+                // user tried to update their email with a taken email
                 if (err.response.status === 403) {
                     setEmailTakenError(true);
                     errors.current.push(err.response.data.message);
+                }
+
+                // Unauthorized
+                if (err.response.status === 401) {
+                    console.log("Unauthorized");
                 }
             })
         }

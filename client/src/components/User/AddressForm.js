@@ -68,7 +68,12 @@ const AddressForm = () => {
 
         const pathToUse = (addressType === 'billing') ? 'billing' : 'shipping';
         const url = `http://localhost:8081/addresses/${pathToUse}/${user.id}`;
-        axios.get(url)
+        const token = localStorage.getItem('accessToken');
+        axios.get(url, {
+            headers: {
+                'Authorization' : `Bearer ${token}`
+            }
+        })
         .then((response) => {
 
             if (response.status !== 200) {
@@ -201,19 +206,24 @@ const AddressForm = () => {
             const pathToUse = (addressType === 'billing') ? 'billing' : 'shipping';
             const url = `http://localhost:8081/addresses/${pathToUse}/${user.id}`;
             const data = {user, addressToUpdate};
-            
-            axios.post(url, data)
-            .then((response) => {
-    
-                if (response.status !== 200) {
-                    throw new Error("Error updating " + addressType + " address");
+            const token = localStorage.getItem('accessToken');
+
+            axios.post(url, data, {
+                headers: {
+                    'Authorization' : `Bearer ${token}`
                 }
+            })
+            .then((response) => {
                 
                 setIsAddressSaved(true);
                 setHasAddress(true);
             })
             .catch(err => {
-                console.log("error", err);
+                
+                if (err.response.status === 401) {
+                    alert("You are not authorized!!")
+                }
+
             })
 
         }
@@ -236,8 +246,13 @@ const AddressForm = () => {
 
         const pathToUse = (addressType === 'billing') ? 'billing' : 'shipping';
         const url = `http://localhost:8081/addresses/${pathToUse}/${user.id}`;
-        
-        axios.delete(url)
+        const token = localStorage.getItem('accessToken');
+
+        axios.delete(url, {
+            headers: {
+                'Authorization' : `Bearer ${token}`
+            }
+        })
         .then((response) => {
 
             if (response.status !== 200) {

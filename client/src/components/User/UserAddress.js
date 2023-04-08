@@ -15,7 +15,12 @@ const UserAddress = () => {
 
     useEffect(() => {
         const url = `http://localhost:8081/addresses/${user.id}`;
-        axios.get(url)
+        const token = localStorage.getItem('accessToken');
+        axios.get(url, {
+            headers: {
+                'Authorization' : `Bearer ${token}`
+            }
+        })
         .then((response) => {
 
             if (response.status !== 200) {

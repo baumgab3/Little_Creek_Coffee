@@ -36,6 +36,7 @@ export const UserProvider = ({children}) => {
                 setIsLoggedIn(true);
                 setLoggedInUser(givenLogin);
                 setUser(response.data.user);
+                localStorage.setItem("accessToken", response.data.user.accessToken);
                 navigate("/");
             }
         })
@@ -70,6 +71,7 @@ export const UserProvider = ({children}) => {
                 setUser(null);
                 setPastOrder(null)
                 setOrders(null);
+                localStorage.removeItem("accessToken");
                 navigate("/");
             }
         })
@@ -115,8 +117,13 @@ export const UserProvider = ({children}) => {
         setPastOrder({});
 
         const url = `http://localhost:8081/orders/${user.id}`;
+        const token = localStorage.getItem('accessToken');
 
-        axios.get(url, user.id)
+        axios.get(url, {
+            headers: {
+                'Authorization' : `Bearer ${token}`
+            }
+        })
         .then((response) => {
             setOrders(response.data);
         })
@@ -127,7 +134,13 @@ export const UserProvider = ({children}) => {
 
     const getOrderById = (orderId) => {
         const url = `http://localhost:8081/orders/view-order/${orderId}`;
-        axios.get(url)
+        const token = localStorage.getItem('accessToken');
+
+        axios.get(url, {
+            headers: {
+                'Authorization' : `Bearer ${token}`
+            }
+        })
         .then((response) => {
             return setPastOrder(response.data);
         })
