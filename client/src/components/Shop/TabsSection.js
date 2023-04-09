@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
-import { CardMedia, useMediaQuery } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import CoffeeTable from './CoffeeTable';
 import parse from 'html-react-parser';
 import CustomerComments from './CustomerComments';

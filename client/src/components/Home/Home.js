@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, CardMedia, Grid, Link, Stack, ToggleButtonGroup, Typography } from '@mui/material'
+import { Box, Button, CardMedia, Link, Stack, Typography } from '@mui/material'
 import React from 'react'
 import ImageCarousel from '../ImageCarousel'
 import HighlightSection from './HighlightSection';
@@ -27,22 +27,6 @@ const Home = () => {
         </Typography>
       </Box>
 
-        {/* <Box mt={8} sx={{backgroundImage: 'url(../images/holder_6.jpg)', width: "100%", height: "100%", paddingBottom: '50px'}}>
-          <Container>
-            <Box container align="center" sx={{color: 'white'}} p={1}>
-
-              <Box mt={8} mb={9}>
-                <Typography variant='h4' sx={{textTransform: 'uppercase', fontWeight: 'bold'}}>
-                  shop by roast level
-                </Typography>
-              </Box>
-
-  
-
-            </Box>
-          </Container>
-        </Box> */}
-        <Box></Box>
         <CardMedia align="center" sx={{backgroundImage: 'url(../images/holder_9.jpg)', width: "100%", height: "450px"}}>
           {/* <img src="../images/holder_9.jpg" width="100%" height="100%" alt="" /> */}
           <Box sx={{color: 'white', position: "absolute", marginTop: "100px", left: "50%", transform: "translateX(-50%)"}}>

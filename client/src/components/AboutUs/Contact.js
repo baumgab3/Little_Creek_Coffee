@@ -42,11 +42,11 @@ const Contact = () => {
                 <Divider />
 
                 <Typography mt={2}>
-                    Whether you have a question regarding our coffee products, our retail cafes, our wholesale business, or our website, 
-                    we can help you out. Please scroll to the bottom of the page to check out our answers to Frequently Asked Questions.
+                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, eligendi expedita odit atque, officia numquam modi.
+                   Eligendi fuga quas nostrum odio omnis quae earum voluptatibus cupiditate sequi. Ducimus, facilis quisquam excepturi deserunt nostrum repellat ut.
                 </Typography>
                 <Typography mt={2}>
-                     Feel free to contact us by mail, phone, or email. You can also use the form on this page to reach out to us.
+                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate ut incidunt aliquid suscipit!
                 </Typography>
                 <Typography mt={2}>
                     Our Customer Care service hours are: Monday - Friday: 8:30AM - 4:30PM (CST).
@@ -85,8 +85,6 @@ const Contact = () => {
                     Submit
                 </Button>
 
-
-                     
                 </Grid>
                 </Grid>
             </Grid>

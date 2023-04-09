@@ -1,4 +1,4 @@
-import { Button, Divider, Grid, Typography } from '@mui/material';
+import { Button, Divider, Grid } from '@mui/material';
 import { Box, Container } from '@mui/system'
 import { useContext } from 'react'
 import CartContext from '../context/CartContext';
@@ -59,9 +59,6 @@ const Checkout = () => {
                 product checkout
             </Grid>
         </Grid>
-
-
-
 
     </Container>
     )

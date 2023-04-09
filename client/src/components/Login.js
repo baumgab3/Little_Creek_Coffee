@@ -5,18 +5,13 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { Button, Typography, Link } from '@mui/material';
-import { useAuth } from './AuthProvider';
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import UserContext from './context/UserContext';
 import { red } from '@mui/material/colors';
 
 const Login = () => {
 
-    const { setAuth } = useAuth();
-    const navigate = useNavigate();
-
-    const {loginUser, isInvalidPassword, isInvalidLogin, isLoggedIn} = useContext(UserContext);
-
+    const {loginUser, isInvalidPassword, isInvalidLogin} = useContext(UserContext);
 
     const textFieldStyle = {width: {xs: "100%", sm: "100%", md: "150%"} , marginBottom: "25px"};
     const [userName, setUsername] = useState("");
@@ -39,9 +34,6 @@ const Login = () => {
 
         setUsernameError(false);
         setPasswordError(false);
-
-        // setAuth(true);
-        // navigate("/");
     }
 
     return (

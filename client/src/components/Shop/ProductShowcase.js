@@ -2,7 +2,7 @@ import { Box, Container } from '@mui/system'
 import React, { useContext, useEffect, useState } from 'react'
 import SmallBreadCrumbs from '../SmallBreadCrumbs'
 import BrowserDrawer from './BrowserDrawer'
-import {  useParams, useSearchParams } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 import { Button, Drawer, Grid, Toolbar, Typography } from '@mui/material';
 import TuneIcon from '@mui/icons-material/Tune';
 import TabsSection from './TabsSection';
@@ -58,7 +58,6 @@ const ProductShowcase = (props) => {
                 })
         }
 
-
         fetchProductDetails();
         setMobileOpen(false);
     }, [param1])
@@ -105,7 +104,7 @@ const ProductShowcase = (props) => {
             "price": productPricingObj.price,
             "quantity": quantity,
         }
-        console.log("handleAddToCart...", toAdd);
+
         addToCart(toAdd);
     }
 

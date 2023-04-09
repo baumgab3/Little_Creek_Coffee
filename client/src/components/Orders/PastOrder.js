@@ -1,31 +1,46 @@
 import { Box, Container } from '@mui/system'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import UserContext from '../context/UserContext';
 import { useParams } from 'react-router-dom';
 import { Divider, Grid, Typography } from '@mui/material';
 import OrderItemSummary from './OrderItemSummary/OrderItemSummary';
 import { yellow } from '@mui/material/colors';
 import UserDrawer from './UserDrawer';
+import axios from 'axios';
 
 const PastOrder = () => {
 
     const {orderId} = useParams();
-    const {getOrderById, pastOrder} = useContext(UserContext);
+    // const {getOrderById, pastOrder} = useContext(UserContext);
+    const {user} = useContext(UserContext);
     const orderStyle = {
         backgroundColor: yellow[500],
     }
+    
+    const [pastOrder, setPastOrder] = useState({});
 
     useEffect(() => {
-        const loadOrder = () => {
-            getOrderById(orderId);
-        }
+        const url = `http://localhost:8081/orders/view-order/${orderId}/${user.id}`;
+        const token = localStorage.getItem('accessToken');
 
-        loadOrder();
-    }, [orderId]);
+        axios.get(url, {
+            headers: {
+                'Authorization' : `Bearer ${token}`
+            }
+        })
+        .then((response) => {
+            return setPastOrder(response.data);
+        })
+        .catch(err => {
+            console.log("error fetching user orders", err);
+        })
+
+    }, [orderId, user.id]);
 
         return (
             <Container>
                 <Box mt={10}>
+                    
                 <Grid container spacing={2}>
 
                     <Grid item xs={12} sm={12} md={3}>

@@ -2,18 +2,11 @@ import React, { useContext, useState } from 'react';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import { Button, Typography, Link } from '@mui/material';
-import { useAuth } from './AuthProvider';
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Button, Typography } from '@mui/material';
 import UserContext from './context/UserContext';
 import { red } from '@mui/material/colors';
 
 const CreateAccount = () => {
-
-    // const { setAuth } = useAuth();
-    const navigate = useNavigate();
 
     const textFieldStyle = {width: {xs: "100%", sm: "100%", md: "190%"} , marginBottom: "25px"};
     const [userName, setUsername] = useState("");
@@ -37,7 +30,8 @@ const CreateAccount = () => {
 
         // if user is creating with email, make sure it is valid email
         if (userName.includes("@")) {
-            if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userName))) {
+            
+            if (!(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(userName))) {
                 setUsernameError(true);
                 return;
             } 
@@ -48,9 +42,6 @@ const CreateAccount = () => {
         setPasswordError(false);
 
         createNewUser(userName, password);
-
-        // setAuth(true);
-        // navigate("/");
     }
 
 

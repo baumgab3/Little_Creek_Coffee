@@ -14,13 +14,12 @@ export const UserProvider = ({children}) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loggedInUser, setLoggedInUser] = useState(null);
     const [user, setUser] = useState(null);
-    const [orders, setOrders] = useState(null);
-    const [pastOrder, setPastOrder] = useState(null);
 
+ 
     const loginUser = (givenLogin, password) => {
         let isEmail = false;
 
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(givenLogin)) {
+        if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(givenLogin)) {
             isEmail = true;
         }
 
@@ -69,8 +68,6 @@ export const UserProvider = ({children}) => {
                 setIsInvalidLogin(false);
                 setLoggedInUser(null);
                 setUser(null);
-                setPastOrder(null)
-                setOrders(null);
                 localStorage.removeItem("accessToken");
                 navigate("/");
             }
@@ -83,8 +80,8 @@ export const UserProvider = ({children}) => {
 
     const createNewUser = (givenLogin, password) => {
         let isEmail = false;
-
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(givenLogin)) {
+        // ^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+        if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(givenLogin)) {
             isEmail = true;
         }
 
@@ -113,44 +110,6 @@ export const UserProvider = ({children}) => {
             // TODO - should add more error handling
         })
     }
-
-    const getOrdersPreview = () => {
-        setPastOrder({});
-
-        const url = `http://localhost:8081/orders/${user.id}`;
-        const token = localStorage.getItem('accessToken');
-
-        axios.get(url, {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
-        })
-        .then((response) => {
-            setOrders(response.data);
-        })
-        .catch(err => {
-            console.log("error fetching user orders", err);
-        })
-    }
-
-    const getOrderById = (orderId) => {
-        const url = `http://localhost:8081/orders/view-order/${orderId}`;
-        const token = localStorage.getItem('accessToken');
-
-        axios.get(url, {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
-        })
-        .then((response) => {
-            return setPastOrder(response.data);
-        })
-        .catch(err => {
-            console.log("error fetching user orders", err);
-        })
-
-    }
-
  
     return (
         <UserContext.Provider value={{ 
@@ -163,10 +122,6 @@ export const UserProvider = ({children}) => {
             loggedInUser,
             logoutUser,
             user,
-            getOrdersPreview,
-            orders,
-            getOrderById,
-            pastOrder,
         }}>
 
             {children}

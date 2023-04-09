@@ -102,7 +102,7 @@ const getLearningSection = () => {
             {
                 icon : <LightbulbOutlinedIcon fontSize="large" />,
                 heading: "Public Classes",
-                text: "Sign up for one of our public classes and learn hands-on how to pull a shot, create latte art, or simply brew your coffee like an actual Little Creek barista!",
+                text: "Laborum animi quia culpa labore soluta ut laudantium accusantium perferendis. Blanditiis necessitatibus totam repellendus aspernatur minima fugiat laudantium adipisci quae non suscipit",
                 isLink: true,
                 url: "/public-classes",
                 buttonText: "check out our classes"
@@ -110,7 +110,7 @@ const getLearningSection = () => {
             {
                 icon : <FreeBreakfastOutlinedIcon fontSize="large" />,
                 heading: "Brewing Guides",
-                text: "Do you need tips on how to use your Aeropress or V60? Then check out one of our manual brewing guides so that you can brew a great cup of Little Creek Coffee at home.",
+                text: "Labore soluta ut laudantium accusantium perferendis. Blanditiis necessitatibus totam repellendus aspernatur minima fugiat laudantium adipisci quae non suscipit",
                 isLink: true,
                 url: "/brewing-guides",
                 buttonText: "brew better"
@@ -118,7 +118,7 @@ const getLearningSection = () => {
             {
                 icon : <RssFeedOutlinedIcon fontSize="large" />,
                 heading: "Little Creek Coffee Blog",
-                text: "Get the inside scoop of how Little Creek Coffee operates. Just click over to our blog to learn about new coffees, new endeavors, and more.",
+                text: "Blanditiis necessitatibus totam repellendus aspernatur minima fugiat laudantium adipisci quae non suscipit laudantium adipisci quae non suscipit",
                 isLink: true,
                 url: "/blog",
                 buttonText: "check out our classes"
@@ -136,7 +136,7 @@ const getWholesaleSection = () => {
             {
                 icon : <LooksOutlinedIcon fontSize="large" />,
                 heading: "Learn about Farm to Cup",
-                text: "We work directly with farmers at origin countries in order to ensure transparency and quality of our coffee, and we share what we have learned with our customers and anyone who is coffee-curious. We call this \"Farm to Cup.\"", 
+                text: "Amet consectetur adipisicing elit. Blanditiis quidem ducimus ut dolorem, a, magni nihil vel velit quasi at voluptatem assumenda aperiam commodi nobis nisi, natus excepturi explicabo. Beatae impedit vero itaque temporibus fuga",
                 isLink: false,
                 url: "/category/farm-to-cup",
                 buttonText: "read our blog"
@@ -144,7 +144,7 @@ const getWholesaleSection = () => {
             {
                 icon : <HandymanOutlinedIcon fontSize="large" />,
                 heading: "Fix My Equipment",
-                text: "We work with industry-leading equipment partners in support of you being able to brew the highest quality cup of coffee possible for your business. Our team of full-time technicians ensures your cafe equipment will operate at its absolute best.",
+                text: "Amet consectetur adipisicing elit. Blanditiis quidem ducimus ut dolorem, a, magni nihil vel velit quasi at voluptatem assumenda aperiam commodi nobis nisi, natus excepturi explicabo. Beatae impedit vero itaque temporibus fuga",
                 isLink: false,
                 url: "/contact",
                 buttonText: "get in touch with us"
@@ -152,7 +152,7 @@ const getWholesaleSection = () => {
             {
                 icon : <WhatshotOutlinedIcon fontSize="large" />,
                 heading: "Learn About Our Roast Levels",
-                text: "We've been working hard to become better coffee roasters. After more than 25 years of experience, we know that we can still get better. Here's a visual of the process we have used to help us renovate and rejuvenate how we roast coffee.",
+                text: "Amet consectetur adipisicing elit. Blanditiis quidem ducimus ut dolorem, a, magni nihil vel velit quasi at voluptatem assumenda aperiam commodi nobis nisi, natus excepturi explicabo. Beatae impedit vero itaque temporibus fuga",
                 isLink: false,
                 url: "/2020/06/28/the-roast-spectrum/",
                 buttonText: "check out our classes"
@@ -166,14 +166,14 @@ const getWholesaleSection = () => {
 //returns faq sections for about us accordian
 const getFAQs = () => {
     const FAQs = [
-        {idx: 0, question: "What are the delivery charges for orders from the Online Shop?", answer: "Nothing. We rock free shipping on all orders. That said, if you need your order rushed, we can make that happen, but you're gonna have to pick up the tab."},
-        {idx: 1, question: "Which payment methods are accepted in the Online Shop?", answer: "Credit Card, Debit Card, Amazon Pay, PayPal, and Republic Credits."},
-        {idx: 2, question: "How long will delivery take?", answer: "Nothing. We rock free shipping on all orders. That said, if you need your order rushed, we can make that happen, but you're gonna have to pick up the tab."},
-        {idx: 3, question: "How secure is shopping in the Online Shop? Is my data protected?", answer: "Pretty darn secure. Make sure you have a great password when you set up your account. Our server is secure in Odin's vault. So, we should be set unless Loki or Hela were to be resurrected and pursue a career in computer hacking."},
-        {idx: 4, question: "What exactly happens after ordering?", answer: "Nothing. We rock free shipping on all orders. That said, if you need your order rushed, we can make that happen, but you're gonna have to pick up the tab."},
-        {idx: 5, question: "WILL I RECEIVE TRACKING INFORMATION?", answer: "When you place an online order with us, you will receive an initial \"Order Received\" email with your receipt and order number.  Once we process your order and it leaves our facility, you will receive an \"Order Shipped\" email with your tracking number embedded in the body of the email."},
-        {idx: 6, question: "Do I receive an invoice for my order?", answer: "As soon as you submit your order, you should receive a confirmation email from us. You should also receive a follow up with shipping and tracking information as soon as your order is processed."},
-        {idx: 7, question: "WHAT IF THERE'S A MISTAKE WITH MY ORDER?", answer: "Well, crap. That's on us. We work hard to make things great, but we do make mistakes from time to time. Just send an email to customers@.com and we will make it right."}
+        {idx: 0, question: "What are the delivery charges for orders from the Online Shop?", answer: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, sit nobis blanditiis quia consequatur distinctio autem eveniet vel?"},
+        {idx: 1, question: "Which payment methods are accepted in the Online Shop?", answer: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, sit nobis blanditiis quia consequatur distinctio autem eveniet vel?"},
+        {idx: 2, question: "How long will delivery take?", answer: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, sit nobis blanditiis quia consequatur distinctio autem eveniet vel?" },
+        {idx: 3, question: "How secure is shopping in the Online Shop? Is my data protected?", answer: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, sit nobis blanditiis quia consequatur distinctio autem eveniet vel?"},
+        {idx: 4, question: "What exactly happens after ordering?", answer: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, sit nobis blanditiis quia consequatur distinctio autem eveniet vel?"},
+        {idx: 5, question: "WILL I RECEIVE TRACKING INFORMATION?", answer: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, sit nobis blanditiis quia consequatur distinctio autem eveniet vel?"},
+        {idx: 6, question: "Do I receive an invoice for my order?", answer: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, sit nobis blanditiis quia consequatur distinctio autem eveniet vel?"},
+        {idx: 7, question: "WHAT IF THERE'S A MISTAKE WITH MY ORDER?", answer: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, sit nobis blanditiis quia consequatur distinctio autem eveniet vel?"}
     ]
 
     return FAQs;

@@ -100,7 +100,7 @@ const getOrders = async (req, res) => {
     
     try {
 
-        // // verfiy authorized user
+        //verfiy authorized user
         if (req.params.id !== req.user.id) {
             return res.status(401).json({message: "You are not authorized to update"});
         }        
@@ -138,7 +138,13 @@ const getOrders = async (req, res) => {
 
 
 const getOrderById = async (req, res) => {
+
     try {
+    
+        //verfiy authorized user
+        if (req.params.userId !== req.user.id) {
+            return res.status(401).json({message: "You are not authorized to update"});
+        }
 
         const orderId = req.params.orderId;
         const sqlSelect = `SELECT * FROM order_items WHERE OrderId = '${orderId}'`;

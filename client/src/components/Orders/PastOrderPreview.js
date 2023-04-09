@@ -1,8 +1,7 @@
-import { Button, Divider, Grid, Link, Paper } from '@mui/material'
+import { Divider, Grid, Link } from '@mui/material'
 import { Box } from '@mui/system'
 import React from 'react'
 import { Link as RouterLink } from "react-router-dom";
-
 
 
 const PastOrderPreview = ({order}) => {
@@ -22,7 +21,7 @@ const PastOrderPreview = ({order}) => {
                     ${order.total.toFixed(2)} for {order.quantity} {itemText}
                 </Grid>
                 <Grid item xs={3} align="right">
-                    <Button component={RouterLink} to={`/my-orders/${order.id}`} variant="contained" >View</Button>   
+                    <Link component={RouterLink} to={`/my-orders/${order.id}`} underline="hover">View</Link>
                 </Grid>
             </Grid>
             <Divider />

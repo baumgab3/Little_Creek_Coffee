@@ -4,29 +4,41 @@ import React, { useContext, useEffect, useState } from 'react'
 import UserContext from '../context/UserContext';
 import PastOrderPreview from './PastOrderPreview';
 import UserDrawer from './UserDrawer';
+import axios from 'axios';
 
 const UserOrders = () => {
 
-    const {getOrdersPreview, orders} = useContext(UserContext);
+    // const {getOrdersPreview, orders} = useContext(UserContext);
+    const {user} = useContext(UserContext);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [orders, setOrders] = useState({});
 
     useEffect(() => {
 
-        const loadOrders = () => {
-            getOrdersPreview();
-            setIsLoaded(true);
-        }
+        const url = `http://localhost:8081/orders/${user.id}`;
+        const token = localStorage.getItem('accessToken');
 
-        loadOrders();
+        axios.get(url, {
+            headers: {
+                'Authorization' : `Bearer ${token}`
+            }
+        })
+        .then((response) => {
+            setOrders(response.data);
+            setIsLoaded(true);
+        })
+        .catch(err => {
+            console.log("error fetching user orders", err);
+        })
         
-    }, []);
+    }, [user.id]);
 
 
     return (
         <Container>
         <Box mt={10}>
-            <Grid container spacing={2}>
 
+            <Grid container spacing={2}>
                 <Grid item xs={12} sm={12} md={3}>
                     <UserDrawer />
                 </Grid>
