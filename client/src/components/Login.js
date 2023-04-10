@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
@@ -8,33 +8,90 @@ import { Button, Typography, Link } from '@mui/material';
 import { Link as RouterLink } from "react-router-dom";
 import UserContext from './context/UserContext';
 import { red } from '@mui/material/colors';
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+
 
 const Login = () => {
 
-    const {loginUser, isInvalidPassword, isInvalidLogin} = useContext(UserContext);
+    const {setUser} = useContext(UserContext);
+    const navigate = useNavigate();
 
     const textFieldStyle = {width: {xs: "100%", sm: "100%", md: "150%"} , marginBottom: "25px"};
-    const [userName, setUsername] = useState("");
+
     const [password, setPassword] = useState("");
-    const [hasUsernameError, setUsernameError] = useState(false);
-    const [hasPasswordError, setPasswordError] = useState(false);
+    const [login, setLogin] = useState("");
+
+    const [emptyLoginError, setEmptyLoginError] = useState(false);
+    const [emptyPasswordError, setEmptyPasswordError] = useState(false);
+    const [loginNotFoundError, setLoginNotFoundError] = useState(false);
+    const [incorrectPasswordError, setIncorrectPasswordError] = useState(false);
+
+    const errors = useRef([]);
     
     const handleLogin = (e) => {
         e.preventDefault();
+        errors.current = [];
 
-        if (!userName || !password) {
-            !userName ? setUsernameError(true) : setUsernameError(false);
-            !password ? setPasswordError(true) : setPasswordError(false);
+        if (!login) {
+            setEmptyLoginError(true);
+            errors.current.push("Username or email cannot be blank.");
+        } else {
+            setEmptyLoginError(false);
+        }
+
+        if (!password) {
+            setEmptyPasswordError(true);
+            errors.current.push("Password cannot be blank.");
+        } else {
+            setEmptyPasswordError(false);
+        }
+
+        // if errors here the prevent a post to check login
+        if (errors.current.length !== 0) {
             return;
         }
 
-        // TODO - do more validation
+        let isEmail = false;
 
-        loginUser(userName, password);
+        if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(login)) {
+            isEmail = true;
+        } 
 
-        setUsernameError(false);
-        setPasswordError(false);
+        const url = 'http://localhost:8081/my-account';
+        const userInfo = {login, password, isEmail};
+
+        axios.post(url, userInfo)
+        .then((response) => {
+
+            if (response.status === 200) {
+                setUser(response.data.user);
+                console.log(response.data.user);
+                localStorage.setItem("accessToken", response.data.user.accessToken);
+                navigate("/");
+            }
+        })
+        .catch(err => {
+            // givenLogin not found
+            if (err.response.status === 404) {
+                setLoginNotFoundError(true);
+                errors.current.push("No record found for given login.");
+            } else {
+                setLoginNotFoundError(false);
+            }
+
+
+            // incorrect passowrd
+            if (err.response.status === 401) {
+                setIncorrectPasswordError(true);
+                errors.current.push("Incorrect password.");
+            } else {
+                setIncorrectPasswordError(false);
+            }
+        })
+
     }
+
 
     return (
         <Box sx={{minHeight: '600px'}}>
@@ -44,24 +101,38 @@ const Login = () => {
             </Typography>
         </Box>
 
-        {/* errors */}
-        <Box align="center" mt={5}>
-            { isInvalidLogin && <Typography variant="p" sx={{color: red[500]}}>
-                Username or email not found!
-            </Typography> }
-
-            { isInvalidPassword && <Typography variant="p" sx={{color: red[500]}}>
-                Password is not correct!
-            </Typography> }
-        </Box>
-
         <Box mt={5} align="center">
+
             <FormControl >
+
+                {/* Error Box */}
+                <Box mt={1} mb={1} color={red[500]} align="left">
+                    {errors.current.map((error) => {
+                        return <Box key={error}>{error}</Box>;
+                    })}
+                </Box>
+
                 <Typography variant='h5' align='left' mb={1}>
                     Login
                 </Typography>
-                <TextField error={hasUsernameError ? true : false} onChange={(e) => setUsername(e.target.value.trim())} value={userName} sx={textFieldStyle} label="Username or email" required />
-                <TextField error={hasPasswordError ? true : false} onChange={(e) => setPassword(e.target.value.trim())} value={password} sx={textFieldStyle} label="Password" type="password" required />
+
+                <TextField
+                error={emptyLoginError || loginNotFoundError}
+                onChange={(e) => setLogin(e.target.value.trim())}
+                sx={textFieldStyle}
+                label="Username or email"
+                required
+                />
+
+                <TextField
+                error={emptyPasswordError || incorrectPasswordError}
+                onChange={(e) => setPassword(e.target.value.trim())}
+                sx={textFieldStyle}
+                label="Password"
+                type="password"
+                required
+                />
+
                 <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me" />
 
                 <Button onClick={(e) => handleLogin(e)} sx={{width: "100px"}} variant="contained">LOG IN</Button>

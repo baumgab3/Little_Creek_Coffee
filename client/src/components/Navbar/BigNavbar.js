@@ -15,7 +15,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import CartContext from '../context/CartContext';
 
-const BigNavbar = ({isLoggedIn, loggedInUser, logoutUser, user}) => {
+const BigNavbar = ({logoutUser, user}) => {
 
     const {cartSize, getCartTotal} = useContext(CartContext);
 
@@ -279,7 +279,7 @@ const BigNavbar = ({isLoggedIn, loggedInUser, logoutUser, user}) => {
         </Grid>
     
         <Grid item md={3} lg={3} sx={{textAlign: 'right'}} pt={1} >
-            {isLoggedIn &&
+            {user &&
                 <>
                 <Button
                 id="loggin-fade-button"
@@ -290,7 +290,7 @@ const BigNavbar = ({isLoggedIn, loggedInUser, logoutUser, user}) => {
                 sx = {{color: '#fff' }}
                 endIcon={<KeyboardArrowDownIcon />}
                 >
-                  {user.displayName ? user.displayName : loggedInUser}
+                  {user.displayName ? user.displayName : user.user}
                 </Button>
                 <Menu
                 id="loggin-fade-menu"
@@ -314,7 +314,7 @@ const BigNavbar = ({isLoggedIn, loggedInUser, logoutUser, user}) => {
                 </>
             }
 
-            {!isLoggedIn && 
+            {!user && 
                 <Button component={Link} to="login" color="inherit">Login</Button>
             }
                 |

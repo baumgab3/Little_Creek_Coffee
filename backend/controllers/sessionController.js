@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const query = util.promisify(conn.query).bind(conn);
 
 const login = async (req, res) => {
-    const givenLogin = req.body.givenLogin;
+    const givenLogin = req.body.login;
     const password = req.body.password;
     const isEmail = req.body.isEmail;
 

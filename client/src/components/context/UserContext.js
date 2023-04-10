@@ -9,53 +9,9 @@ export const UserProvider = ({children}) => {
     const navigate = useNavigate();
 
     const [isAccountTaken, setIsAccountTaken] = useState(false);
-    const [isInvalidPassword, setIsInvalidPassword] = useState(false);
-    const [isInvalidLogin, setIsInvalidLogin] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [loggedInUser, setLoggedInUser] = useState(null);
     const [user, setUser] = useState(null);
 
  
-    const loginUser = (givenLogin, password) => {
-        let isEmail = false;
-
-        if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(givenLogin)) {
-            isEmail = true;
-        }
-
-        const url = 'http://localhost:8081/my-account';
-        const userInfo = {givenLogin, password, isEmail};
-
-        axios.post(url, userInfo)
-        .then((response) => {
-
-            if (response.status === 200) {
-                setIsInvalidPassword(false);
-                setIsInvalidLogin(false);
-                setIsLoggedIn(true);
-                setLoggedInUser(givenLogin);
-                setUser(response.data.user);
-                localStorage.setItem("accessToken", response.data.user.accessToken);
-                navigate("/");
-            }
-        })
-        .catch(err => {
-            console.log(err.response.status);
-            // givenLogin not found
-            if (err.response.status === 404) {
-                setIsInvalidLogin(true);
-                setIsInvalidPassword(false);
-            }
-            // incorrect passowrd
-            if (err.response.status === 401) {
-                setIsInvalidPassword(true);
-                setIsInvalidLogin(false);
-            }
-
-            // TODO - should add more error handling
-        })
-    }
-
     const logoutUser = () => {
         const url = 'http://localhost:8081/logout';
         
@@ -63,10 +19,6 @@ export const UserProvider = ({children}) => {
         .then((response) => {
 
             if (response.status === 200) {
-                setIsLoggedIn(false);
-                setIsAccountTaken(false);
-                setIsInvalidLogin(false);
-                setLoggedInUser(null);
                 setUser(null);
                 localStorage.removeItem("accessToken");
                 navigate("/");
@@ -93,8 +45,6 @@ export const UserProvider = ({children}) => {
 
             if (response.status === 200) {
                 setIsAccountTaken(false);
-                setIsLoggedIn(true);
-                setLoggedInUser(givenLogin);
                 setUser(response.data.user);
                 localStorage.setItem("accessToken", response.data.user.accessToken);
                 navigate("/");
@@ -114,13 +64,9 @@ export const UserProvider = ({children}) => {
     return (
         <UserContext.Provider value={{ 
             createNewUser,
-            loginUser,
             isAccountTaken,
-            isInvalidPassword,
-            isInvalidLogin,
-            isLoggedIn,
-            loggedInUser,
             logoutUser,
+            setUser,
             user,
         }}>
 
