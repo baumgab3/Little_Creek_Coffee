@@ -30,21 +30,21 @@ const Login = () => {
     const errors = useRef([]);
     
     const handleLogin = (e) => {
-        e.preventDefault();
+        // reset errors
         errors.current = [];
+        setEmptyLoginError(false);
+        setEmptyPasswordError(false);
+        setLoginNotFoundError(false);
+        setIncorrectPasswordError(false);
 
         if (!login) {
             setEmptyLoginError(true);
             errors.current.push("Username or email cannot be blank.");
-        } else {
-            setEmptyLoginError(false);
         }
 
         if (!password) {
             setEmptyPasswordError(true);
             errors.current.push("Password cannot be blank.");
-        } else {
-            setEmptyPasswordError(false);
         }
 
         // if errors here the prevent a post to check login
@@ -53,7 +53,6 @@ const Login = () => {
         }
 
         let isEmail = false;
-
         if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(login)) {
             isEmail = true;
         } 
@@ -66,7 +65,6 @@ const Login = () => {
 
             if (response.status === 200) {
                 setUser(response.data.user);
-                console.log(response.data.user);
                 localStorage.setItem("accessToken", response.data.user.accessToken);
                 navigate("/");
             }
@@ -76,17 +74,12 @@ const Login = () => {
             if (err.response.status === 404) {
                 setLoginNotFoundError(true);
                 errors.current.push("No record found for given login.");
-            } else {
-                setLoginNotFoundError(false);
             }
-
 
             // incorrect passowrd
             if (err.response.status === 401) {
                 setIncorrectPasswordError(true);
                 errors.current.push("Incorrect password.");
-            } else {
-                setIncorrectPasswordError(false);
             }
         })
 
@@ -104,7 +97,6 @@ const Login = () => {
         <Box mt={5} align="center">
 
             <FormControl >
-
                 {/* Error Box */}
                 <Box mt={1} mb={1} color={red[500]} align="left">
                     {errors.current.map((error) => {
