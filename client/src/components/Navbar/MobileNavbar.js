@@ -273,10 +273,9 @@ const MobileNavbar = (props) => {
                     <Link to="/cart" style={{ textDecoration: 'none', color: 'inherit' }}>
                          <ShoppingCartOutlinedIcon />
                     </Link>
-                    <Box mb={1} sx={{display: {xs:"none", sm:"block"}}}>
+                    <Box component={Link} to="/cart" mb={1} sx={{display: {xs:"none", sm:"block"}, color: 'inherit', textDecoration: 'none'}}>
                        ({cartSize}) 
                     </Box>
-                    
                 </Button>
             </ButtonGroup>
         </Grid>

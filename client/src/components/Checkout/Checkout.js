@@ -8,7 +8,7 @@ import CartItem from './CartItem';
 const Checkout = () => {
     
     const {cart, cartSize, getCartTotal, getUniqueID, placeOrder} = useContext(CartContext);
-    const {isLoggedIn} = useContext(UserContext);
+    const {user} = useContext(UserContext);
 
     if (!cart || cartSize === 0) {
         return (
@@ -51,7 +51,7 @@ const Checkout = () => {
                     SubTotal ({cartSize} items): ${getCartTotal()}
                 </Box>
                 <Box mt={4} align="right">
-                    {isLoggedIn && cartSize !== 0 && <Button onClick={placeOrder} variant="contained" mt={4}>Place Order</Button>}
+                    {user && cartSize !== 0 && <Button onClick={placeOrder} variant="contained" mt={4}>Place Order</Button>}
                 </Box>
             </Grid>
 

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import AppBar from '@mui/material/AppBar';
 import BigNavbar from './BigNavbar';
 import MobileNavbar from './MobileNavbar';
@@ -9,7 +9,7 @@ import UserContext from '../context/UserContext';
 
 const Navbar = (props) => {
 
-    const {isLoggedIn, loggedInUser, logoutUser, user} = useContext(UserContext);
+    const {logoutUser, user} = useContext(UserContext);
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -18,14 +18,10 @@ const Navbar = (props) => {
             <TopNavbar />
 
             <BigNavbar
-            isLoggedIn={isLoggedIn}
-            loggedInUser={loggedInUser}
             logoutUser={logoutUser}
             user={user}
             />
             <MobileNavbar
-            isLoggedIn={isLoggedIn}
-            loggedInUser={loggedInUser}
             logoutUser={logoutUser}
             user={user}
             drawerWidth={props.drawerWidth} />

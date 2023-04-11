@@ -124,7 +124,7 @@ const CreateAccount = () => {
                 sx={textFieldStyle}
                 label="Password"
                 type="password"
-                rquired
+                required
                 />
 
                 <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me" />

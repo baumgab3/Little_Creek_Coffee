@@ -68,7 +68,7 @@ const getOrdersPreview = async (req, res) => {
         }
 
         const userId = req.params.userId;
-        const sqlStatement = `SELECT * FROM orders WHERE UserId = '${userId}' ORDER BY PlacedDate DESC`;
+        const sqlStatement = `SELECT * FROM orders WHERE UserId = '${userId}' ORDER BY DATE_FORMAT(PlacedDate, '%Y-%m-%d') desc`;
         const orders = await query(sqlStatement);
 
         const returnOrders = [];
