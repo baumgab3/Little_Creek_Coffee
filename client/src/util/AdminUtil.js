@@ -14,20 +14,24 @@ const slugify = (toClean) => {
     return toClean.toLowerCase().replace(/\s+/g, " ").replace(/\s/g, "-");
 }
 
+const deslugify = (toClean) => {
+    return toClean.replaceAll("-", " ");
+}
+
 
 // returns array for the 'Shop' option in the navbar
 const getDropDownForShop = () => {
     const shopOptions = [
         {name: "Coffee", url: "/product-category/roast/"},
-        {name: "Subscription", url: "/product-category/subscription"},
-        {name: "Cold Brew", url: "/product-category/cold-brew"},
-        {name: "Merchandise", url: "/product-category/merchandise"},
-        {name: "Coffee Box Sets", url: "/product-category/coffee-box-sets"},
-        {name: "Gifts", url: "/product-category/gifts"},
-        {name: "Gift Cards", url: "/product-category/gift-cards"},
-        {name: "Tea", url: "/product-category/tea"},
-        {name: "Sales & Bundles", url: "/product-category/sales"},
-        {name: "Mobile App & Rewards", url: "/product-category/mobile-ordering"}
+        // {name: "Subscription", url: "/product-category/subscription"},
+        {name: "Merchandise", url: "/product-category/merchandise/"},
+        {name: "Cold Brew", url: "/product-category/cold-brew/"},
+        // {name: "Coffee Box Sets", url: "/product-category/coffee-box-sets"},
+        // {name: "Gifts", url: "/product-category/gifts"},
+        // {name: "Gift Cards", url: "/product-category/gift-cards"},
+        {name: "Tea", url: "/product-category/tea/"},
+        // {name: "Sales & Bundles", url: "/product-category/sales"},
+        // {name: "Mobile App & Rewards", url: "/product-category/mobile-ordering"}
     ];
 
     return shopOptions;
@@ -541,6 +545,7 @@ const getStateAbbreviation = (state) => {
 
 export {
     slugify,
+    deslugify,
     getDropDownForShop,
     getDropDownForCafes,
     getDropDownForLearning,

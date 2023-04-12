@@ -12,14 +12,13 @@ import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { getShopCategories } from '../../util/ShopUtil';
 import { useParams } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
 
 const BrowserDrawer = () => {
     const { param1, param2 } = useParams();
-    const navigate = useNavigate();
+
     const categoryToggleIconStyle = {color: 'black', "&:hover": {backgroundColor: 'white', color: '#3c52b2'}};
     const categoreis = getShopCategories();
-    const categoryButtonStyle = {color: 'black'};
+    const categoryButtonStyle = {color: 'black', "&:hover": {backgroundColor: 'white', color: '#3c52b2'}};
 
     // handles Roast 
     const [toggleRoasts, setToggleRoasts] = useState(false);
@@ -86,11 +85,29 @@ const BrowserDrawer = () => {
         }
     }
 
-    const [active, setActive] = useState("");
+    const handleSectionToggle = (section) => {
+        console.log("set active", section);
 
-    const evaluate = (str) => {
-     
+        if (section === 'roast') {
+            handleToggleRoasts();
+        }
     }
+
+    // TODO - probably a more react way to do this, but for now straight js is the easiest
+    // const setActive = (name) => {
+    //     document.getElementById(name).style.textDecoration = "underline";
+    //     const btns = document.getElementsByClassName("btn");
+
+    //     for (let i = 0; i < btns.length; i++) {
+    //         const currentId = btns[i].getAttribute("id");
+
+    //         if (currentId !== name) {
+    //             document.getElementById(currentId).style.textDecoration="";
+    //         } 
+    //     }
+    // }
+
+    const [active, setActive] = useState("");
 
     useEffect(() => {
 
@@ -98,93 +115,13 @@ const BrowserDrawer = () => {
             switch (param1) {
                 case 'roast': setToggleRoasts(true); break;
                 case 'region': setToggleRegions(true); break;
-                // case 'subscription': setToggleSubscription(true); break;
+                case 'buy-in-bulk': setToggleBulk(true); break;
+                case 'subscription': setToggleSubscription(true); break;
                 case 'merchandise': setToggleMerchandise(true); break;
                 default: // don't want anything to open for default
             }
         }
 
-        switch (window.location.pathname) {
-            // ROASTS
-            case "/product-category/roast/":
-            case "/product-category/roast":
-                setActive("roast");
-                break;
-            case "/product-category/roast/light":
-            case "/product-category/roast/light/":
-                setActive("light");
-                break;
-            case "/product-category/roast/medium":
-            case "/product-category/roast/medium/":
-                setActive("medium");
-                break;
-            case "/product-category/roast/dark":
-            case "/product-category/roast/dark/":
-                setActive("dark");
-                break;
-            case "/product-category/roast/decaf":
-            case "/product-category/roast/decaf/":
-                setActive("decaf");
-                break;
-
-            // REGIONS
-            case "/product-category/region/":
-            case "/product-category/region":
-                setActive("region");
-                break;
-            case "/product-category/region/africa/":
-            case "/product-category/region/africa":
-                setActive("africa");
-                break;
-            case "/product-category/region/central-america/":
-            case "/product-category/region/central-america":
-                setActive("central america");
-                break;
-            case "/product-category/region/south-america/":
-            case "/product-category/region/south-america":
-                setActive("south america");
-                break;
-            case "/product-category/region/compositions/":
-            case "/product-category/region/compositions":
-                setActive("compositions");
-                break;
-        
-            // MERCHANDISE
-            case "/product-category/merchandise/":
-            case "/product-category/merchandise":
-                setActive("merchandise");
-                break;
-            case "/product-category/merchandise/brewing-tools/":
-            case "/product-category/merchandise/brewing-tools":
-                setActive("brewing tools");
-                break;
-            case "/product-category/merchandise/clothing/":
-            case "/product-category/merchandise/clothing":
-                setActive("clothing");
-                break;
-            case "/product-category/merchandise/drinkware/":
-            case "/product-category/merchandise/drinkware":
-                setActive("drinkware");
-                break;
-            case "/product-category/merchandise/other-merch/":
-            case "/product-category/merchandise/other-merch":
-                setActive("other merch");
-                break;
-
-            // COLD BREW
-            case "/product-category/cold-brew/":
-            case "/product-category/cold-brew":
-                setActive("cold brew");
-                break;
-
-            // TEA
-            case "/product-category/tea/":
-            case "/product-category/tea":
-                setActive("tea");
-                break;
-        }
-        
-        
         setOpenDrawer();
 
     }, [param1, param2]);
@@ -199,16 +136,62 @@ const BrowserDrawer = () => {
                 <Divider sx={{width: '30px', borderBottomWidth: 3}} />
             </Box>
 
+            {/* ROAST SECTION */}
+            <Box>
+                <Button
+                // onClick={handleToggleRoasts}
+                component={Link}
+                onClick={handleOpenRoasts}
+                to="/product-category/roast/"
+                sx={categoryButtonStyle} >
+                    <Typography sx={{width: '150px'}}>
+                         Roast
+                    </Typography>
+                </Button>
+                <Button 
+                onClick={handleToggleRoasts}
+                sx={categoryToggleIconStyle} >
+                {toggleRoasts ? <ExpandLess /> : <ExpandMore  />}
+                </Button>
+
+                <Collapse in={toggleRoasts} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                        <ListItemButton
+                        className="btn"
+                        value="Light"
+                        id="Light"
+                        sx={{width: '200px'}}
+                        component={Link} 
+                        to="/product-category/roast/light/"
+                        >
+                        <ListItemText primary="Light" />
+                        </ListItemButton>
+
+                        <ListItemButton
+                        className="btn"
+                        value="Medium"
+                        id="Medium"
+                        sx={{width: '200px'}}
+                        component={Link} 
+                        to="/product-category/roast/medium/"
+                        >
+                        <ListItemText primary="Medium" />
+                        </ListItemButton>
+                    </List>
+                </Collapse>
+
+
+            </Box>
+
             {/* TODO - using eval for now to get something on the screen */}
-            {categoreis.map(current => {
+            {/* {categoreis.map(current => {
                 return <Box key={current.category}>
                         <Button 
                         component={Link}
-                        onClick={() => {eval(current.openAllFunction)}}
-                        id={current.category}
+                        onClick={eval(current.openAllFunction)}
                         to={current.categoryUrl}
                         sx={categoryButtonStyle} >
-                            <Typography sx={{width: '150px', fontWeight: active === current.category ? 'bold' : ''}} >
+                            <Typography sx={{width: '150px'}}>
                                 {current.category}
                             </Typography>
                         </Button>
@@ -218,22 +201,18 @@ const BrowserDrawer = () => {
                                 {eval(current.toggleBoolean) ? <ExpandLess /> : <ExpandMore  />}
                             </Button>
                             <Collapse in={eval(current.toggleBoolean)} timeout="auto" unmountOnExit>
-                                <List component="div" disablePadding >
+                                <List component="div" disablePadding>
                                 {current.subCategories.map(category => {
                                 return <ListItemButton
                                         className="btn"
                                         value={category.name}
-                                        // onClick={() => handleSetActive(category.name)}
+                                        onClick={() => setActive(category.name)}
                                         id={category.name}
                                         sx={{width: '200px'}}
                                         component={Link} 
                                         to={category.url}
                                         key={category.name} >
-                                            <ListItemText
-                                            disableTypography
-                                            primary={category.name}
-                                            sx={{fontWeight: active === category.name.toLocaleLowerCase() ? 'bold' : ''}}
-                                            />
+                                            <ListItemText primary={category.name} />
                                         </ListItemButton>
                                 })}
                                 </List>
@@ -241,7 +220,7 @@ const BrowserDrawer = () => {
                             </>
                         }
                     </Box>
-            })}
+            })} */}
         </Box>
     )
 }

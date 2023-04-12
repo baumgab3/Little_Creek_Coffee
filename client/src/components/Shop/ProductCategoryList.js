@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import {  useParams } from 'react-router-dom';
 import ProductPreviewCard from './ProductPreviewCard';
 import { Link as RouterLink } from 'react-router-dom';
+import { deslugify } from '../../util/AdminUtil';
 
 
 const ProductCategoryList = (props) => {
@@ -58,10 +59,9 @@ const ProductCategoryList = (props) => {
         <>
         <Link to={`/product-category/${category}/${subCategory}/`} component={RouterLink} underline="hover">
             <Typography variant="h5" sx={{textTransform: "uppercase", fontWeight: "bold"}} mb={2}>
-                {category} {subCategory && <>/ {subCategory}</>}
+                {category} {subCategory && <>/ {deslugify(subCategory)}</>}
             </Typography>
         </Link>
-
 
         <Grid container spacing={2} >
             {products && products.map(product => {

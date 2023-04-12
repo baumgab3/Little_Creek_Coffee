@@ -77,7 +77,7 @@ const getShopCategories = () => {
                 {name: "Clothing", url: "/product-category/merchandise/clothing/"},
                 {name: "Drinkware", url: "/product-category/merchandise/drinkware/"},
                 {name: "Other Merch", url: "/product-category/merchandise/other-merch/"},
-                {name: "Posters & Prints", url: "/product-category/merchandise/posters-and-print/"},
+                // {name: "Posters & Prints", url: "/product-category/merchandise/posters-and-print/"},
             ]
         },
         {
@@ -113,8 +113,23 @@ const getGrindTypes = () => {
     return types;
 }
 
+
+const isSafeEval = (toEval) => {
+    switch (toEval) {
+        case "handleToggleRegions": return true;
+        case "toggleRegions": return true;
+        case "handleOpenRegions": return true;
+        case "handleToggleMerchandise": return true;
+        case "toggleMerchandise": return true;
+        case "handleOpenMerchandise": return true;
+        default:
+            return false;
+    }
+}
+
 export {
     getRoastOptions,
     getShopCategories,
-    getGrindTypes
+    getGrindTypes,
+    isSafeEval
 }
