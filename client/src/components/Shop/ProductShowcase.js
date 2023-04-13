@@ -119,7 +119,7 @@ const ProductShowcase = (props) => {
                 {/* BreadCrumbs for small screens */}
                 <Box align="center" sx={{display: {xs:"block", sm: "block", md: "none"}}}>
                     <Box display="flex" align="center" justifyContent="center" mb={3}>
-                    <SmallBreadCrumbs /> 
+                    {/* <SmallBreadCrumbs />  */}
                     </Box>
                     
                     <Button variant="outlined" onClick={handleDrawerToggle} >
@@ -130,7 +130,7 @@ const ProductShowcase = (props) => {
                 {/* BreadCrumbs for bigger screens */}
                 <Grid container mb={3}>
                     <Grid item md={12} sx={{display: {xs:"none", sm: "none", md: "block"}}}>
-                        <SmallBreadCrumbs />
+                        {/* <SmallBreadCrumbs /> */}
                     </Grid>
                 </Grid>
 

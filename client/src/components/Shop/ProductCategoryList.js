@@ -57,9 +57,9 @@ const ProductCategoryList = (props) => {
 
         {isLoaded && 
         <>
-        <Link to={`/product-category/${category}/${subCategory}/`} component={RouterLink} underline="hover">
+        <Link to={subCategory ? `/product-category/${category}/${subCategory}/` : "#"} component={RouterLink} underline="hover">
             <Typography variant="h5" sx={{textTransform: "uppercase", fontWeight: "bold"}} mb={2}>
-                {category} {subCategory && <>/ {deslugify(subCategory)}</>}
+                {deslugify(category)} {subCategory && <>/ {deslugify(subCategory)}</>}
             </Typography>
         </Link>
 
