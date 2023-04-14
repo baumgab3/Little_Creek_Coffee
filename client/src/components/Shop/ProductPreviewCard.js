@@ -44,7 +44,7 @@ const ProductPreviewCard = (props) => {
     }
 
     const handleOpenQuickView = () => {
-
+        console.log(product);
     }
 
     return (
@@ -66,7 +66,7 @@ const ProductPreviewCard = (props) => {
             </CardMedia>
             <Box
             id={`${slugify(product.name)}`}
-            sx={{height: '0px', color: 'white', width: '100%', position: 'absolute', bottom: '1px' }}
+            sx={{height: '0px', color: 'white', width: '100%', position: 'absolute', bottom: '1px', display: {xs: "none", sm: "block"} }}
             onMouseEnter={() => handleQuickViewHighlight("mouse-in")}
             onMouseLeave={() => handleQuickViewHighlight("mouse-out")}
             onClick={() => handleOpenQuickView()}

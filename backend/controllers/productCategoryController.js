@@ -36,7 +36,7 @@ const getProductPreviews = async (req, res) => {
             const priceObj = await getPriceRange(product.Id);
             const productObj = JSON.parse(JSON.stringify(product));
             const name = productObj.Name;
-            toReturn.push({"name": name, "priceRange": priceObj.priceRange, "hasSale": priceObj.hasSale});
+            toReturn.push({"id": product.Id ,"name": name, "priceRange": priceObj.priceRange, "hasSale": priceObj.hasSale});
         }
 
         return res.send(toReturn);

@@ -60,6 +60,12 @@ const ShopContainer = (props) => {
                         {!param2 && <ProductCategoryListAll /> }
                     </Grid>
                 </Grid>
+
+                {/* TODO - You may also be interested in section */}
+                <Box sx={{backgroundColor: "white", height: '400px'}}>
+
+                </Box>
+
                 </Box>
             </Container>
 
