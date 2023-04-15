@@ -19,7 +19,7 @@ const ProductPreviewCard = (props) => {
         width: {sm: "95%", md: "800px"},
         bgcolor: 'background.paper',
         boxShadow: 24,
-        minHeight: '600px'
+        minHeight: '450px'
     };
 
     const product = props.product;
@@ -144,10 +144,13 @@ const ProductPreviewCard = (props) => {
 
             </CardActionArea>
 
-            <CardContent >
-                <Link to={`/product/${slugify(product.name)}`} component={RouterLink} underline="hover" color="inherit">
+            <CardContent sx={{"&:hover" : {color: "primary.main", cursor: "pointer"}}} onClick={() => navigate(`/product/${slugify(product.name)}`)} >
+                {/* <Link to={`/product/${slugify(product.name)}`} component={RouterLink} underline="hover" color="inherit">
                     {product.name.toUpperCase()}
-                </Link>
+                </Link> */}
+                <Typography>
+                    {product.name.toUpperCase()}
+                </Typography>
             </CardContent>
 
             <Typography sx={{fontWeight: 'bold'}}>
