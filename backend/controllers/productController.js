@@ -62,6 +62,33 @@ const getProductDetails = async (req, res) => {
     }
 }
 
+const getProductDetailsShort = async (req, res) => {
+   
+    try {
+
+        const productId = req.params.productId;
+        const sqlStatement = `SELECT Name, ShortDescription, Category FROM products WHERE Id='${productId}'`;
+
+        const queryResult = await query(sqlStatement);
+        const product = queryResult[0];
+
+        // // get product price range
+        const priceObj = await getPriceRange(productId);
+        product.priceRange = priceObj.priceRange;
+        product.hasSale = priceObj.hasSale;
+
+        // get size options for drop down
+        const priceOptions = await getPriceDropDownOptions(productId);
+        product.priceOptions = priceOptions;
+ 
+        return res.send(product);
+
+    } catch(err) {
+        throw err;
+    }
+}
+
+
 
 const getCustomerComments = async (Id) => {
     const sqlStatement = `SELECT * FROM customer_comments WHERE ProductId='${Id}'`;
@@ -80,5 +107,6 @@ const getCustomerComments = async (Id) => {
 }
 
 module.exports = {
-    getProductDetails
+    getProductDetails,
+    getProductDetailsShort
  }

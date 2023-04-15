@@ -1,27 +1,13 @@
 import { Box } from '@mui/system'
-import React, { useState } from 'react'
+import React from 'react'
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { getGrindTypes } from '../util/ShopUtil';
-import { useSearchParams } from 'react-router-dom';
-
 
 
 const ProductSelect = (props) => {
     const priceOptions = props.priceOptions;
     const category = props.category;
     const grindTypes = getGrindTypes();
-
-    // const [searchParams, setSearchParams] = useSearchParams();
-    // const [defaultSize, setDefaultSize] = useState('');
-
-    // if (searchParams !=) {
-    //     console.log("here", searchParams.get('product_quantity'));
-    //     if (category !== 'tea') {
-
-    //     }
-    // }
-
-
 
     // coffee drop down
     if (category === "coffee") {

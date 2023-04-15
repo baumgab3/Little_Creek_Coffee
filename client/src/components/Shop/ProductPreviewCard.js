@@ -1,18 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Box, CardActionArea, Link } from '@mui/material';
+import { Box, CardActionArea, Grid, Link, Modal } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { slugify } from '../../util/AdminUtil';
 import { useNavigate } from "react-router-dom";
+import ProductHighlight from '../ProductHighlight';
 
 const ProductPreviewCard = (props) => {
+
+    const modalStyle = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: {sm: "95%", md: "800px"},
+        bgcolor: 'background.paper',
+        boxShadow: 24,
+        minHeight: '600px'
+    };
+
     const product = props.product;
     const navigate = useNavigate();
 
+    const [openModal, setOpenModal] = useState(false);
+
+    const [modalProduct, setModalProduct] = useState(null);
+    const [isLoaded, setIsLoaded] = useState(false);
+
     const handleShowQuickView = (action) => {
 
+        if (openModal) {
+            return;
+        }
+        
         const elm = document.getElementById(`${slugify(product.name)}`);
 
         if (action === "open") {
@@ -22,11 +44,7 @@ const ProductPreviewCard = (props) => {
             elm.style.transition = "height .22s";
             elm.style.opacity = ".8";
         } else {
-            elm.style.width = "100%";
             elm.style.height = "0px";
-            elm.style.backgroundColor = "black";
-            elm.style.transition = "height .22s";
-            elm.style.opacity = ".8";
         }
         
     }
@@ -43,9 +61,28 @@ const ProductPreviewCard = (props) => {
         }
     }
 
-    const handleOpenQuickView = () => {
-        console.log(product);
+    const handleOpenQuickViewModal = () => {
+        setOpenModal(true);
+
+        const url = `http://localhost:8081/product/quick-veiw/${product.id}`;
+
+        fetch(url)
+            .then(res => {
+                return res.json();
+            })
+            .then(data => {
+                setModalProduct(data);
+                setIsLoaded(true);
+
+            }, err => {
+                console.log(err);
+                // setErr(err);
+                setIsLoaded(false);
+            })
+
+            handleShowQuickView("close");
     }
+
 
     return (
         <Box
@@ -69,7 +106,7 @@ const ProductPreviewCard = (props) => {
             sx={{height: '0px', color: 'white', width: '100%', position: 'absolute', bottom: '1px', display: {xs: "none", sm: "block"} }}
             onMouseEnter={() => handleQuickViewHighlight("mouse-in")}
             onMouseLeave={() => handleQuickViewHighlight("mouse-out")}
-            onClick={() => handleOpenQuickView()}
+            onClick={() => handleOpenQuickViewModal()}
             >
                 <Box mt={1}>
                     QUICK VIEW
@@ -87,6 +124,30 @@ const ProductPreviewCard = (props) => {
             <Typography sx={{fontWeight: 'bold'}}>
                 {product.priceRange}
             </Typography>
+
+            <Modal
+            open={openModal}
+            onClose={() => setOpenModal(false)}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            sx={{display: {xs: "none", sm: "block"}}}
+            >
+            <Box sx={modalStyle}>
+                {isLoaded &&
+                <Grid container spacing={1}>
+                    <Grid item xs={12} sm={12} md={6}>
+                        <img width="100%" src="/images/holder_6.jpg" alt="" />
+                    </Grid>
+
+                    <Grid item xs={12} sm={12} md={6}>
+                        <Box p={2}>
+                         <ProductHighlight showDivider={true} product={modalProduct} />
+                        </Box>
+                    </Grid>
+                </Grid>
+                }
+            </Box>
+            </Modal>
             
         </Box>
     )
