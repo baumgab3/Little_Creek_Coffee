@@ -14,7 +14,7 @@ const TeaItemSummary = ({order}) => {
 
             <Grid item xs={4}>
                 <Typography sx={{fontWeight: 'bold'}}>
-                    ${order.price.toFixed(2)}
+                    ${order.salePrice ? order.salePrice.toFixed(2) : order.price.toFixed(2)}
                 </Typography>
             </Grid>
         </Grid>

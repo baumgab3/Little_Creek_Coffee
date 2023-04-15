@@ -4,6 +4,8 @@ const {authenticateToken} = require('../authorize.js');
 
 const router = express.Router();
 
+// endpoint: /orders
+
 router.post("/", orderController.placeOrder);
 router.get("/:userId", authenticateToken, orderController.getOrdersPreview);
 // router.get("/view-order/:orderId", authenticateToken, orderController.getOrderById);

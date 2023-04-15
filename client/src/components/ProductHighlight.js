@@ -61,7 +61,9 @@ const ProductHighlight = (props) => {
             "name": product.Name,
             "description": productPricingObj.description,
             "grind": grind,
-            "price": productPricingObj.salePrice > 0 ? productPricingObj.salePrice : productPricingObj.price,
+            // "price": productPricingObj.salePrice > 0 ? productPricingObj.salePrice : productPricingObj.price,
+            "price": productPricingObj.price,
+            "salePrice": productPricingObj.salePrice,
             "quantity": quantity,
         }
 
@@ -96,10 +98,10 @@ const ProductHighlight = (props) => {
 
             {isSinglePrice && product.hasSale && product.priceOptions && 
             <Box mt={2} sx={{display : 'flex'}} >
-                <Typography variant="h6" sx={{textDecoration: "line-through"}}>
+                <Typography variant="h6" sx={{textDecoration: "line-through", fontWeight: 'bold'}}>
                     ${product.priceOptions[0].price.toFixed(2)}
                 </Typography>
-                <Typography ml={1} variant="h6">
+                <Typography ml={1} variant="h6" sx={{fontWeight: 'bold'}}>
                     ${product.priceOptions[0].salePrice.toFixed(2)}
                 </Typography>
             </Box>

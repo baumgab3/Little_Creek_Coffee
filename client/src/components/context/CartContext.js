@@ -9,13 +9,14 @@ const CartContext = createContext();
 export const CartProvider = ({children}) => {
 
     class CartItem {
-        constructor(id, category, name, description, grind, price, quantity) {
+        constructor(id, category, name, description, grind, price, salePrice, quantity) {
             this.id = id;
             this.category = category;
             this.name = name;
             this.description = description;
             this.grind = grind;
             this.price = price;
+            this.salePrice = salePrice;
             this.quantity = quantity;
         }
     }
@@ -25,6 +26,7 @@ export const CartProvider = ({children}) => {
     const {user} = useContext(UserContext);
 
     const addToCart = (toAdd) => {
+
         const product = new CartItem(
             toAdd.id,
             toAdd.category = toAdd.category,
@@ -32,6 +34,7 @@ export const CartProvider = ({children}) => {
             toAdd.description,
             toAdd.grind,
             toAdd.price,
+            toAdd.salePrice,
             toAdd.quantity
         );
 
@@ -89,7 +92,11 @@ export const CartProvider = ({children}) => {
     const getCartTotal = () => {
         let total = 0;
         for (let i = 0; i < cart.length; i++) {
-            total += cart[i].price * cart[i].quantity;
+            if (cart[i].salePrice) {
+                total += cart[i].salePrice * cart[i].quantity;
+            } else {
+                total += cart[i].price * cart[i].quantity;
+            }
         }
         return total.toFixed(2);
     }

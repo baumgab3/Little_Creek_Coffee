@@ -106,7 +106,36 @@ const getCustomerComments = async (Id) => {
     return comments;
 }
 
+const getProductPrice = async (req, res) => {
+
+    try {
+        const productId = req.params.productId;
+
+        const sqlSelect = `SELECT Price, SalePrice, Description FROM product_pricing WHERE ProductId = '${productId}'`;
+        // if order has price description then need that in query
+        const queryResult = await query(sqlSelect);
+
+        const prices = [];
+
+        for (const idx in queryResult) {
+            const priceObj = {
+                price: queryResult[idx].Price,
+                salePrice: queryResult[idx].SalePrice,
+                description: queryResult[idx].Description ? queryResult[0].Description : ""
+            }
+
+            prices.push(priceObj);
+        }
+
+        res.send(prices);
+
+    } catch (err) {
+
+    }
+}
+
 module.exports = {
     getProductDetails,
-    getProductDetailsShort
+    getProductDetailsShort,
+    getProductPrice
  }

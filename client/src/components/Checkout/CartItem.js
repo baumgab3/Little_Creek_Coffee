@@ -9,7 +9,7 @@ import { slugify } from '../../util/AdminUtil';
 
 const CartItem = ({item, isPlaced}) => {
     const [quantity, setQuantity] = useState(item.quantity);
-    const [subTotal, setSubTotal] = useState(item.quantity * item.price);
+    const [subTotal, setSubTotal] = useState(item.quantity * (item.salePrice ? item.salePrice : item.price));
     const total = useRef(item.quantity);
 
     const {removeFromCart, updateItemQuantity} = useContext(CartContext);
@@ -38,7 +38,7 @@ const CartItem = ({item, isPlaced}) => {
         }
 
         setQuantity(event.target.value);
-        setSubTotal(total.value * item.price);
+        setSubTotal(total.value * (item.salePrice ? item.salePrice : item.price));
         updateItemQuantity(item, total.value);
     }
 
@@ -75,14 +75,14 @@ const CartItem = ({item, isPlaced}) => {
                                 {item.quantity} x &nbsp;
                             </Typography>
                             <Typography sx={{fontSize: '13px', fontWeight: 'bold', display: {xs: "inherit", sm: "none"}}}>
-                                ${item.price.toFixed(2)}
+                                ${item.salePrice ?item.salePrice.toFixed(2) : item.price.toFixed(2)}
                             </Typography>
                         </Stack>
                     </Box>
                 </Grid>
                 <Grid item sm={1} sx={{display: {xs:"none", sm: "block"}}} >
                     <Box mt={1} >
-                        ${item.price.toFixed(2)}
+                        ${item.salePrice ?item.salePrice.toFixed(2) : item.price.toFixed(2)}
                     </Box>
                 </Grid>
                 <Grid item xs={2} sm={2} sx={{textAlign: {xs: "right", sm: "center"}}}>

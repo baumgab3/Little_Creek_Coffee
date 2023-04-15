@@ -24,6 +24,8 @@ const placeOrder = async (req, res) => {
         const month = dateObj.getMonth() + 1;
         const day = dateObj.getDate();
         const date = `${year}-${month}-${day}`;
+
+        console.log("subtotal", orderDetails.subtotal);
         
         const sqlInsert = `INSERT INTO orders (OrderId, Quantity, SubTotal, PlacedDate, UserId) 
                             VALUES ('${orderId}', '${orderDetails.quantity}', '${orderDetails.subtotal}', '${date}', '${user.id}')`;
@@ -36,15 +38,21 @@ const placeOrder = async (req, res) => {
         for (const cartItem of cart) {
             //get new id for order_items
             const orderItemId = crypto.randomUUID();
+
             
             // not all items have description, prevent null from being put in db
             if (cartItem.description === null) {
                 cartItem.description = "";
             }
 
-            const sqlItemInsert = `INSERT INTO order_items (OrderItemId, ProductName, Category, Quantity, IndividualPrice, Description, Grind, ProductId, OrderId) 
-                                      VALUES ('${orderItemId}', '${cartItem.name}', '${cartItem.category}', '${cartItem.quantity}', '${cartItem.price}', 
-                                    '${cartItem.description}', '${cartItem.grind}', '${cartItem.id}', '${orderId}')`;
+            if (!cartItem.salePrice) {
+                cartItem.salePrice = 0;
+            }
+            
+
+            const sqlItemInsert = `INSERT INTO order_items (OrderItemId, ProductName, Category, Quantity, IndividualPrice, SalePrice, Description, Grind, ProductId, OrderId) 
+                                    VALUES ('${orderItemId}', '${cartItem.name}', '${cartItem.category}', '${cartItem.quantity}', '${cartItem.price}', 
+                                    '${cartItem.salePrice}', '${cartItem.description}', '${cartItem.grind}', '${cartItem.id}', '${orderId}')`;
 
             await query(sqlItemInsert);
         }
@@ -154,9 +162,11 @@ const getOrderById = async (req, res) => {
         for (const order of orders) {
             const item = {
                 id: order.OrderItemId,
+                productId: order.ProductId,
                 category: order.Category,
                 name: order.ProductName,
                 price: order.IndividualPrice,
+                salePrice: order.SalePrice ? order.SalePrice : "",
                 quantity: order.Quantity
             }
 
@@ -200,5 +210,5 @@ module.exports = {
     placeOrder,
     getOrdersPreview,
     getOrders,
-    getOrderById
+    getOrderById,
 }

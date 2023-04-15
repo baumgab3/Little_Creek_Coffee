@@ -58,7 +58,7 @@ const UserOrders = () => {
                                 Date
                             </Typography>
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={3} >
                             <Typography sx={{fontWeight: 'bold'}}>
                                 Status
                             </Typography>
