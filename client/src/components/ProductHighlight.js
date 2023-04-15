@@ -90,7 +90,7 @@ const ProductHighlight = (props) => {
 
             {isSinglePrice && !product.hasSale &&
             <Typography variant="h5" sx={{textTransform: "uppercase", fontWeight: "bold"}} mb={1}>
-                {product.price}
+                {product.priceRange}
             </Typography>
             }
 
