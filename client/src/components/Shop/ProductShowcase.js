@@ -2,10 +2,11 @@ import { Box, Container } from '@mui/system'
 import React, { useEffect, useState } from 'react'
 import BrowserDrawer from './BrowserDrawer'
 import {  useParams } from 'react-router-dom';
-import { Button, Drawer, Grid, Toolbar, Typography } from '@mui/material';
+import { Button, CardMedia, Drawer, Grid, Toolbar, Typography } from '@mui/material';
 import TuneIcon from '@mui/icons-material/Tune';
 import TabsSection from './TabsSection';
 import ProductHighlight from '../ProductHighlight';
+import ProductImage from '../ProductImage';
 
 
 const ProductShowcase = (props) => {
@@ -85,7 +86,42 @@ const ProductShowcase = (props) => {
 
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={12} md={5}>
-                        <img width="100%" src="/images/holder_6.jpg" alt="" />
+
+                        {/* <img width="100%" src="/images/holder_6.jpg" alt="" /> */}
+                        <ProductImage product={productDetails} />
+                    {/* <Box sx={{position: 'relative'}}>
+                        <CardMedia
+                            component="img"
+                            height="100%"
+                            width="100%"
+                            image="/images/holder_6.jpg"
+                            alt={productDetails.name}
+                        />
+                        {productDetails.hasSale && 
+                        <Box
+                        sx={{
+                            position: 'absolute',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            display: 'flex',
+                            // height: '105px',
+                            // width: '105px',
+                            height: {xs: '80px', sm: '100px', md: '90px', lg: '105px'},
+                            width: {xs: '80px', sm: '100px', md: '90px', lg: '105px'},
+                            borderRadius: '50%',
+                            top: '10px',
+                            left: {xs: '-10px', sm: '-20px'},
+                            backgroundColor: "#1976d2"
+                            }}
+                        >
+                            <Box sx={{fontWeight: 'bold', color: 'white'}}>
+                                Sale!
+                            </Box>
+                        </Box>
+                        }
+
+                    </Box> */}
+
                     </Grid>
 
                     <Grid item xs={12} sm={12} md={7}>
@@ -93,6 +129,7 @@ const ProductShowcase = (props) => {
                     </Grid>
                 </Grid>
             </Box>
+
 
             {/* Tabs menu for product details */}
             <TabsSection productDetails={productDetails} />

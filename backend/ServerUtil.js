@@ -18,7 +18,7 @@ const getPriceDropDownOptions = async (productId) => {
         priceOptions.push({
             "description": option.Description,
             "price": option.Price,
-            "salePrice": option.salePrice
+            "salePrice": option.SalePrice
         });
     })
 

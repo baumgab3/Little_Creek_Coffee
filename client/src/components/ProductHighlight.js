@@ -13,6 +13,9 @@ const ProductHighlight = (props) => {
     const [grind, setGrind] = useState("");
     const [quantity, setQuantity] = useState(1);
 
+    const [isSinglePrice, setIsSinglePrice] = useState(false);
+
+
     useEffect(() => {
 
         // products with no description for priceOptions won't have a drop down size bar
@@ -22,6 +25,10 @@ const ProductHighlight = (props) => {
                 setHasDropDowns(false);
                 setProductPricingObj(option);
             }
+        }
+
+        if (!product.priceRange.includes("-")) {
+            setIsSinglePrice(true);
         }
     
     },[]);
@@ -54,7 +61,7 @@ const ProductHighlight = (props) => {
             "name": product.Name,
             "description": productPricingObj.description,
             "grind": grind,
-            "price": productPricingObj.price,
+            "price": productPricingObj.salePrice > 0 ? productPricingObj.salePrice : productPricingObj.price,
             "quantity": quantity,
         }
 
@@ -64,8 +71,9 @@ const ProductHighlight = (props) => {
 
     return (
         <Box>
+
             <Typography variant="h5" sx={{textTransform: "uppercase", fontWeight: "bold"}} mb={1}>
-                {product.Name}
+                {product.Name} 
             </Typography>
 
             {props.showDivider && 
@@ -74,9 +82,29 @@ const ProductHighlight = (props) => {
             </Box>
             }
             
+            {!isSinglePrice && 
             <Typography variant="h5" sx={{textTransform: "uppercase", fontWeight: "bold"}} mb={1}>
                 {product.priceRange}
             </Typography>
+            }
+
+            {isSinglePrice && !product.hasSale &&
+            <Typography variant="h5" sx={{textTransform: "uppercase", fontWeight: "bold"}} mb={1}>
+                {product.price}
+            </Typography>
+            }
+
+            {isSinglePrice && product.hasSale && product.priceOptions && 
+            <Box mt={2} sx={{display : 'flex'}} >
+                <Typography variant="h6" sx={{textDecoration: "line-through"}}>
+                    ${product.priceOptions[0].price.toFixed(2)}
+                </Typography>
+                <Typography ml={1} variant="h6">
+                    ${product.priceOptions[0].salePrice.toFixed(2)}
+                </Typography>
+            </Box>
+            }
+
             <Typography >
                 {product.ShortDescription}
             </Typography>
@@ -93,12 +121,26 @@ const ProductHighlight = (props) => {
             />
             }
 
-            {/* display product price */}
+            {/* display price of product not on sale*/}
+            {productPricingObj.description && productPricingObj.salePrice <= 0 && 
             <Box mt={2}>
-                {productPricingObj.description && <Typography variant="h6">
+                <Typography variant="h6">
                     ${productPricingObj.price.toFixed(2)}
-                </Typography>}
+                </Typography>
             </Box>
+            }
+
+            {/* display price of product on sale*/}
+            {productPricingObj.description && productPricingObj.salePrice > 0 && 
+            <Box mt={2} sx={{display : 'flex'}} >
+                <Typography variant="h6" sx={{textDecoration: "line-through"}}>
+                    ${productPricingObj.price.toFixed(2)}
+                </Typography>
+                <Typography ml={1} variant="h6">
+                    ${productPricingObj.salePrice.toFixed(2)}
+                </Typography>
+            </Box>
+            }
         
             {/* -/+ buttons for quantity and add to cart button */}
             <AddToCart

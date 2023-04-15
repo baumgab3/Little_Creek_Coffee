@@ -7,12 +7,13 @@ import { Link as RouterLink } from 'react-router-dom';
 import { slugify } from '../../util/AdminUtil';
 import { useNavigate } from "react-router-dom";
 import ProductHighlight from '../ProductHighlight';
+import ProductImage from '../ProductImage';
 
 const ProductPreviewCard = (props) => {
 
     const modalStyle = {
         position: 'absolute',
-        top: '50%',
+        top: {sm:'80%', md: '50%'},
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: {sm: "95%", md: "800px"},
@@ -23,7 +24,6 @@ const ProductPreviewCard = (props) => {
 
     const product = props.product;
     const navigate = useNavigate();
-
     const [openModal, setOpenModal] = useState(false);
 
     const [modalProduct, setModalProduct] = useState(null);
@@ -40,7 +40,7 @@ const ProductPreviewCard = (props) => {
         if (action === "open") {
             elm.style.width = "100%";
             elm.style.height = "35px";
-            elm.style.backgroundColor = "black";
+            elm.style.backgroundColor = "#1976d2";
             elm.style.transition = "height .22s";
             elm.style.opacity = ".8";
         } else {
@@ -93,7 +93,11 @@ const ProductPreviewCard = (props) => {
         onMouseLeave={() => handleShowQuickView("close")}
         >
             <CardActionArea>
-            <CardMedia
+            <Box>
+
+            <ProductImage product={product} />
+
+            {/* <CardMedia
                 component="img"
                 height="100%"
                 image="/images/holder_2.jpg"
@@ -101,14 +105,39 @@ const ProductPreviewCard = (props) => {
                 onClick={() => {navigate(`/product/${slugify(product.name)}`)}}
             >
             </CardMedia>
+
+            {product.hasSale && 
+            <Box
+            sx={{
+                position: 'absolute',
+                justifyContent: 'center',
+                alignItems: 'center',
+                display: 'flex',
+                height: '30%',
+                width: '30%',
+                borderRadius: '50%',
+                top: '10px',
+                left: '-10px',
+                backgroundColor: "#1976d2"
+                }}
+            >
+                <Box sx={{fontWeight: 'bold', color: 'white'}}>
+                    Sale!
+                </Box>
+            </Box>
+            } 
+            */}
+
+            </Box>
+
             <Box
             id={`${slugify(product.name)}`}
-            sx={{height: '0px', color: 'white', width: '100%', position: 'absolute', bottom: '1px', display: {xs: "none", sm: "block"} }}
+            sx={{height: '0px', color: 'white', width: '100%', position: 'absolute', bottom: '0px', display: {xs: "none", sm: "block"} }}
             onMouseEnter={() => handleQuickViewHighlight("mouse-in")}
             onMouseLeave={() => handleQuickViewHighlight("mouse-out")}
             onClick={() => handleOpenQuickViewModal()}
             >
-                <Box mt={1}>
+                <Box sx={{marginTop: '7px'}}>
                     QUICK VIEW
                 </Box>
             </Box>
@@ -122,7 +151,7 @@ const ProductPreviewCard = (props) => {
             </CardContent>
 
             <Typography sx={{fontWeight: 'bold'}}>
-                {product.priceRange}
+                {product.priceRange.includes("-") ? product.priceRange: (product.priceOptions ? product.priceOptions[0].price : product.priceRange)}
             </Typography>
 
             <Modal
@@ -130,13 +159,14 @@ const ProductPreviewCard = (props) => {
             onClose={() => setOpenModal(false)}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
-            sx={{display: {xs: "none", sm: "block"}}}
+            sx={{display: {xs: "none", sm: "block"}, overflow: 'scroll', bottom: {sm: '40px', md: '0px'}}}
             >
             <Box sx={modalStyle}>
                 {isLoaded &&
                 <Grid container spacing={1}>
                     <Grid item xs={12} sm={12} md={6}>
-                        <img width="100%" src="/images/holder_6.jpg" alt="" />
+                        {/* <img width="100%" src="/images/holder_6.jpg" alt="" /> */}
+                        <ProductImage isModal={true} product={product} />
                     </Grid>
 
                     <Grid item xs={12} sm={12} md={6}>

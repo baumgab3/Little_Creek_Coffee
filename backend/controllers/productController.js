@@ -67,7 +67,7 @@ const getProductDetailsShort = async (req, res) => {
     try {
 
         const productId = req.params.productId;
-        const sqlStatement = `SELECT Name, ShortDescription, Category FROM products WHERE Id='${productId}'`;
+        const sqlStatement = `SELECT Id, Name, ShortDescription, Category FROM products WHERE Id='${productId}'`;
 
         const queryResult = await query(sqlStatement);
         const product = queryResult[0];
