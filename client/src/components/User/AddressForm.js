@@ -51,6 +51,8 @@ const AddressForm = () => {
     const [email, setEmail] = useState("");
     const [emailError, setEmailError] = useState(false);
 
+    const [noChangeError, setNoChangeError] = useState(false);
+
     // two optional feields
     const [companyName, setCompanyName] = useState("");
     const [apartmentSuit, setApartmentSuit] = useState("");
@@ -59,6 +61,8 @@ const AddressForm = () => {
     const [isAddressSaved, setIsAddressSaved] = useState(false);
     
     const [hasAddress, setHasAddress] = useState(false);
+
+    const [originalAddress, setOriginalAddress] = useState({});
 
     const errors = useRef([]);
     const {user} = useContext(UserContext);
@@ -90,10 +94,23 @@ const AddressForm = () => {
             setApartmentSuit(addressObj.apartmentSuit);
             setCompanyName(addressObj.companyName);
 
+            const obj = {
+                "firstName": addressObj.firstName,
+                "lastName": addressObj.lastName,
+                "streetAddress": addressObj.streetAddress,
+                "city": addressObj.city,
+                "state": addressObj.state,
+                "zip": addressObj.zip,
+                "apartmentSuit": addressObj.apartmentSuit ? addressObj.apartmentSuit : "",
+                "companyName": addressObj.companyName ? addressObj.companyName : ""
+            }
+
             // set billing fields if needed
             if (addressType === 'billing') {
                 setPhone(addressObj.phone);
                 setEmail(addressObj.email);
+                obj.phone = addressObj.phone;
+                obj.email = addressObj.email;
             }
 
             // if firstname is set, then everything is set.  Set booleans that will allow user to drop address
@@ -101,6 +118,7 @@ const AddressForm = () => {
                 setHasAddress(true);
             }
 
+            setOriginalAddress(obj);
             setIsAddressLoaded(true);
         })
         .catch(err => {
@@ -112,96 +130,86 @@ const AddressForm = () => {
 
     const handleAddressUpdate = () => {
         errors.current = [];
+        setFirstNameError(false);
+        setLastNameError(false);
+        setStreetAddressError(false);
+        setTownCityError(false);
+        setStateErrror(false);
+        setZipCodeError(false);
+        setPhoneError(false);
+        setEmailError(false);
 
+        const errorMsg = " is a required field.";
 
         if (!firstName) {
             setFirstNameError(true);
-            errors.current.push(AddressLabels.FIRST_NAME);
-        } else {
-            setFirstNameError(false);
-            removeError(AddressLabels.FIRST_NAME);
+            errors.current.push(AddressLabels.FIRST_NAME + errorMsg);
         }
 
         if (!lastName) {
             setLastNameError(true);
-            errors.current.push(AddressLabels.LAST_NAME);
-        } else {
-            setLastNameError(false);
-            removeError(AddressLabels.LAST_NAME);
+            errors.current.push(AddressLabels.LAST_NAME + errorMsg);
         }
 
         if (!streetAddress) {
             setStreetAddressError(true);
-            errors.current.push(AddressLabels.STREET_ADDRESS);
-        } else {
-            setStreetAddressError(false);
-            removeError(AddressLabels.STREET_ADDRESS);
+            errors.current.push(AddressLabels.STREET_ADDRESS + errorMsg);
         }
 
         if (!townCity) {
             setTownCityError(true);
-            errors.current.push(AddressLabels.TOWN_CITY);
-        } else {
-            setTownCityError(false);
-            removeError(AddressLabels.TOWN_CITY);
+            errors.current.push(AddressLabels.TOWN_CITY + errorMsg);
         }
 
         if (!state) {
             setStateErrror(true);
-            errors.current.push(AddressLabels.STATE);
-        } else {
-            setStateErrror(false);
-            removeError(AddressLabels.STATE);
+            errors.current.push(AddressLabels.STATE + errorMsg);
         }
 
         if (!zipCode) {
             setZipCodeError(true);
-            errors.current.push(AddressLabels.ZIP);
-        } else {
-            setZipCodeError(false);
-            removeError(AddressLabels.ZIP);
+            errors.current.push(AddressLabels.ZIP + errorMsg);
         }
 
         // errors just for billing
         if (addressType === 'billing') {
             if (!phone) {
                 setPhoneError(true);
-                errors.current.push(AddressLabels.PHONE);
-            } else {
-                setPhoneError(false);
-                removeError(AddressLabels.PHONE);
+                errors.current.push(AddressLabels.PHONE + errorMsg);
             }
 
             if (!email) {
                 setEmailError(true);
-                errors.current.push(AddressLabels.EMAIL);
-            } else {
-                setEmailError(false);
-                removeError(AddressLabels.EMAIL);
+                errors.current.push(AddressLabels.EMAIL + errorMsg);
             }
+        }
+
+        const addressToUpdate = {
+            firstName,
+            lastName,
+            streetAddress,
+            city: townCity,
+            state,
+            zip: zipCode
+        }
+
+        // add two optional fields
+        addressToUpdate.apartmentSuit = apartmentSuit ? apartmentSuit : "";
+        addressToUpdate.companyName = companyName ? companyName : "";
+
+        // add two fields just for billing
+        if (addressType === 'billing') {
+            addressToUpdate.phone = phone;
+            addressToUpdate.email = email;
+        }
+
+        if (JSON.stringify(addressToUpdate) === JSON.stringify(originalAddress)) {
+            setNoChangeError(true);
+            errors.current.push("Nothing to update.");
         }
 
         // if no errors then can make update
         if (errors.current.length === 0) {
-
-            const addressToUpdate = {
-                firstName,
-                lastName,
-                streetAddress,
-                city: townCity,
-                state,
-                zip: zipCode
-            }
-
-            // add two optional fields
-            addressToUpdate.apartmentSuit = apartmentSuit ? apartmentSuit : "";
-            addressToUpdate.companyName = companyName ? companyName : "";
-
-            // add two fields just for billing
-            if (addressType === 'billing') {
-                addressToUpdate.phone = phone;
-                addressToUpdate.email = email;
-            }
 
             const pathToUse = (addressType === 'billing') ? 'billing' : 'shipping';
             const url = `http://localhost:8081/addresses/${pathToUse}/${user.id}`;
@@ -217,6 +225,9 @@ const AddressForm = () => {
                 
                 setIsAddressSaved(true);
                 setHasAddress(true);
+
+                // re-update orignal object
+                setOriginalAddress(addressToUpdate);
             })
             .catch(err => {
                 
@@ -225,12 +236,7 @@ const AddressForm = () => {
                 }
 
             })
-
         }
-    }
-
-    const removeError = (toRemove) => {
-        errors.current = errors.current.filter(current => current.value != toRemove);
     }
 
     const handleStateChange = (event) => {
@@ -280,7 +286,7 @@ const AddressForm = () => {
                         {/* Error Box */}
                         <Box mt={1} mb={1} color={red[500]}>
                             {errors.current.map((error) => {
-                                return <Box key={error}>{error} is a required field.</Box>;
+                                return <Box key={error}>{error}</Box>;
                             })}
                         </Box>
 
@@ -297,12 +303,16 @@ const AddressForm = () => {
 
                         <Box mt={1} sx={{ '& .MuiTextField-root': { mr: 1, mt: {xs: "10px"}, width: {xs: "100%", sm: "47%", md: "45%"} },}}>
                             <TextField
-                            onChange={(e) => setFirstName(e.target.value.trim())}
+                            onChange={(e) => {setFirstName(e.target.value.trim()); console.log("has change") } }
                             label={AddressLabels.FIRST_NAME}
                             error={firstNameError}
                             defaultValue={firstName}
                             required 
                             />
+
+                            <Box sx={{display: {xs: "block", sm: "none"}, marginTop: '10px'}}>
+
+                            </Box>
 
                             <TextField
                             onChange={(e) => setLastName(e.target.value.trim())}
@@ -336,6 +346,7 @@ const AddressForm = () => {
                             error={streetAddressError}
                             defaultValue={streetAddress}
                             required />
+
                             <TextField
                             onChange={(e) => setApartmentSuit(e.target.value.trim())}
                             label="Apartment, suit, etc (optional)"

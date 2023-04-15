@@ -34,6 +34,9 @@ const UserAccountDetails = () => {
     const [passwordMismatchError, setPasswordMismatchError] = useState(false);
 
     const [emailTakenError, setEmailTakenError] = useState(false);
+    const [noChangeError, setNoChangeError] = useState(false);
+
+    const [originalDetails, setOriginalDetails] = useState({});
 
     const errors = useRef([]);
     const {user} = useContext(UserContext);
@@ -62,7 +65,8 @@ const UserAccountDetails = () => {
             setLastName(accountDetails.lastName);
             setDisplayName(accountDetails.displayName);
             setEmail(accountDetails.email);
-                 
+
+            setOriginalDetails(response.data);
         })
         .catch(err => {
             console.log("error retrieving account details", err);
@@ -78,37 +82,30 @@ const UserAccountDetails = () => {
         setEmptyConfirmError(false);
         setPasswordMismatchError(false);
         setEmailTakenError(false);
+        setFirstNameError(false);
+        setLastNameError(false);
+        setDisplayNameError(false);
+        setEmailError(false);
+        setNoChangeError(false);
 
         if (!firstName) {
             setFirstNameError(true);
             errors.current.push(accountLabels.FIRST_NAME + blankError);
-        } else {
-            setFirstNameError(false);
-            removeError(accountLabels.FIRST_NAME);
         }
 
         if (!lastName) {
             setLastNameError(true);
             errors.current.push(accountLabels.LAST_NAME + blankError);
-        } else {
-            setLastNameError(false);
-            removeError(accountLabels.LAST_NAME);
         }
 
         if (!displayName) {
             setDisplayNameError(true);
             errors.current.push(accountLabels.DISPLAY_NAME + blankError);
-        } else {
-            setDisplayNameError(false);
-            removeError(accountLabels.DISPLAY_NAME);
         }
 
         if (!email) {
             setEmailError(true);
             errors.current.push(accountLabels.EMAIL + blankError);
-        } else {
-            setEmailError(false);
-            removeError(accountLabels.EMAIL);
         }
 
         if ((newPassword && !newPasswordConfirm) || (!newPassword && newPasswordConfirm)) {
@@ -123,17 +120,25 @@ const UserAccountDetails = () => {
             }
         }
 
+        const accountDetailsUpdate = {
+            firstName,
+            lastName,
+            displayName,
+            email
+        }
+
+        if (JSON.stringify(accountDetailsUpdate) === JSON.stringify(originalDetails)) {
+            if (newPassword.length === 0 || !newPasswordConfirm.length === 0) {
+                setNoChangeError(true);
+                errors.current.push("Nothing to update.");
+            }
+        }
+
         // if no errors then can make update
         if (errors.current.length === 0) {
 
-            const accountDetailsUpdate = {
-                firstName,
-                lastName,
-                displayName,
-                email,
-                newPassword,
-                newPasswordConfirm
-            }
+            accountDetailsUpdate.newPassword = newPassword;
+            accountDetailsUpdate.newPasswordConfirm = newPasswordConfirm;
 
             const url = `http://localhost:8081/update-account/${user.id}`;
             const data = {user, accountDetailsUpdate};
@@ -146,6 +151,11 @@ const UserAccountDetails = () => {
             })
             .then((response) => {
                 setIsUpdated(true);
+
+                delete accountDetailsUpdate.newPassword;
+                delete accountDetailsUpdate.newPasswordConfirm;
+
+                setOriginalDetails(accountDetailsUpdate);
             })
             .catch(err => {
 
@@ -164,9 +174,6 @@ const UserAccountDetails = () => {
 
     }
 
-    const removeError = (toRemove) => {
-        errors.current = errors.current.filter(current => current.value != toRemove);
-    }
 
     return (
         <Container>
@@ -202,6 +209,10 @@ const UserAccountDetails = () => {
                             defaultValue={firstName}
                             required 
                             />
+
+                            <Box sx={{display: {xs: "block", sm: "none"}, marginTop: '10px'}}>
+
+                            </Box>
 
                             <TextField
                             label="Last name"

@@ -28,7 +28,7 @@ const UserAddress = () => {
             }
 
             setIsLoaded(true);
-            setAddressObj(response.data);            
+            setAddressObj(response.data);
         })
         .catch(err => {
             console.log("error fetching user address previews", err);
