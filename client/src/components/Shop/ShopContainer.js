@@ -1,19 +1,24 @@
-import { Box, Button, Drawer, Grid, Toolbar } from '@mui/material';
+import { Box, Button, Drawer, Grid, Toolbar, Typography } from '@mui/material';
 import { Container } from '@mui/system';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {  useParams } from 'react-router-dom';
 import SmallBreadCrumbs from '../SmallBreadCrumbs';
 import BrowserDrawer from './BrowserDrawer';
 import TuneIcon from '@mui/icons-material/Tune';
 import ProductCategoryList from './ProductCategoryList';
 import ProductCategoryListAll from './ProductCategoryListAll';
+import CartContext from '../context/CartContext';
 
 
 const ShopContainer = (props) => {
     const { param1, param2 } = useParams();
+    const {addedToCartMessage, setAddedToCartMessage} = useContext(CartContext);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
         setMobileOpen(false);
+        setAddedToCartMessage("");
+        setIsLoaded(true);
     }, [param1, param2])
 
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -34,6 +39,7 @@ const ShopContainer = (props) => {
 
     return <>
             <Container>
+                {isLoaded && 
                 <Box mt={6}>
                 <Box align="center" sx={{display: {xs:"block", sm: "block", md: "none"}}}>
                     <Box display="flex" align="center" justifyContent="center" mb={3}>
@@ -50,6 +56,17 @@ const ShopContainer = (props) => {
                 </Box>
 
                 <Grid container>
+
+                    <Grid item xs={12} sx={{textAlign: {xs: "center", sm: "center", md: "left"}}} >
+                        {addedToCartMessage && 
+                          <Box mt={1}>
+                            <Typography variant="h6" color="primary.main">
+                               {addedToCartMessage} 
+                            </Typography>
+                          </Box>
+                        }
+                    </Grid>
+
                     <Grid item md={4} sx={{display: {xs:"none", sm: "none", md: "block"}}}>
                         <BrowserDrawer /> 
                     </Grid>
@@ -67,6 +84,8 @@ const ShopContainer = (props) => {
                 </Box>
 
                 </Box>
+
+                }
             </Container>
 
 

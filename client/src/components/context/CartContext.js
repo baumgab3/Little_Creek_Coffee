@@ -24,6 +24,8 @@ export const CartProvider = ({children}) => {
     const [cart, setCart] = useState([]);
     const [cartSize, setCartSize] = useState(0);
     const {user} = useContext(UserContext);
+    // const [showAddedToCartMessage, setShowAddToCartMessage] = useState(false);
+    const [addedToCartMessage, setAddedToCartMessage] = useState("");
 
     const addToCart = (toAdd) => {
 
@@ -58,6 +60,12 @@ export const CartProvider = ({children}) => {
 
         setCartSize(cartSize + toAdd.quantity);
         setCart(cart => [product, ...cart]);
+
+        if (toAdd.quantity > 1) {
+            setAddedToCartMessage(`${toAdd.quantity} x "${toAdd.name.toUpperCase()}" have been added to your cart.`);
+        } else {
+            setAddedToCartMessage(`"${toAdd.name.toUpperCase()}" has been added to your cart.`);
+        }
     }
 
     const removeFromCart = (toRemove) => {
@@ -135,7 +143,19 @@ export const CartProvider = ({children}) => {
     }
 
     return (
-        <CartContext.Provider value={{cart, cartSize, addToCart, removeFromCart, updateItemQuantity, getCartTotal, getUniqueID, placeOrder}}>
+        <CartContext.Provider
+        value={{
+            cart,
+            cartSize,
+            addToCart,
+            removeFromCart,
+            updateItemQuantity,
+            getCartTotal,
+            getUniqueID,
+            placeOrder,
+            addedToCartMessage,
+            setAddedToCartMessage
+        }}>
             {children}
         </CartContext.Provider>
     );

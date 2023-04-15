@@ -25,8 +25,6 @@ const placeOrder = async (req, res) => {
         const day = dateObj.getDate();
         const date = `${year}-${month}-${day}`;
 
-        console.log("subtotal", orderDetails.subtotal);
-        
         const sqlInsert = `INSERT INTO orders (OrderId, Quantity, SubTotal, PlacedDate, UserId) 
                             VALUES ('${orderId}', '${orderDetails.quantity}', '${orderDetails.subtotal}', '${date}', '${user.id}')`;
 

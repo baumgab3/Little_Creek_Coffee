@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
@@ -8,6 +8,8 @@ import { slugify } from '../../util/AdminUtil';
 import { useNavigate } from "react-router-dom";
 import ProductHighlight from '../ProductHighlight';
 import ProductImage from '../ProductImage';
+import UserContext from '../context/UserContext';
+import CartContext from '../context/CartContext';
 
 const ProductPreviewCard = (props) => {
 
@@ -19,7 +21,7 @@ const ProductPreviewCard = (props) => {
         width: {sm: "95%", md: "800px"},
         bgcolor: 'background.paper',
         boxShadow: 24,
-        minHeight: '450px'
+        minHeight: '600px'
     };
 
     const product = props.product;
@@ -94,40 +96,7 @@ const ProductPreviewCard = (props) => {
         >
             <CardActionArea>
             <Box>
-
-            <ProductImage product={product} />
-
-            {/* <CardMedia
-                component="img"
-                height="100%"
-                image="/images/holder_2.jpg"
-                alt={product.name}
-                onClick={() => {navigate(`/product/${slugify(product.name)}`)}}
-            >
-            </CardMedia>
-
-            {product.hasSale && 
-            <Box
-            sx={{
-                position: 'absolute',
-                justifyContent: 'center',
-                alignItems: 'center',
-                display: 'flex',
-                height: '30%',
-                width: '30%',
-                borderRadius: '50%',
-                top: '10px',
-                left: '-10px',
-                backgroundColor: "#1976d2"
-                }}
-            >
-                <Box sx={{fontWeight: 'bold', color: 'white'}}>
-                    Sale!
-                </Box>
-            </Box>
-            } 
-            */}
-
+                <ProductImage product={product} />
             </Box>
 
             <Box
@@ -145,9 +114,6 @@ const ProductPreviewCard = (props) => {
             </CardActionArea>
 
             <CardContent sx={{"&:hover" : {color: "primary.main", cursor: "pointer"}}} onClick={() => navigate(`/product/${slugify(product.name)}`)} >
-                {/* <Link to={`/product/${slugify(product.name)}`} component={RouterLink} underline="hover" color="inherit">
-                    {product.name.toUpperCase()}
-                </Link> */}
                 <Typography>
                     {product.name.toUpperCase()}
                 </Typography>
@@ -168,13 +134,12 @@ const ProductPreviewCard = (props) => {
                 {isLoaded &&
                 <Grid container spacing={1}>
                     <Grid item xs={12} sm={12} md={6}>
-                        {/* <img width="100%" src="/images/holder_6.jpg" alt="" /> */}
                         <ProductImage isModal={true} product={product} />
                     </Grid>
 
                     <Grid item xs={12} sm={12} md={6}>
                         <Box p={2}>
-                         <ProductHighlight showDivider={true} product={modalProduct} />
+                         <ProductHighlight setOpenModal={setOpenModal} showDivider={true} product={modalProduct} />
                         </Box>
                     </Grid>
                 </Grid>

@@ -15,7 +15,6 @@ const ProductHighlight = (props) => {
 
     const [isSinglePrice, setIsSinglePrice] = useState(false);
 
-
     useEffect(() => {
 
         // products with no description for priceOptions won't have a drop down size bar
@@ -61,12 +60,16 @@ const ProductHighlight = (props) => {
             "name": product.Name,
             "description": productPricingObj.description,
             "grind": grind,
-            // "price": productPricingObj.salePrice > 0 ? productPricingObj.salePrice : productPricingObj.price,
             "price": productPricingObj.price,
             "salePrice": productPricingObj.salePrice,
             "quantity": quantity,
         }
 
+        // adding to cart from quick view modal needs to close modal when item added
+        if (props.setOpenModal) {
+           props.setOpenModal(false); 
+        }
+        
         addToCart(toAdd);
     }
 

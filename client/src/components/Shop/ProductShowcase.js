@@ -1,5 +1,5 @@
 import { Box, Container } from '@mui/system'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import BrowserDrawer from './BrowserDrawer'
 import {  useParams } from 'react-router-dom';
 import { Button, CardMedia, Drawer, Grid, Toolbar, Typography } from '@mui/material';
@@ -7,6 +7,8 @@ import TuneIcon from '@mui/icons-material/Tune';
 import TabsSection from './TabsSection';
 import ProductHighlight from '../ProductHighlight';
 import ProductImage from '../ProductImage';
+import SmallBreadCrumbs from '../SmallBreadCrumbs';
+import CartContext from '../context/CartContext';
 
 
 const ProductShowcase = (props) => {
@@ -17,7 +19,7 @@ const ProductShowcase = (props) => {
     const [productDetails, setProductDetails] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
     const [err, setErr] = useState(null);
-
+    const {addedToCartMessage, setAddedToCartMessage} = useContext(CartContext);
 
     useEffect(() => {
         const fetchProductDetails = () => {
@@ -44,6 +46,8 @@ const ProductShowcase = (props) => {
 
         fetchProductDetails();
         setMobileOpen(false);
+        setAddedToCartMessage("");
+
     }, [param1])
 
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -78,50 +82,27 @@ const ProductShowcase = (props) => {
                 </Box>
 
                 {/* BreadCrumbs for bigger screens */}
-                <Grid container mb={3}>
+                <Grid container mb={1}>
                     <Grid item md={12} sx={{display: {xs:"none", sm: "none", md: "block"}}}>
-                        {/* <SmallBreadCrumbs /> */}
+                        <SmallBreadCrumbs />
                     </Grid>
                 </Grid>
 
                 <Grid container spacing={3}>
-                    <Grid item xs={12} sm={12} md={5}>
-
-                        {/* <img width="100%" src="/images/holder_6.jpg" alt="" /> */}
-                        <ProductImage product={productDetails} />
-                    {/* <Box sx={{position: 'relative'}}>
-                        <CardMedia
-                            component="img"
-                            height="100%"
-                            width="100%"
-                            image="/images/holder_6.jpg"
-                            alt={productDetails.name}
-                        />
-                        {productDetails.hasSale && 
-                        <Box
-                        sx={{
-                            position: 'absolute',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            display: 'flex',
-                            // height: '105px',
-                            // width: '105px',
-                            height: {xs: '80px', sm: '100px', md: '90px', lg: '105px'},
-                            width: {xs: '80px', sm: '100px', md: '90px', lg: '105px'},
-                            borderRadius: '50%',
-                            top: '10px',
-                            left: {xs: '-10px', sm: '-20px'},
-                            backgroundColor: "#1976d2"
-                            }}
-                        >
-                            <Box sx={{fontWeight: 'bold', color: 'white'}}>
-                                Sale!
-                            </Box>
-                        </Box>
+                    
+                    <Grid item xs={12} sx={{textAlign: {xs: "center", sm: "center", md: "left"}}} >
+                        {addedToCartMessage && 
+                          <Box mt={1}>
+                            <Typography variant="h6" color="primary.main">
+                               {addedToCartMessage} 
+                            </Typography>
+                          </Box>
                         }
+                        
+                    </Grid>
 
-                    </Box> */}
-
+                    <Grid item xs={12} sm={12} md={5}>
+                        <ProductImage product={productDetails} />
                     </Grid>
 
                     <Grid item xs={12} sm={12} md={7}>

@@ -26,9 +26,6 @@ const CartItem = ({item, isPlaced}) => {
         url += `&product_grind=${grindNumber}`;
     }
 
-    
-    // console.log(url);
-
     const handleQuantityChange = (event) => {
         total.value = event.target.value;
 
