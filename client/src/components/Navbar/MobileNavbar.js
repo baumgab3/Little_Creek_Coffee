@@ -31,7 +31,7 @@ const MobileNavbar = (props) => {
     const cafeOptions = AdminUtil.getDropDownForCafes();
     const learningOptions = AdminUtil.getDropDownForLearning();
     const aboutUsOptions = AdminUtil.getDropDownForAboutUs();
-    const {cartSize} = useContext(CartContext);
+    const {cartSize, emptyCart} = useContext(CartContext);
     const {isLoggedIn, logoutUser} = useContext(UserContext);
     const navigate = useNavigate();
 
@@ -91,6 +91,7 @@ const MobileNavbar = (props) => {
         setOpenLoggedIn(false);
         setMobileOpen(false);
         logoutUser();
+        emptyCart();
     }
     
     const drawer = (

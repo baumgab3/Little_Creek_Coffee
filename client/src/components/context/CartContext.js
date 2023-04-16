@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { sha256 } from 'js-sha256';
 import axios from 'axios';
 import UserContext from "./UserContext";
@@ -137,7 +137,7 @@ export const CartProvider = ({children}) => {
 
         // for now tea does not need a unique
         if (cartItem.category === 'tea') {
-            return cartItem.orderId;
+            return cartItem.id;
         }
         
     }
@@ -183,4 +183,3 @@ export const CartProvider = ({children}) => {
 }
 
 export default CartContext;
-// export default CartItem;

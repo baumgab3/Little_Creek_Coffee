@@ -17,7 +17,7 @@ import CartContext from '../context/CartContext';
 
 const BigNavbar = ({logoutUser, user}) => {
 
-    const {cartSize, getCartTotal} = useContext(CartContext);
+    const {cartSize, getCartTotal, emptyCart} = useContext(CartContext);
 
     const shopOptions = AdminUtil.getDropDownForShop();
     const cafeOptions = AdminUtil.getDropDownForCafes();
@@ -105,6 +105,7 @@ const BigNavbar = ({logoutUser, user}) => {
 
     const logout = () => {
         logoutUser();
+        emptyCart();
     }
 
     return (
