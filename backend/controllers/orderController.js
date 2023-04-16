@@ -47,6 +47,7 @@ const placeOrder = async (req, res) => {
                 cartItem.salePrice = 0;
             }
             
+            console.log(cartItem);
 
             const sqlItemInsert = `INSERT INTO order_items (OrderItemId, ProductName, Category, Quantity, IndividualPrice, SalePrice, Description, Grind, ProductId, OrderId) 
                                     VALUES ('${orderItemId}', '${cartItem.name}', '${cartItem.category}', '${cartItem.quantity}', '${cartItem.price}', 

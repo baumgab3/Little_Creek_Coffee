@@ -17,7 +17,7 @@ const PastOrder = () => {
     const {user} = useContext(UserContext);
     const {addToCart} = useContext(CartContext);
     const navigate = useNavigate();
-
+    const [isLoaded, setIsLoaded] = useState(false);
     const orderStyle = {
         backgroundColor: yellow[500],
     }
@@ -34,6 +34,7 @@ const PastOrder = () => {
             }
         })
         .then((response) => {
+            setIsLoaded(true);
             return setPastOrder(response.data);
         })
         .catch(err => {
@@ -52,7 +53,6 @@ const PastOrder = () => {
             const priceObj = await getOrderPrice(order);
             orderClone.price = priceObj.price;
             orderClone.salePrice = priceObj.salePrice;
-  
             addToCart(orderClone);
         }
 
@@ -74,15 +74,12 @@ const PastOrder = () => {
             const priceArray = response.data;
 
             // products can have multiple prices, loop through and find current price to compare
-            for (const idx in priceArray) {
-                const priceObj = priceArray[idx];
-
+            for (const priceObj of priceArray) {
                 if (priceObj.description === order.description) {
                     // if product has sale, return its latest sale price
                     price = {"price": priceObj.price, "salePrice": priceObj.salePrice};
                     break;
                 }
-
             }
 
         })
@@ -103,69 +100,65 @@ const PastOrder = () => {
                     <UserDrawer />
                 </Grid>
 
+                {isLoaded && 
                 <Grid item xs={12} sm={12} md={9} sx={{marginTop: {xs :"15px", sm: "15px", md: "0"}}}>
-
-
-                <Box mt={2} mb={2}>
-                    {pastOrder.orderDetails &&  <Typography>
-                        Order <span style={orderStyle}>#{pastOrder.orderDetails.id}</span> was 
-                        placed on <span style={orderStyle}>{pastOrder.orderDetails.placedDate}</span> and is
-                        currently <span style={orderStyle}>{pastOrder.orderDetails.status}</span>.
-                    </Typography>
-                    }
-                </Box>
-
-
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <Typography variant='h5' sx={{fontWeight: 'bold'}}>
-                            Order details
+                    <Box mt={2} mb={2}>
+                        <Typography>
+                            Order <span style={orderStyle}>#{pastOrder.orderDetails.id}</span> was 
+                            placed on <span style={orderStyle}>{pastOrder.orderDetails.placedDate}</span> and is
+                            currently <span style={orderStyle}>{pastOrder.orderDetails.status}</span>.
                         </Typography>
+                    </Box>
+
+
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <Typography variant='h5' sx={{fontWeight: 'bold'}}>
+                                Order details
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography variant='h6' sx={{fontWeight: 'bold'}}>
+                                Product
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Typography variant='h6' sx={{fontWeight: 'bold'}}>
+                                Total
+                            </Typography>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={8}>
-                        <Typography variant='h6' sx={{fontWeight: 'bold'}}>
-                            Product
-                        </Typography>
+
+                    <Divider sx={{borderBottomWidth: 5}} />
+
+                    {pastOrder.order.map((order) => {
+                        return <Box key={order.id} mt={2} >
+                                <OrderItemSummary order={order} />
+                                <Box mt={2}></Box>
+                                <Divider sx={{borderBottomWidth: 3}} />
+                            </Box>
+                    })}
+
+                    <Grid container spacing={2} mt={2}>
+                        <Grid item xs={8}>
+                            <Typography variant="h6" sx={{fontWeight: 'bold'}}>
+                                SubTotal
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                             <Typography variant="h6" sx={{fontWeight: 'bold'}}>
+                                ${pastOrder.orderDetails.subTotal.toFixed(2)}
+                            </Typography>
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <Button onClick={handleBuyAgain} variant='contained'>Buy Again</Button>
+                        </Grid>
+
                     </Grid>
-                    <Grid item xs={4}>
-                        <Typography variant='h6' sx={{fontWeight: 'bold'}}>
-                            Total
-                        </Typography>
-                    </Grid>
+                    
                 </Grid>
-
-                <Divider sx={{borderBottomWidth: 5}} />
-
-                {pastOrder.orderDetails && pastOrder.order.map((order) => {
-                    return <Box key={order.id} mt={2} >
-                            <OrderItemSummary order={order} />
-                            <Box mt={2}></Box>
-                            <Divider sx={{borderBottomWidth: 3}} />
-                        </Box>
-                })}
-
-                <Grid container spacing={2} mt={2}>
-                    <Grid item xs={8}>
-                        <Typography variant="h6" sx={{fontWeight: 'bold'}}>
-                            SubTotal
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={4}>
-                        {pastOrder.orderDetails && <Typography variant="h6" sx={{fontWeight: 'bold'}}>
-                            ${pastOrder.orderDetails.subTotal.toFixed(2)}
-                        </Typography>
-                        }
-                    </Grid>
-
-                    <Grid item xs={12}>
-                        {pastOrder.orderDetails && 
-                        <Button onClick={handleBuyAgain} variant='contained'>Buy Again</Button>
-                        }
-                    </Grid>
-
-                </Grid>
-                </Grid>
-
+                }
             </Grid>
             </Box>
         </Container>

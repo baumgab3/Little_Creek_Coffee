@@ -117,11 +117,11 @@ const getProductPrice = async (req, res) => {
 
         const prices = [];
 
-        for (const idx in queryResult) {
+        for (const priceOption of queryResult) {
             const priceObj = {
-                price: queryResult[idx].Price,
-                salePrice: queryResult[idx].SalePrice,
-                description: queryResult[idx].Description ? queryResult[0].Description : ""
+                price: priceOption.Price,
+                salePrice: priceOption.SalePrice,
+                description: priceOption.Description ? priceOption.Description : ""
             }
 
             prices.push(priceObj);
