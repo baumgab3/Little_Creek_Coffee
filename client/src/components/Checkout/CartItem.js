@@ -83,8 +83,8 @@ const CartItem = ({item, isPlaced}) => {
                     </Box>
                 </Grid>
                 <Grid item xs={2} sm={2} sx={{textAlign: {xs: "right", sm: "center"}}}>
-                    <Box mt={1} >
-                        <FormControl sx={{width: "70px"}} size="small">
+                    <Box mt={1}>
+                        <FormControl sx={{width: "60px"}} size="small">
                         <Select
                             inputProps={{ 'aria-label': 'Without label' }}
                             defaultValue={item.quantity}

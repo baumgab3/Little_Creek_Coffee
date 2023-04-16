@@ -136,12 +136,16 @@ export const CartProvider = ({children}) => {
 
         axios.post(url, order)
         .then((response) => {
-            setCart([]);
-            setCartSize(0);
+            emptyCart();
         })
         .catch(err => {
             // TODO - should add more error handling
         })
+    }
+
+    const emptyCart = () => {
+        setCart([]);
+        setCartSize(0);
     }
 
     return (
@@ -156,7 +160,8 @@ export const CartProvider = ({children}) => {
             getUniqueID,
             placeOrder,
             addedToCartMessage,
-            setAddedToCartMessage
+            setAddedToCartMessage,
+            emptyCart
         }}>
             {children}
         </CartContext.Provider>

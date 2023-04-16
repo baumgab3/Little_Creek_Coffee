@@ -23,7 +23,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import HomeIcon from '@mui/icons-material/Home';
 import CartContext from '../context/CartContext';
 import UserContext from '../context/UserContext';
-
+import { useNavigate } from "react-router-dom";
 
 const MobileNavbar = (props) => {
 
@@ -33,6 +33,7 @@ const MobileNavbar = (props) => {
     const aboutUsOptions = AdminUtil.getDropDownForAboutUs();
     const {cartSize} = useContext(CartContext);
     const {isLoggedIn, logoutUser} = useContext(UserContext);
+    const navigate = useNavigate();
 
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -269,13 +270,16 @@ const MobileNavbar = (props) => {
                         <HomeIcon />
                     </Link>
                 </Button>
-                <Button color="inherit">
-                    <Link to="/cart" style={{ textDecoration: 'none', color: 'inherit' }}>
-                         <ShoppingCartOutlinedIcon />
-                    </Link>
-                    <Box component={Link} to="/cart" mb={1} sx={{display: {xs:"none", sm:"block"}, color: 'inherit', textDecoration: 'none'}}>
-                       ({cartSize}) 
+                <Button onClick={() => {navigate("/cart")}} color="inherit">
+                    <Box sx={{display: 'flex', marginBottom: {xs: '6px', sm: '0px'} }}>
+                        <ShoppingCartOutlinedIcon /> ({cartSize}) 
                     </Box>
+                    {/* <Link to="/cart" style={{ textDecoration: 'none', color: 'inherit' }}>
+                         <ShoppingCartOutlinedIcon /> ({cartSize}) 
+                    </Link> */}
+                    {/* <Box component={Link} to="/cart" mb={1} sx={{display: {xs:"none", sm:"block"}, color: 'inherit', textDecoration: 'none'}}>
+                       ({cartSize}) 
+                    </Box> */}
                 </Button>
             </ButtonGroup>
         </Grid>

@@ -7,7 +7,7 @@ import CartItem from './CartItem';
 
 const Checkout = () => {
     
-    const {cart, cartSize, getCartTotal, getUniqueID, placeOrder} = useContext(CartContext);
+    const {cart, emptyCart, cartSize, getCartTotal, getUniqueID, placeOrder} = useContext(CartContext);
     const {user} = useContext(UserContext);
 
     if (!cart || cartSize === 0) {
@@ -24,6 +24,7 @@ const Checkout = () => {
     <Container>
 
         <Grid container spacing={1} mt={10}>
+
             <Grid item xs={12} sm={12} md={7}>
 
             <Grid container mt={10}>
@@ -51,6 +52,7 @@ const Checkout = () => {
                     SubTotal ({cartSize} items): ${getCartTotal()}
                 </Box>
                 <Box mt={4} align="right">
+                    <Button onClick={emptyCart} color="error" variant="contained" mt={4}>Empty Cart</Button> &nbsp;
                     {user && cartSize !== 0 && <Button onClick={placeOrder} variant="contained" mt={4}>Place Order</Button>}
                 </Box>
             </Grid>
@@ -58,6 +60,7 @@ const Checkout = () => {
             <Grid item xs={12} sm={12} md={5} align="center">
                 product checkout
             </Grid>
+
         </Grid>
 
     </Container>
