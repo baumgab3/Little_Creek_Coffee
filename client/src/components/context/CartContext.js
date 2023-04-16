@@ -52,19 +52,21 @@ export const CartProvider = ({children}) => {
 
                 cart[i].quantity += product.quantity;
                 setCartSize(cartSize + toAdd.quantity);
-
-                // updateItemQuantity(product.id, product.quantity);
+                setAddToCartMessage(toAdd);
                 return;
             }
         }
 
         setCartSize(cartSize + toAdd.quantity);
         setCart(cart => [product, ...cart]);
+        setAddToCartMessage(toAdd);
+    }
 
-        if (toAdd.quantity > 1) {
-            setAddedToCartMessage(`${toAdd.quantity} x "${toAdd.name.toUpperCase()}" have been added to your cart.`);
+    const setAddToCartMessage = (item) => {
+        if (item.quantity > 1) {
+            setAddedToCartMessage(`${item.quantity} x "${item.name.toUpperCase()}" have been added to your cart.`);
         } else {
-            setAddedToCartMessage(`"${toAdd.name.toUpperCase()}" has been added to your cart.`);
+            setAddedToCartMessage(`"${item.name.toUpperCase()}" has been added to your cart.`);
         }
     }
 
