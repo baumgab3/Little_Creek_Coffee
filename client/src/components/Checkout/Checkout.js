@@ -7,7 +7,7 @@ import CartItem from './CartItem';
 
 const Checkout = () => {
     
-    const {cart, emptyCart, cartSize, getCartTotal, getUniqueID, placeOrder} = useContext(CartContext);
+    const {cart, emptyCart, cartSize, sizeRef, getCartTotal, getUniqueID, placeOrder} = useContext(CartContext);
     const {user} = useContext(UserContext);
 
     if (!cart || cartSize === 0) {
@@ -62,6 +62,10 @@ const Checkout = () => {
             </Grid>
 
         </Grid>
+
+        <br/>
+        <br/>
+        <br/>
 
     </Container>
     )

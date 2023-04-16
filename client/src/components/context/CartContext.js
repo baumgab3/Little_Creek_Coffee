@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useRef, useState } from "react";
 import { sha256 } from 'js-sha256';
 import axios from 'axios';
 import UserContext from "./UserContext";
@@ -24,14 +24,26 @@ export const CartProvider = ({children}) => {
     const [cart, setCart] = useState([]);
     const [cartSize, setCartSize] = useState(0);
     const {user} = useContext(UserContext);
-    // const [showAddedToCartMessage, setShowAddToCartMessage] = useState(false);
     const [addedToCartMessage, setAddedToCartMessage] = useState("");
+
+    const addPastOrderToCart = (pastOrderObj) => {
+        const pastOrder = pastOrderObj.order;
+
+        // add any existing orders already added to cart
+        for (let i = 0; i < cart.length; i++) {
+            pastOrder.push(cart[i]);
+        }
+
+        setCartSize(cartSize + pastOrderObj.quantity);
+        setCart(pastOrder);
+    }
 
     const addToCart = (toAdd) => {
 
         const product = new CartItem(
             toAdd.id,
-            toAdd.category = toAdd.category,
+            // toAdd.category = toAdd.category,
+            toAdd.category,
             toAdd.name,
             toAdd.description,
             toAdd.grind,
@@ -40,10 +52,10 @@ export const CartProvider = ({children}) => {
             toAdd.quantity
         );
 
+
         // if we have seen item before then don't readd, just increament quantity
         for (let i = 0; i < cart.length; i++) {
             if (getUniqueID(cart[i]) === getUniqueID(product)) {
-
                 // for now don't let more than 10 of the same product be added to cart
                 if (cart[i].quantity + product.quantity > 10) {
                     alert("Cannot have more than 10 of same product in cart!");
@@ -112,6 +124,7 @@ export const CartProvider = ({children}) => {
     }
 
     const getUniqueID = (cartItem) => {
+
         // unique id for coffee items
         if (cartItem.category === 'coffee') {
             return sha256(cartItem.id + cartItem.grind + cartItem.description);
@@ -124,7 +137,7 @@ export const CartProvider = ({children}) => {
 
         // for now tea does not need a unique
         if (cartItem.category === 'tea') {
-            return cartItem.id;
+            return cartItem.orderId;
         }
         
     }
@@ -161,7 +174,8 @@ export const CartProvider = ({children}) => {
             placeOrder,
             addedToCartMessage,
             setAddedToCartMessage,
-            emptyCart
+            emptyCart,
+            addPastOrderToCart,
         }}>
             {children}
         </CartContext.Provider>

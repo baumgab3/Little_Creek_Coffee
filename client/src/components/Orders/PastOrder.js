@@ -15,7 +15,7 @@ const PastOrder = () => {
     const {orderId} = useParams();
     // const {getOrderById, pastOrder} = useContext(UserContext);
     const {user} = useContext(UserContext);
-    const {addToCart} = useContext(CartContext);
+    const { addPastOrderToCart } = useContext(CartContext);
     const navigate = useNavigate();
     const [isLoaded, setIsLoaded] = useState(false);
     const orderStyle = {
@@ -46,21 +46,31 @@ const PastOrder = () => {
     const handleBuyAgain = async () => {
         // when buying orders from the past we need to make sure we are using the latest pricing and 
         // not the pricing when the item was bought
-    
+        
+        const updatedPastOrder = [];
+
         for (const order of pastOrder.order) {
             // copy of original order that will have updated prices
             const orderClone = {... order};
             const priceObj = await getOrderPrice(order);
             orderClone.price = priceObj.price;
             orderClone.salePrice = priceObj.salePrice;
-            addToCart(orderClone);
+            updatedPastOrder.push(orderClone);
         }
+
+        const pastOrderObj = {
+            quantity: pastOrder.orderDetails.quantity,
+            order: updatedPastOrder
+        }
+
+
+        addPastOrderToCart(pastOrderObj);
 
         navigate("/cart");
     }
 
     const getOrderPrice = async (order) => {
-        const productId = order.productId
+        const productId = order.id
 
         // if order doesn't have description just add a blank to make life easier below
         if (!order.description) {
@@ -132,7 +142,7 @@ const PastOrder = () => {
                     <Divider sx={{borderBottomWidth: 5}} />
 
                     {pastOrder.order.map((order) => {
-                        return <Box key={order.id} mt={2} >
+                        return <Box key={order.orderId} mt={2} >
                                 <OrderItemSummary order={order} />
                                 <Box mt={2}></Box>
                                 <Divider sx={{borderBottomWidth: 3}} />
@@ -161,6 +171,10 @@ const PastOrder = () => {
                 }
             </Grid>
             </Box>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
         </Container>
     )
 

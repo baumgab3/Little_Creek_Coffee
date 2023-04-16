@@ -6,10 +6,12 @@ import TopNavbar from './TopNavbar';
 import { Box } from '@mui/system';
 import { CssBaseline, Toolbar } from '@mui/material';
 import UserContext from '../context/UserContext';
+import CartContext from '../context/CartContext';
 
 const Navbar = (props) => {
 
     const {logoutUser, user} = useContext(UserContext);
+    const {sizeRef} = useContext(CartContext);
 
     return (
         <Box sx={{ display: 'flex' }}>

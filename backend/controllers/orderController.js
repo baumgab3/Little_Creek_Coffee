@@ -47,8 +47,6 @@ const placeOrder = async (req, res) => {
                 cartItem.salePrice = 0;
             }
             
-            console.log(cartItem);
-
             const sqlItemInsert = `INSERT INTO order_items (OrderItemId, ProductName, Category, Quantity, IndividualPrice, SalePrice, Description, Grind, ProductId, OrderId) 
                                     VALUES ('${orderItemId}', '${cartItem.name}', '${cartItem.category}', '${cartItem.quantity}', '${cartItem.price}', 
                                     '${cartItem.salePrice}', '${cartItem.description}', '${cartItem.grind}', '${cartItem.id}', '${orderId}')`;
@@ -130,7 +128,7 @@ const getOrders = async (req, res) => {
             const orderObj = {
                 "placeDate" : currentOrder.PlacedDate,
                 "status" : currentOrder.Status,
-                "orders" : orderItems
+                "orders" : orderItems,
             };
 
             result.push(orderObj);
@@ -160,8 +158,9 @@ const getOrderById = async (req, res) => {
     
         for (const order of orders) {
             const item = {
-                id: order.OrderItemId,
-                productId: order.ProductId,
+                orderId: order.OrderItemId,
+                // productId: order.ProductId,
+                id: order.ProductId,
                 category: order.Category,
                 name: order.ProductName,
                 price: order.IndividualPrice,
@@ -181,14 +180,15 @@ const getOrderById = async (req, res) => {
         }
 
         // add Status, SubTotal and PlacedDate to returnOrers
-        const sqlOrderSelect = `SELECT OrderId, Status, SubTotal, PlacedDate FROM orders WHERE OrderId = '${orderId}'`;
+        const sqlOrderSelect = `SELECT OrderId, Status, SubTotal, PlacedDate, Quantity FROM orders WHERE OrderId = '${orderId}'`;
         const orderReturn = await query(sqlOrderSelect);
         const orderInfo = orderReturn[0];
         const info = {
             id: orderInfo.OrderId,
             status: orderInfo.Status,
             subTotal: orderInfo.SubTotal,
-            placedDate: getFormattedDate(orderInfo.PlacedDate)
+            placedDate: getFormattedDate(orderInfo.PlacedDate),
+            quantity: orderInfo.Quantity
         }
 
         const orderResult = {
