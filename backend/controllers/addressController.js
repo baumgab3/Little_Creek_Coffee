@@ -4,7 +4,7 @@ const crypto = require('crypto');
 
 const query = util.promisify(conn.query).bind(conn);
 
-const getShippingAddressById = async (req, res) => {
+const getAddressById = async (req, res) => {
 
     try {
 
@@ -12,57 +12,64 @@ const getShippingAddressById = async (req, res) => {
         if (req.params.userId !== req.user.id) {
             return res.status(401).json({message: "You are not authorized to update"});
         }
+
+        const addressType = req.params.addressType;
+        const table = addressType === 'shipping' ? 'shipping_addresses' : 'billing_addresses';
 
         const userId = req.params.userId;
-        const sqlSelect = `SELECT * FROM shipping_addresses WHERE UserId='${userId}'`;
+        const sqlSelect = `SELECT * FROM ${table} WHERE UserId='${userId}'`;
         const queryResult = await query(sqlSelect);
 
-        // if billing address hasn't been set, just return the empty obj
-        if (queryResult && queryResult.length === 0) {
-            return res.send( {
-                firstName: "",
-                lastName: "",
-                streetAddress: "",
-                city: "",
-                state: "",
-                zip: "",
-                companyName: "",
-                apartmentSuit: ""
-            });
+        const addressObj = {
+            firstName: "",
+            lastName: "",
+            streetAddress: "",
+            city: "",
+            state: "",
+            zip: "",
+            companyName: "",
+            apartmentSuit: ""
+        };
+
+        // billing address have two addtional columns
+        if (addressType === 'billing') {
+            addressObj.phone = "";
+            addressObj.email = "";
         }
 
-        const addressObj = queryResult[0];
-
-        const shippingAddress = {
-            firstName: addressObj.FirstName,
-            lastName: addressObj.LastName,
-            streetAddress: addressObj.StreetAddress,
-            city: addressObj.City,
-            state: addressObj.State,
-            zip: addressObj.ZipCode,
-            phone: addressObj.Phone,
-            email: addressObj.Email,
+        // if address hasn't been set, just return an empty address object
+        if (queryResult.length === 0) {
+            return res.send(addressObj);
         }
 
-        // add optional columns
-        if (shippingAddress.CompanyName) {
-            shippingAddress.companyName = addressObj.CompanyName;
+        // there was an address in db, fill out object
+        addressObj.firstName = queryResult[0].FirstName;
+        addressObj.lastName = queryResult[0].LastName;
+        addressObj.streetAddress = queryResult[0].StreetAddress;
+        addressObj.city = queryResult[0].City;
+        addressObj.state = queryResult[0].State;
+        addressObj.zip = queryResult[0].ZipCode;
+        addressObj.companyName = queryResult[0].CompanyName;
+        addressObj.apartmentSuit = queryResult[0].ApartmentSuit;
+
+        // billing address have two addtional columns
+        if (addressType === 'billing') {
+            addressObj.phone = queryResult[0].Phone;
+            addressObj.email = queryResult[0].Email;
         }
 
-        if (shippingAddress.ApartmentSuit) {
-            shippingAddress.apartmentSuit = addressObj.ApartmentSuit;
-        }
-
-        return res.send(shippingAddress);
+        return res.send(addressObj);
 
     } catch (err) {
-        console.log("getShippingAddressById error", err);
+        console.log("getAddressById error", err);
         return res.status(500).json({message: "Server Error", error: err});
     }
+
 }
 
-const getBillingAddressById = async (req, res) => {
-    
+
+const saveAddress = async (req, res) => {
+
     try {
 
         // verfiy authorized user
@@ -70,142 +77,97 @@ const getBillingAddressById = async (req, res) => {
             return res.status(401).json({message: "You are not authorized to update"});
         }
 
-        const userId = req.params.userId;
-        const sqlSelect = `SELECT * FROM billing_addresses WHERE UserId='${userId}'`;
-        const queryResult = await query(sqlSelect);
-
-        // if billing address hasn't been set, just return the empty obj
-        if (queryResult && queryResult.length === 0) {
-            return res.send( {
-                firstName: "",
-                lastName: "",
-                streetAddress: "",
-                city: "",
-                state: "",
-                zip: "",
-                phone: "",
-                email: "",
-                companyName: "",
-                apartmentSuit: ""
-            });
-        }
-
-        const addressObj = queryResult[0];
-
-        const billingAddress = {
-            firstName: addressObj.FirstName,
-            lastName: addressObj.LastName,
-            streetAddress: addressObj.StreetAddress,
-            city: addressObj.City,
-            state: addressObj.State,
-            zip: addressObj.ZipCode,
-            phone: addressObj.Phone,
-            email: addressObj.Email,
-        }
-
-        // add optional columns
-        if (billingAddress.CompanyName) {
-            billingAddress.companyName = addressObj.CompanyName;
-        }
-
-        if (billingAddress.ApartmentSuit) {
-            billingAddress.apartmentSuit = addressObj.ApartmentSuit;
-        }
-
-        return res.send(billingAddress);
-
-    } catch (err) {
-        console.log("getBillingAddressById error", err);
-        return res.status(500).json({message: "Server Error", error: err});
-    }
-}
-
-const saveShippingAddress = async (req, res) => {
-    
-    try {
-
-        // verfiy authorized user
-        if (req.params.userId !== req.user.id) {
-            return res.status(401).json({message: "You are not authorized to update"});
-        }
-        
-        const user = req.body.user;
-        const addressObj = req.body.addressToUpdate;
-
-        const sqlSelect = `SELECT * FROM shipping_addresses WHERE UserId='${user.id}'`;
-        const queryResult = await query(sqlSelect);
-
-        // if no array (a recored in db) is returned, then need to do an insert
-        if (!queryResult || queryResult.length === 0) {
-            // create id for new addreess
-            const shippingId = crypto.randomUUID();
-            const sqlInsert = `INSERT INTO shipping_addresses (ShippingId, FirstName, LastName, CompanyName, StreetAddress, ApartmentSuit, City, State, ZipCode, UserId) 
-                                VALUES ('${shippingId}', '${addressObj.firstName}', '${addressObj.lastName}', '${addressObj.companyName}',
-                                '${addressObj.streetAddress}', '${addressObj.apartmentSuit}', '${addressObj.city}', '${addressObj.state}',
-                                '${addressObj.zip}', '${user.id}')`;
-            
-            await query(sqlInsert);
-            return res.status(200).json({message: "New shipping address created"});
-        }
-
-        // something was in array, so user is updating their address. No insert now, just an update
-        const sqlUpdate = `UPDATE shipping_addresses SET
-                            FirstName='${addressObj.firstName}', LastName='${addressObj.lastName}', CompanyName='${addressObj.companyName}',
-                            StreetAddress='${addressObj.streetAddress}', ApartmentSuit='${addressObj.apartmentSuit}', City='${addressObj.city}',
-                            State='${addressObj.state}', ZipCode='${addressObj.zip}' WHERE UserId='${user.id}'`;
-
-        await query(sqlUpdate);
-        return res.status(200).json({message: "Shipping address has been updated"});
-
-    } catch (err) {
-        console.log("saveShippingAddress error", err);
-        return res.status(500).json({message: "Server Error", error: err});
-    }
-}
-
-const saveBillingAddress = async (req, res) => {
-    
-    try {
-
-        // verfiy authorized user
-        if (req.params.userId !== req.user.id) {
-            return res.status(401).json({message: "You are not authorized to update"});
-        }
+        const addressType = req.params.addressType;
+        const table = addressType === 'shipping' ? 'shipping_addresses' : 'billing_addresses';
 
         const user = req.body.user;
         const addressObj = req.body.addressToUpdate;
 
-        const sqlSelect = `SELECT * FROM billing_addresses WHERE UserId='${user.id}'`;
+        const sqlSelect = `SELECT * FROM ${table} WHERE UserId='${user.id}'`;
         const queryResult = await query(sqlSelect);
 
         // if no array (a recored in db) is returned, then need to do an insert
         if (!queryResult || queryResult.length === 0) {
-            // create id for new addreess
-            const billingId = crypto.randomUUID();
-            const sqlInsert = `INSERT INTO billing_addresses (BillingId, FirstName, LastName, CompanyName, StreetAddress, ApartmentSuit, City, State, ZipCode, Phone, Email, UserId) 
-                                VALUES ('${billingId}', '${addressObj.firstName}', '${addressObj.lastName}', '${addressObj.companyName}',
-                                '${addressObj.streetAddress}', '${addressObj.apartmentSuit}', '${addressObj.city}', '${addressObj.state}',
-                                '${addressObj.zip}', '${addressObj.phone}', '${addressObj.email}', '${user.id}')`;
-            
-            await query(sqlInsert);
-            return res.status(200).json({message: "New billing address created"});
+            const insertQuery = getInsertAddressQuery(table, addressObj, user.id);
+            await query(insertQuery);
+
+        } else {
+            // something was in db, so no insert; just do an update
+            const updateQuery = getUpdateAddressQuery(table, addressObj, user.id);
+            await query(updateQuery);
         }
 
-        // something was in array, so user is updating their address. No insert now, just an update
-        const sqlUpdate = `UPDATE billing_addresses SET
-                            FirstName='${addressObj.firstName}', LastName='${addressObj.lastName}', CompanyName='${addressObj.companyName}',
-                            StreetAddress='${addressObj.streetAddress}', ApartmentSuit='${addressObj.apartmentSuit}', City='${addressObj.city}',
-                            State='${addressObj.state}', ZipCode='${addressObj.zip}', Phone='${addressObj.phone}',
-                            Email='${addressObj.email}' WHERE UserId='${user.id}'`;
-
-        await query(sqlUpdate);
-        return res.status(200).json({message: "Billing address has been updated"});
+        return res.status(200).json({message: "Address has been saved"});
 
     } catch (err) {
         console.log("saveBillingAddress error", err);
         return res.status(500).json({message: "Server Error", error: err});
     }
+
 }
+
+
+// helper function for inserts
+const getInsertAddressQuery = (table, address, userId) => {
+
+    const id = (table === 'billing_addresses') ? 'BillingId' : 'ShippingId';
+    let insertParams = `( ${id}, FirstName, LastName, CompanyName, StreetAddress, ApartmentSuit, City, State, ZipCode`;
+    let insertValues = `( '${crypto.randomUUID()}', '${address.firstName}', '${address.lastName}', '${address.companyName}', '${address.streetAddress}',
+                        '${address.apartmentSuit}', '${address.city}', '${address.state}', '${address.zip}'`;
+
+    if (table === 'billing_addresses') {
+        insertParams += ", Phone, Email";
+        insertValues += `, '${address.phone}', '${address.email}'`;
+    }
+
+    // always append UserId to insert
+    insertParams += ", UserId )";
+    insertValues += `, '${userId}' )`;
+
+    return `INSERT INTO ${table} ${insertParams} VALUES ${insertValues}`;
+}
+
+
+// helper function for updates
+const getUpdateAddressQuery = (table, address, userId) => {
+
+    let updateParams = `FirstName='${address.firstName}', LastName='${address.lastName}', CompanyName='${address.companyName}',
+                        StreetAddress='${address.streetAddress}', ApartmentSuit='${address.apartmentSuit}', City='${address.city}',
+                        State='${address.state}', ZipCode='${address.zip}' `;
+
+    if (table === 'billing_addresses') {
+        updateParams += `, Phone='${address.phone}', Email='${address.email}'`;
+    }
+
+    return `UPDATE ${table} SET ${updateParams} WHERE UserId='${userId}'`;
+}
+
+
+const deleteAddress = async (req, res) => {
+
+    try {
+        // verfiy authorized user
+        if (req.params.userId !== req.user.id) {
+            return res.status(401).json({message: "You are not authorized to update"});
+        }
+
+        const userId = req.params.userId;
+        const addressType = req.params.addressType;
+        const table = addressType === 'shipping' ? 'shipping_addresses' : 'billing_addresses';
+
+        const sqlDelete = `DELETE FROM ${table} WHERE UserId='${userId}' LIMIT 1`;
+
+        await query(sqlDelete);
+
+        return res.status(200).json({message: "Billing Address has been deleted"});
+
+    } catch (err) {
+        console.log("deleteBillingAddress server error", err);
+        return res.status(500).json({message: "Server Error", error: err});
+    }
+
+}
+
 
 const getBillingAndShippingInfo = async (req, res)=> {
 
@@ -251,54 +213,10 @@ const getBillingAndShippingInfo = async (req, res)=> {
     }
 }
 
-const deleteBillingAddress = async (req, res) => {
-
-    try {
-        
-        // verfiy authorized user
-        if (req.params.userId !== req.user.id) {
-            return res.status(401).json({message: "You are not authorized to update"});
-        }
-
-        const userId = req.params.userId;
-        const sqlDelete = `DELETE FROM billing_addresses WHERE UserId='${userId}' LIMIT 1`;
-        await query(sqlDelete);
-
-        return res.status(200).json({message: "Billing Address has been deleted"});
-
-    } catch (err) {
-        console.log("deleteBillingAddress server error", err);
-        return res.status(500).json({message: "Server Error", error: err});
-    }
-}
-
-const deleteShippingAddress = async (req, res) => {
-
-    try {
-
-        // verfiy authorized user
-        if (req.params.userId !== req.user.id) {
-            return res.status(401).json({message: "You are not authorized to update"});
-        }
-
-        const userId = req.params.userId;
-        const sqlDelete = `DELETE FROM shipping_addresses WHERE UserId='${userId}' LIMIT 1`;
-        await query(sqlDelete);
-
-        return res.status(200).json({message: "Shipping Address has been deleted"});
-
-    } catch (err) {
-        console.log("deleteShippingAddress server error", err);
-        return res.status(500).json({message: "Server Error", error: err});
-    }
-}
 
 module.exports = {
-    getShippingAddressById,
-    getBillingAddressById,
-    saveShippingAddress,
-    saveBillingAddress,
     getBillingAndShippingInfo,
-    deleteBillingAddress,
-    deleteShippingAddress
+    getAddressById,
+    saveAddress,
+    deleteAddress
 }

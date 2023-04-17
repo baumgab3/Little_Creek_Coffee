@@ -1,4 +1,4 @@
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
+import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
 import { Box, Container, Stack } from '@mui/system'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -53,6 +53,8 @@ const AddressForm = () => {
 
     const [noChangeError, setNoChangeError] = useState(false);
 
+    const [useAsBilling, setUseAsBilling] = useState(false);
+
     // two optional feields
     const [companyName, setCompanyName] = useState("");
     const [apartmentSuit, setApartmentSuit] = useState("");
@@ -64,14 +66,15 @@ const AddressForm = () => {
 
     const [originalAddress, setOriginalAddress] = useState({});
 
+    const [hasServerError, setHasServerError] = useState(false);
+
     const errors = useRef([]);
     const {user} = useContext(UserContext);
     const navigate = useNavigate();
 
     useEffect(() => {
 
-        const pathToUse = (addressType === 'billing') ? 'billing' : 'shipping';
-        const url = `http://localhost:8081/addresses/${pathToUse}/${user.id}`;
+        const url = `http://localhost:8081/addresses/${addressType}/${user.id}`;
         const token = localStorage.getItem('accessToken');
         axios.get(url, {
             headers: {
@@ -138,6 +141,7 @@ const AddressForm = () => {
         setZipCodeError(false);
         setPhoneError(false);
         setEmailError(false);
+        setHasServerError(false);
 
         const errorMsg = " is a required field.";
 
@@ -211,8 +215,7 @@ const AddressForm = () => {
         // if no errors then can make update
         if (errors.current.length === 0) {
 
-            const pathToUse = (addressType === 'billing') ? 'billing' : 'shipping';
-            const url = `http://localhost:8081/addresses/${pathToUse}/${user.id}`;
+            const url = `http://localhost:8081/addresses/${addressType}/${user.id}`;
             const data = {user, addressToUpdate};
             const token = localStorage.getItem('accessToken');
 
@@ -222,7 +225,7 @@ const AddressForm = () => {
                 }
             })
             .then((response) => {
-                
+
                 setIsAddressSaved(true);
                 setHasAddress(true);
 
@@ -230,13 +233,15 @@ const AddressForm = () => {
                 setOriginalAddress(addressToUpdate);
             })
             .catch(err => {
-                
+
                 if (err.response.status === 401) {
                     alert("You are not authorized!!")
+                } else {
+                    setHasServerError(true);
                 }
-
             })
         }
+
     }
 
     const handleStateChange = (event) => {
@@ -250,8 +255,7 @@ const AddressForm = () => {
             return;
         }
 
-        const pathToUse = (addressType === 'billing') ? 'billing' : 'shipping';
-        const url = `http://localhost:8081/addresses/${pathToUse}/${user.id}`;
+        const url = `http://localhost:8081/addresses/${addressType}/${user.id}`;
         const token = localStorage.getItem('accessToken');
 
         axios.delete(url, {
@@ -260,15 +264,14 @@ const AddressForm = () => {
             }
         })
         .then((response) => {
-
-            if (response.status !== 200) {
-                throw new Error("Error deleting " + addressType + " address");
-            }
-
             navigate("/my-account/edit-address");
         })
         .catch(err => {
-            console.log("error deleting address", err);
+            if (err.response.status === 401) {
+                alert("You are not authorized!!")
+            } else {
+                setHasServerError(true);
+            }
         })
     }
 
@@ -288,10 +291,16 @@ const AddressForm = () => {
                             {errors.current.map((error) => {
                                 return <Box key={error}>{error}</Box>;
                             })}
+
+                            {hasServerError && 
+                              <Box>
+                                Sorry, there a problem updating your address. If problems continues please contact us.
+                              </Box>
+                            }
                         </Box>
 
                         {/* Success Update Box */}
-                        {isAddressSaved && errors.current.length === 0 && 
+                        {isAddressSaved && errors.current.length === 0 && !hasServerError &&
                         <Box mt={1} mb={1} color={blue[500]}>
                             {type} Address has been saved!
                         </Box>
@@ -303,7 +312,7 @@ const AddressForm = () => {
 
                         <Box mt={1} sx={{ '& .MuiTextField-root': { mr: 1, mt: {xs: "10px"}, width: {xs: "100%", sm: "47%", md: "45%"} },}}>
                             <TextField
-                            onChange={(e) => {setFirstName(e.target.value.trim()); console.log("has change") } }
+                            onChange={(e) => setFirstName(e.target.value.trim()) }
                             label={AddressLabels.FIRST_NAME}
                             error={firstNameError}
                             defaultValue={firstName}
@@ -422,7 +431,7 @@ const AddressForm = () => {
                         </>
                         }
 
-                        <Stack spacing={2} rowGap={2} mt={3} direction={{sm: "row"}}>
+                        <Stack spacing={3} rowGap={2} mt={3} direction={{sm: "row"}}>
                             <Button
                             variant="contained"
                             sx={{textTransform: 'uppercase', height: "45px"}}
@@ -443,6 +452,15 @@ const AddressForm = () => {
                                 Forget address
                             </Button>
                         }
+
+                        {!hasAddress && addressType === 'shipping' &&
+                            <FormGroup>
+                                <FormControlLabel
+                                    control={<Checkbox onClick={() => setUseAsBilling(!useAsBilling)}/>}
+                                    label="Use this address for billing" />
+                            </FormGroup>
+                        }
+
                         </Stack>
                     </Grid>
                     </>
