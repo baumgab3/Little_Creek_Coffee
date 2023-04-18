@@ -68,11 +68,14 @@ const AddressForm = () => {
 
     const [hasServerError, setHasServerError] = useState(false);
 
+    const [showPhoneEmail, setShowPhoneEmail] = useState(false);
+
     const errors = useRef([]);
     const {user} = useContext(UserContext);
     const navigate = useNavigate();
 
     useEffect(() => {
+        setShowPhoneEmail(addressType === 'billing' ? true : false);
 
         const url = `http://localhost:8081/addresses/${addressType}/${user.id}`;
         const token = localStorage.getItem('accessToken');
@@ -176,7 +179,7 @@ const AddressForm = () => {
         }
 
         // errors just for billing
-        if (addressType === 'billing') {
+        if (showPhoneEmail || addressType === 'billing') {
             if (!phone) {
                 setPhoneError(true);
                 errors.current.push(AddressLabels.PHONE + errorMsg);
@@ -202,12 +205,12 @@ const AddressForm = () => {
         addressToUpdate.companyName = companyName ? companyName : "";
 
         // add two fields just for billing
-        if (addressType === 'billing') {
+        if (showPhoneEmail || addressType === 'billing') {
             addressToUpdate.phone = phone;
             addressToUpdate.email = email;
         }
 
-        if (JSON.stringify(addressToUpdate) === JSON.stringify(originalAddress)) {
+        if (!useAsBilling && JSON.stringify(addressToUpdate) === JSON.stringify(originalAddress)) {
             setNoChangeError(true);
             errors.current.push("Nothing to update.");
         }
@@ -216,7 +219,7 @@ const AddressForm = () => {
         if (errors.current.length === 0) {
 
             const url = `http://localhost:8081/addresses/${addressType}/${user.id}`;
-            const data = {user, addressToUpdate};
+            const data = {user, addressToUpdate, useAsBilling};
             const token = localStorage.getItem('accessToken');
 
             axios.post(url, data, {
@@ -243,7 +246,8 @@ const AddressForm = () => {
         }
 
     }
-
+    
+    // updates the state where the user lives
     const handleStateChange = (event) => {
         setState(event.target.value);
     }
@@ -275,6 +279,38 @@ const AddressForm = () => {
         })
     }
 
+    const removeError= (toRemove) => {
+        errors.current = errors.current.filter(current => current !== toRemove);
+    }
+
+    const handleCheckBox = () => {
+        // check db is billing address already has phone/email, if it does then don't show fields
+
+        const url = `http://localhost:8081/addresses/billing/${user.id}`;
+        const token = localStorage.getItem('accessToken');
+        axios.get(url, {
+            headers: {
+                'Authorization' : `Bearer ${token}`
+            }
+        })
+        .then((response) => {
+            if (response.data.phone && response.data.email) {
+                setShowPhoneEmail(false);
+            } else {
+                setShowPhoneEmail(!showPhoneEmail);
+            }
+        })
+        .catch(err => {
+            console.log("error fetching user orders", err);
+        })
+
+        removeError(AddressLabels.PHONE + " is a required field.");
+        removeError(AddressLabels.EMAIL + " is a required field.");
+        setUseAsBilling(!useAsBilling);
+        setPhoneError(false);
+        setEmailError(false);
+    }
+    
 
     return (
         <Container>
@@ -407,8 +443,18 @@ const AddressForm = () => {
                             sx={{width: {xs: "100%", sm: "95%", md: "91%"}}} />
                         </Box>
 
-                        {addressType === 'billing' &&
+                        {showPhoneEmail &&
                         <>
+
+                        {/* Message to display when user is setting their billing to be there shipping and does not have a phone/email set */}
+                        {addressType === 'shipping' && 
+                            <Box mt={3}>
+                                <Typography sx={{fontWeight: 'bold'}} >
+                                    Please fill out phone and email fields for billing address
+                                </Typography>
+                            </Box>
+                        }
+                        
                         <Box mt={3}>
                             <TextField 
                             onChange={(e) => setPhone(e.target.value.trim())}
@@ -453,10 +499,13 @@ const AddressForm = () => {
                             </Button>
                         }
 
-                        {!hasAddress && addressType === 'shipping' &&
+                        {addressType === 'shipping' &&
                             <FormGroup>
                                 <FormControlLabel
-                                    control={<Checkbox onClick={() => setUseAsBilling(!useAsBilling)}/>}
+                                    control={
+                                        <Checkbox
+                                        onClick={() => handleCheckBox()}
+                                    />}
                                     label="Use this address for billing" />
                             </FormGroup>
                         }

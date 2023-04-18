@@ -78,23 +78,35 @@ const saveAddress = async (req, res) => {
         }
 
         const addressType = req.params.addressType;
-        const table = addressType === 'shipping' ? 'shipping_addresses' : 'billing_addresses';
-
         const user = req.body.user;
-        const addressObj = req.body.addressToUpdate;
+        req.body.table = addressType === 'shipping' ? 'shipping_addresses' : 'billing_addresses';
 
-        const sqlSelect = `SELECT * FROM ${table} WHERE UserId='${user.id}'`;
+        const sqlSelect = `SELECT * FROM ${req.body.table} WHERE UserId='${user.id}'`;
         const queryResult = await query(sqlSelect);
 
         // if no array (a recored in db) is returned, then need to do an insert
         if (!queryResult || queryResult.length === 0) {
-            const insertQuery = getInsertAddressQuery(table, addressObj, user.id);
+            const insertQuery = getInsertAddressQuery(req.body);
             await query(insertQuery);
-
         } else {
             // something was in db, so no insert; just do an update
-            const updateQuery = getUpdateAddressQuery(table, addressObj, user.id);
+            const updateQuery = getUpdateAddressQuery(req.body);
             await query(updateQuery);
+        }
+
+        // allows users to make billing the same as shipping
+        if (req.body.useAsBilling) {
+            const sqlSelect = `SELECT * FROM billing_addresses WHERE UserId='${user.id}'`;
+            const queryResult = await query(sqlSelect);
+            req.body.table = "billing_addresses";
+
+            if (!queryResult || queryResult.length === 0) {
+                const insertQuery = getInsertAddressQuery(req.body);
+                await query(insertQuery);
+            } else {
+                const updateQuery = getUpdateAddressQuery(req.body);
+                await query(updateQuery);
+            }  
         }
 
         return res.status(200).json({message: "Address has been saved"});
@@ -108,7 +120,10 @@ const saveAddress = async (req, res) => {
 
 
 // helper function for inserts
-const getInsertAddressQuery = (table, address, userId) => {
+const getInsertAddressQuery = (addressData) => {
+    const address = addressData.addressToUpdate;
+    const userId = addressData.user.id;
+    const table = addressData.table;
 
     const id = (table === 'billing_addresses') ? 'BillingId' : 'ShippingId';
     let insertParams = `( ${id}, FirstName, LastName, CompanyName, StreetAddress, ApartmentSuit, City, State, ZipCode`;
@@ -129,13 +144,16 @@ const getInsertAddressQuery = (table, address, userId) => {
 
 
 // helper function for updates
-const getUpdateAddressQuery = (table, address, userId) => {
+const getUpdateAddressQuery = (addressData) => {
+    const address = addressData.addressToUpdate;
+    const userId = addressData.user.id;
+    const table = addressData.table;
 
     let updateParams = `FirstName='${address.firstName}', LastName='${address.lastName}', CompanyName='${address.companyName}',
                         StreetAddress='${address.streetAddress}', ApartmentSuit='${address.apartmentSuit}', City='${address.city}',
                         State='${address.state}', ZipCode='${address.zip}' `;
 
-    if (table === 'billing_addresses') {
+    if (table === 'billing_addresses' && !addressData.useAsBilling) {
         updateParams += `, Phone='${address.phone}', Email='${address.email}'`;
     }
 
