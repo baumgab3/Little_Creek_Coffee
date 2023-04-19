@@ -7,9 +7,8 @@ const query = util.promisify(conn.query).bind(conn);
 
 const placeOrder = async (req, res) => {
 
-    // if somehow a user managed to send a post with no cart items, just throw a 401
-    if (!req.body || req.body.length === 0) {
-        return res.status(401).json({message: "Bad Request"});
+    if (req.body.user.id !== req.user.id) {
+        return res.status(401).json({message: "You are not authorized to update"});
     }
 
     const user = req.body.user;

@@ -1,17 +1,50 @@
 import { Button, Container, Grid, Link } from '@mui/material';
 import { Box } from '@mui/system'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom';
 import UserContext from './context/UserContext';
 import UserDrawer from './Orders/UserDrawer';
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 
 const Dashboard = () => {
 
     const {user, logoutUser} = useContext(UserContext);
+    const navigate = useNavigate();
+    const token = localStorage.getItem('accessToken');
+
+    useEffect(() => {
+
+        if (!user) {
+            navigate("/");
+        } else {
+            const url = `http://localhost:8081/check-authorization/${user.id}`;
+
+            axios.get(url, {
+                headers: {
+                    'Authorization' : `Bearer ${token}`
+                }
+            })
+            .then((response) => {
+
+                if (response.status !== 200) {
+                    logoutUser();
+                }
+
+            })
+            .catch(err => {
+                logoutUser();
+                navigate("/");
+            })
+        }
+
+    }, [user]);
+
 
     return (
         <Container>
+            {user && 
             <Box mt={10}>
 
                 <Grid container spacing={2}>
@@ -45,10 +78,9 @@ const Dashboard = () => {
                         </Box>
                         
                     </Grid>
-
                 </Grid>
-
             </Box>
+            }
         </Container>
 
     )

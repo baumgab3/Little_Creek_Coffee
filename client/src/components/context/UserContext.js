@@ -22,7 +22,9 @@ export const UserProvider = ({children}) => {
             }
         })
         .catch(err => {
-            // TODO - should add more error handling
+            setUser(null);
+            localStorage.removeItem("accessToken");
+            navigate("/");
         })
 
     }

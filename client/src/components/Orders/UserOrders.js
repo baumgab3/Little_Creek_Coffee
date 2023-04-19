@@ -5,37 +5,53 @@ import UserContext from '../context/UserContext';
 import PastOrderPreview from './PastOrderPreview';
 import UserDrawer from './UserDrawer';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+
 
 const UserOrders = () => {
 
-    // const {getOrdersPreview, orders} = useContext(UserContext);
-    const {user} = useContext(UserContext);
+    const {user, logoutUser} = useContext(UserContext);
     const [isLoaded, setIsLoaded] = useState(false);
     const [orders, setOrders] = useState({});
+    const navigate = useNavigate();
+    const token = localStorage.getItem('accessToken');
+
 
     useEffect(() => {
 
-        const url = `http://localhost:8081/orders/${user.id}`;
-        const token = localStorage.getItem('accessToken');
+        if (!user) {
+            navigate("/");
+        } else {
+            const url = `http://localhost:8081/orders/${user.id}`;
 
-        axios.get(url, {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
-        })
-        .then((response) => {
-            setOrders(response.data);
-            setIsLoaded(true);
-        })
-        .catch(err => {
-            console.log("error fetching user orders", err);
-        })
+            axios.get(url, {
+                headers: {
+                    'Authorization' : `Bearer ${token}`
+                }
+            })
+            .then((response) => {
+                if (response.status === 200) {
+                    setOrders(response.data);
+                    setIsLoaded(true);
+                } else {
+                    setIsLoaded(false);
+                    logoutUser();
+                }
+
+            })
+            .catch(err => {
+                setIsLoaded(false);
+                logoutUser();
+            })
+
+        }
         
-    }, [user.id]);
+    }, [user]);
 
 
     return (
         <Container>
+        {user &&
         <Box mt={10}>
 
             <Grid container spacing={2}>
@@ -89,7 +105,7 @@ const UserOrders = () => {
 
             </Grid>
         </Box>
-
+        }
         </Container>
     )
 }

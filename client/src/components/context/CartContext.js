@@ -23,7 +23,7 @@ export const CartProvider = ({children}) => {
 
     const [cart, setCart] = useState([]);
     const [cartSize, setCartSize] = useState(0);
-    const {user} = useContext(UserContext);
+    const {user, logoutUser} = useContext(UserContext);
     const [addedToCartMessage, setAddedToCartMessage] = useState("");
 
     const addPastOrderToCart = (pastOrderObj) => {
@@ -143,16 +143,30 @@ export const CartProvider = ({children}) => {
     }
 
     const placeOrder = () => {
+
         const url = 'http://localhost:8081/orders';
         const orderDetails = {"quantity": cartSize, "subtotal": getCartTotal()};
         const order = {user, cart, orderDetails};
+        const token = localStorage.getItem('accessToken');
 
-        axios.post(url, order)
+        axios.post(url, order, {
+            headers: {
+                'Authorization' : `Bearer ${token}`
+            }
+        })
         .then((response) => {
-            emptyCart();
+
+            if (response.status === 200) {
+                 emptyCart();
+            }
+           
         })
         .catch(err => {
-            // TODO - should add more error handling
+            // not authorized or user messed with their token
+            if (err.response.status === 401 || err.response.status === 403) {
+                logoutUser();
+                emptyCart();
+            }
         })
     }
 

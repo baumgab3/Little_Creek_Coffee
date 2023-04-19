@@ -14,7 +14,7 @@ const PastOrder = () => {
 
     const {orderId} = useParams();
     // const {getOrderById, pastOrder} = useContext(UserContext);
-    const {user} = useContext(UserContext);
+    const {user, logoutUser} = useContext(UserContext);
     const { addPastOrderToCart } = useContext(CartContext);
     const navigate = useNavigate();
     const [isLoaded, setIsLoaded] = useState(false);
@@ -25,23 +25,37 @@ const PastOrder = () => {
     const [pastOrder, setPastOrder] = useState({});
 
     useEffect(() => {
-        const url = `http://localhost:8081/orders/view-order/${orderId}/${user.id}`;
-        const token = localStorage.getItem('accessToken');
 
-        axios.get(url, {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
-        })
-        .then((response) => {
-            setIsLoaded(true);
-            return setPastOrder(response.data);
-        })
-        .catch(err => {
-            console.log("error fetching user orders", err);
-        })
+        if (!user) {
+            navigate("/");
+        } else {
+            const url = `http://localhost:8081/orders/view-order/${orderId}/${user.id}`;
+            const token = localStorage.getItem('accessToken');
 
-    }, [orderId, user.id]);
+            axios.get(url, {
+                headers: {
+                    'Authorization' : `Bearer ${token}`
+                }
+            })
+            .then((response) => {
+                
+                if (response.status === 200) {
+                    setIsLoaded(true);
+                    setPastOrder(response.data);
+                } else {
+                    logoutUser();
+                }
+
+            })
+            .catch(err => {
+                console.log("error fetching user orders", err);
+                logoutUser();
+            }) 
+        }
+
+
+
+    }, [orderId, user]);
 
     const handleBuyAgain = async () => {
         // when buying orders from the past we need to make sure we are using the latest pricing and 
@@ -103,6 +117,7 @@ const PastOrder = () => {
     return (
         <Container>
             <Box mt={10}>
+            {user &&
                 
             <Grid container spacing={2}>
 
@@ -170,6 +185,7 @@ const PastOrder = () => {
                 </Grid>
                 }
             </Grid>
+            }
             </Box>
             <br/>
             <br/>

@@ -5,6 +5,8 @@ import axios from 'axios'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import UserContext from '../context/UserContext'
 import UserDrawer from './UserDrawer'
+import { useNavigate } from "react-router-dom";
+
 
 const UserAccountDetails = () => {
 
@@ -39,41 +41,46 @@ const UserAccountDetails = () => {
     const [originalDetails, setOriginalDetails] = useState({});
 
     const errors = useRef([]);
-    const {user} = useContext(UserContext);
+    const {user, logoutUser} = useContext(UserContext);
     const [isLoaded, setIsLoaded] = useState(false);
     const [isUpdated, setIsUpdated] = useState(false);
+    const navigate = useNavigate();
+
 
     useEffect(() => {
 
-        const url = `http://localhost:8081/account-details/${user.id}`;
-        const token = localStorage.getItem('accessToken');
+        if (!user) {
+            navigate("/");
+        } else {
+            const url = `http://localhost:8081/account-details/${user.id}`;
+            const token = localStorage.getItem('accessToken');
 
-        axios.get(url, {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
-        })
-        .then((response) => {
+            axios.get(url, {
+                headers: {
+                    'Authorization' : `Bearer ${token}`
+                }
+            })
+            .then((response) => {
 
-            if (response.status !== 200) {
-                throw new Error("Error retrieving account details");   
-            }
+                if (response.status === 200) {
+                    const accountDetails = response.data;
+                    setIsLoaded(true);
+                    setFirstName(accountDetails.firstName);
+                    setLastName(accountDetails.lastName);
+                    setDisplayName(accountDetails.displayName);
+                    setEmail(accountDetails.email);
+                    setOriginalDetails(response.data);
+                } else {
+                    logoutUser();
+                }
 
-            const accountDetails = response.data;
-            setIsLoaded(true);
-            setFirstName(accountDetails.firstName);
-            setLastName(accountDetails.lastName);
-            setDisplayName(accountDetails.displayName);
-            setEmail(accountDetails.email);
+            })
+            .catch(err => {
+                logoutUser();
+            })
+        }
 
-            setOriginalDetails(response.data);
-        })
-        .catch(err => {
-            console.log("error retrieving account details", err);
-        })
-
-
-    }, [])
+    }, [user])
 
     const handleAccountDetailsUpdate = () => {
         errors.current = [];
@@ -150,12 +157,16 @@ const UserAccountDetails = () => {
                 }
             })
             .then((response) => {
-                setIsUpdated(true);
 
-                delete accountDetailsUpdate.newPassword;
-                delete accountDetailsUpdate.newPasswordConfirm;
+                if (response.status === 200) {
+                    setIsUpdated(true);
+                    delete accountDetailsUpdate.newPassword;
+                    delete accountDetailsUpdate.newPasswordConfirm;
+                    setOriginalDetails(accountDetailsUpdate);
+                } else {
+                    logoutUser();
+                }
 
-                setOriginalDetails(accountDetailsUpdate);
             })
             .catch(err => {
 
@@ -168,6 +179,7 @@ const UserAccountDetails = () => {
                 // Unauthorized
                 if (err.response.status === 401) {
                     console.log("Unauthorized");
+                    logoutUser();
                 }
             })
         }
@@ -177,6 +189,7 @@ const UserAccountDetails = () => {
 
     return (
         <Container>
+            {user &&
             <Box mt={10}>
 
                 <Grid container spacing={2}>
@@ -295,6 +308,7 @@ const UserAccountDetails = () => {
                     }
                 </Grid>
             </Box>
+            }
         </Container>
     )
 }

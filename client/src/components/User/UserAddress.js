@@ -6,38 +6,48 @@ import { Link as RouterLink } from 'react-router-dom';
 import UserContext from '../context/UserContext';
 import axios from 'axios';
 import { getStateAbbreviation } from '../../util/AdminUtil';
+import { useNavigate } from "react-router-dom";
 
 const UserAddress = () => {
 
-    const {user} = useContext(UserContext);
+    const {user, logoutUser} = useContext(UserContext);
     const [isLoaded, setIsLoaded] = useState(false);
     const [addressObj, setAddressObj] = useState({});
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const url = `http://localhost:8081/addresses/${user.id}`;
-        const token = localStorage.getItem('accessToken');
-        axios.get(url, {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            }
-        })
-        .then((response) => {
 
-            if (response.status !== 200) {
-                throw new Error("Error retrieving addresses");
-            }
+        if (!user) {
+            navigate("/");
+        } else {
 
-            setIsLoaded(true);
-            setAddressObj(response.data);
-        })
-        .catch(err => {
-            console.log("error fetching user address previews", err);
-        })
+            const url = `http://localhost:8081/addresses/${user.id}`;
+            const token = localStorage.getItem('accessToken');
+            axios.get(url, {
+                headers: {
+                    'Authorization' : `Bearer ${token}`
+                }
+            })
+            .then((response) => {
+
+                if (response.status === 200) {
+                    setIsLoaded(true);
+                    setAddressObj(response.data);
+                } else {
+                    logoutUser();
+                }
+
+            })
+            .catch(err => {
+                logoutUser();
+            })
+        }
 
     }, []);
 
     return (
         <Container>
+            {user && 
             <Box mt={10}>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={12} md={3}>
@@ -104,6 +114,7 @@ const UserAddress = () => {
                     </Grid>
                 </Grid>
             </Box>
+            }
         </Container>
     )
 }

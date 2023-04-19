@@ -56,8 +56,16 @@ const logout = async (req, res) => {
     return res.status(200).json({message: "Logout was valid"});
 }
 
+const authorize = async (req, res) => {
+    if (req.params.userId !== req.user.id) {
+        return res.status(401).json({message: "You are not authorized to update"});
+    } else {
+        return res.status(200).json({message: "is authorized"})
+    }
+}
 
 module.exports = {
     login,
-    logout
+    logout,
+    authorize
 }
