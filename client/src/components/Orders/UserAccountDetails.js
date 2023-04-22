@@ -46,6 +46,7 @@ const UserAccountDetails = () => {
     const [isUpdated, setIsUpdated] = useState(false);
     const navigate = useNavigate();
 
+    const {setNavbarName} = useContext(UserContext);
 
     useEffect(() => {
 
@@ -163,6 +164,7 @@ const UserAccountDetails = () => {
                     delete accountDetailsUpdate.newPassword;
                     delete accountDetailsUpdate.newPasswordConfirm;
                     setOriginalDetails(accountDetailsUpdate);
+                    setNavbarName(accountDetailsUpdate.displayName);
                 } else {
                     logoutUser();
                 }

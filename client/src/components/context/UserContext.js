@@ -8,6 +8,7 @@ export const UserProvider = ({children}) => {
 
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
+    const [navbarName, setNavbarName] = useState(null);
  
     const logoutUser = () => {
         const url = 'http://localhost:8081/logout';
@@ -17,6 +18,7 @@ export const UserProvider = ({children}) => {
 
             if (response.status === 200) {
                 setUser(null);
+                setNavbarName(null);
                 localStorage.removeItem("accessToken");
                 navigate("/");
             }
@@ -33,6 +35,8 @@ export const UserProvider = ({children}) => {
         <UserContext.Provider value={{ 
             logoutUser,
             setUser,
+            setNavbarName,
+            navbarName,
             user,
         }}>
 

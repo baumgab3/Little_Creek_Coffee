@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -14,15 +14,21 @@ import * as AdminUtil from '../../util/AdminUtil';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import CartContext from '../context/CartContext';
+import UserContext from '../context/UserContext';
 
 const BigNavbar = ({logoutUser, user}) => {
 
     const {cartSize, getCartTotal, emptyCart} = useContext(CartContext);
+    const {navbarName} = useContext(UserContext);
 
     const shopOptions = AdminUtil.getDropDownForShop();
     const cafeOptions = AdminUtil.getDropDownForCafes();
     const learningOptions = AdminUtil.getDropDownForLearning();
     const aboutUsOptions = AdminUtil.getDropDownForAboutUs();
+
+    useEffect(() => {
+        console.log(navbarName);
+    }, [navbarName])
 
     // Vars and function for search 
     const [anchorSearchIconEl, setAnchorSearchIconEl] = useState(null);
@@ -291,7 +297,9 @@ const BigNavbar = ({logoutUser, user}) => {
                 sx = {{color: '#fff' }}
                 endIcon={<KeyboardArrowDownIcon />}
                 >
-                  {user.displayName ? user.displayName : user.user}
+                  {/* {user.displayName ? user.displayName : user.user} */}
+                  {navbarName ? navbarName : user.user}
+
                 </Button>
                 <Menu
                 id="loggin-fade-menu"

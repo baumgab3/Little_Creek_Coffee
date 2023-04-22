@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 
-    const {setUser} = useContext(UserContext);
+    const {setUser, setNavbarName} = useContext(UserContext);
     const navigate = useNavigate();
 
     const textFieldStyle = {width: {xs: "100%", sm: "100%", md: "150%"} , marginBottom: "25px"};
@@ -66,6 +66,10 @@ const Login = () => {
             if (response.status === 200) {
                 setUser(response.data.user);
                 localStorage.setItem("accessToken", response.data.user.accessToken);
+
+                // set diplay name if user has one (name in navbar)
+                setNavbarName(response.data.user.displayName ? response.data.user.displayName : null);
+                console.log(response.data.user.displayName);
                 navigate("/");
             }
         })
