@@ -45,7 +45,7 @@ const Dashboard = () => {
     return (
         <Container>
             {user && 
-            <Box mt={10}>
+            <Box mt={10} sx={{minHeight: {xs: "500px", md: "0px"}}}>
 
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={12} md={3}>

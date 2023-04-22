@@ -74,7 +74,9 @@ const ShopContainer = (props) => {
                     <Grid item md={8} sx={{marginTop: {xs :"50px", sm: "50px", md: "55px"}}}>
                         {/* TODO - clean this up later */}
                         {(param1 && param2 || param1 == 'cold-brew' || param1 == 'tea') && <ProductCategoryList  /> }
-                        {!param2 && <ProductCategoryListAll /> }
+                        {!param2 && 
+                        <ProductCategoryListAll />
+                        }
                     </Grid>
                 </Grid>
                 </Box>

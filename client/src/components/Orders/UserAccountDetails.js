@@ -6,6 +6,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import UserContext from '../context/UserContext'
 import UserDrawer from './UserDrawer'
 import { useNavigate } from "react-router-dom";
+import LoadingGif from '../LoadingGif'
 
 
 const UserAccountDetails = () => {
@@ -192,14 +193,18 @@ const UserAccountDetails = () => {
     return (
         <Container>
             {user &&
-            <Box mt={10}>
+            <Box mt={10} sx={{minHeight: '626px'}}>
 
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={12} md={3}>
                         <UserDrawer />
                     </Grid>
 
-                    {isLoaded && 
+                    {!isLoaded &&
+                        <LoadingGif />
+                    }
+
+                    {isLoaded &&
                     <Grid item xs={12} sm={12} md={9} sx={{marginTop: {xs :"15px", sm: "15px", md: "0"}}}>
 
                         {/* Error Box */}

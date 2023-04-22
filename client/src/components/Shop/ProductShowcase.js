@@ -68,7 +68,7 @@ const ProductShowcase = (props) => {
     }
 
     return (
-        <Container>
+        <Container sx={{minHeight: '1200px'}}>
             {isLoaded && <>
             <Box mt={6} mb={6}>
                 {/* BreadCrumbs for small screens */}

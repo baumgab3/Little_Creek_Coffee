@@ -191,7 +191,7 @@ const BrowserDrawer = () => {
 
 
     return (
-        <Box align="left">
+        <Box align="left" sx={{minHeight: {md: '500px'}}}>
             <Box ml={1} mb={1}>
                 <Typography mt={4}>
                     BROWSE

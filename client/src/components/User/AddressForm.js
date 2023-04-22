@@ -7,6 +7,7 @@ import { getStates } from '../../util/AdminUtil'
 import { blue, red } from '@mui/material/colors'
 import UserContext from '../context/UserContext'
 import axios from 'axios'
+import LoadingGif from '../LoadingGif'
 
 const AddressForm = () => {
 
@@ -314,11 +315,16 @@ const AddressForm = () => {
 
     return (
         <Container>
-            <Box mt={10}>
+            <Box mt={10} sx={{minHeight: {xs: "950px", md: "700px"}}}>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={12} md={3}>
                         <UserDrawer />
                     </Grid>
+
+                    {!isAddressLoaded && 
+                        <LoadingGif />
+                    }
+
                     {isAddressLoaded && <>
                     <Grid item xs={12} sm={12} md={9} sx={{marginTop: {xs :"15px", sm: "15px", md: "0"}}}>
 

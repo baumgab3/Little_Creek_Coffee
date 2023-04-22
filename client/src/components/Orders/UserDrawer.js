@@ -87,7 +87,7 @@ const UserDrawer = () => {
     }
 
     return (
-        <Box mr={3} sx={{textTransform: 'uppercase', fontWeight: 'bold', minHeight: '420px'}}>
+        <Box mr={3} sx={{textTransform: 'uppercase', fontWeight: 'bold', minHeight: {md: '420px'}}}>
             <Box
             sx={{borderBottom: 1, color: active === "dashboard" ? "black" : "gray", borderRight: active === "dashboard" ? "3px solid black" : "", height: '35px', marginTop: '5px', padding: '5px'}}
 

@@ -17,6 +17,7 @@ const ProductCategoryList = (props) => {
 
     useEffect(() => {
         const fetchProductPreviews = () => {
+            window.scrollTo(0, 0);
             const sub = !param2 ? props.subCategory : param2;
             const url = `http://localhost:8081/product-category/${param1}/${sub}/`;
             setCategory(param1);
