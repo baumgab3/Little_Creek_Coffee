@@ -112,7 +112,7 @@ const Contact = () => {
                 </AccordionDetails>
             </Accordion>
         })}
-        <br />
+
         </Container>
     )
 }

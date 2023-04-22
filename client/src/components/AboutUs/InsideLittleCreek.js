@@ -192,11 +192,6 @@ const InsideLittleCreek = () => {
         </Container>
 
 
-        <br />
-        <br />
-        <br />
-        <br />
-        
         </>
     )
 }

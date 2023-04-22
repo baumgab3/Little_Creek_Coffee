@@ -11,6 +11,7 @@ const UserDrawer = () => {
     const {logoutUser} = useContext(UserContext);
 
     useEffect(() => {
+        setActive("addresses");
 
         switch (window.location.pathname) {
             case "/my-account":
@@ -58,7 +59,7 @@ const UserDrawer = () => {
             if (box.id === active) {
                 document.getElementById(box.id).setAttribute('style', 'color: black; cursor: pointer; border-right: 3px solid black');
             }
-            else if (box.id == id) {
+            else if (box.id === id) {
                 document.getElementById(id).setAttribute('style', 'color: gray; border-right: 0px');
             }
         }
@@ -86,7 +87,7 @@ const UserDrawer = () => {
     }
 
     return (
-        <Box mr={3} sx={{textTransform: 'uppercase', fontWeight: 'bold'}}>
+        <Box mr={3} sx={{textTransform: 'uppercase', fontWeight: 'bold', minHeight: '420px'}}>
             <Box
             sx={{borderBottom: 1, color: active === "dashboard" ? "black" : "gray", borderRight: active === "dashboard" ? "3px solid black" : "", height: '35px', marginTop: '5px', padding: '5px'}}
 
@@ -138,6 +139,8 @@ const UserDrawer = () => {
             >
                     Logout
             </Box>
+
+
         </Box>
     )
 }

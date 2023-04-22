@@ -1,15 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Box, CardActionArea, Grid, Link, Modal } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
 import { slugify } from '../../util/AdminUtil';
 import { useNavigate } from "react-router-dom";
 import ProductHighlight from '../ProductHighlight';
 import ProductImage from '../ProductImage';
-import UserContext from '../context/UserContext';
-import CartContext from '../context/CartContext';
 
 const ProductPreviewCard = (props) => {
 

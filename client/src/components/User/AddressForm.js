@@ -517,11 +517,6 @@ const AddressForm = () => {
                 </Grid>
             </Box>
 
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-
         </Container>
     )
 }

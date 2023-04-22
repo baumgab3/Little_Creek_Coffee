@@ -13,7 +13,7 @@ import Iframe from 'react-iframe'
 const TabsSection = (props) => {
 
     const [value, setValue] = React.useState(0);
-    const smallScreen = useMediaQuery("(max-width: 500px)");
+    const smallScreen = useMediaQuery("(max-width: 605px)");
     const productDetails = props.productDetails;
     const isCoffee = productDetails.Category === "coffee" ? true: false;
     const hasComments = productDetails.customerComments ? true : false;
@@ -59,9 +59,9 @@ const TabsSection = (props) => {
     
 
     return (
-        <Box>
+        <Box >
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs orientation={smallScreen ? "vertical" : "horizontal"}  value={value} onChange={handleChange} aria-label="product tabs">
+            <Tabs orientation={smallScreen ? "vertical" : "horizontal"}  variant='scrollable'   scrollButtons="auto" value={value} onChange={handleChange} aria-label="product tabs">
                 <Tab label="Description" {...a11yProps(idx)} />
                 {isCoffee && <Tab label="Coffee Details" {...a11yProps(++idx)} /> }
                 {hasComments && <Tab label="Customer Comments" {...a11yProps(++idx)} /> }

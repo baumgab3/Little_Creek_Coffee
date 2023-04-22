@@ -187,10 +187,6 @@ const PastOrder = () => {
             </Grid>
             }
             </Box>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
         </Container>
     )
 

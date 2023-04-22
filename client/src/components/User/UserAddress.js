@@ -87,7 +87,7 @@ const UserAddress = () => {
 
                             {/* Shipping Address */}
                             <Grid item xs={12} sm={6} md={4}>
-                                <Typography variant='h5' sx={{fontWeight: 'bold'}}>
+                                <Typography variant='h5' sx={{fontWeight: 'bold', marginTop: {xs: '30px', sm: '0px'} }}>
                                     Shipping Address
                                 </Typography>
 

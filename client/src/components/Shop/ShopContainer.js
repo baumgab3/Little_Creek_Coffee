@@ -40,7 +40,7 @@ const ShopContainer = (props) => {
     return <>
             <Container>
                 {isLoaded && 
-                <Box mt={6}>
+                <Box mt={6} sx={{minHeight: '600px'}}>
                 <Box align="center" sx={{display: {xs:"block", sm: "block", md: "none"}}}>
                     <Box display="flex" align="center" justifyContent="center" mb={3}>
                         <SmallBreadCrumbs /> 
@@ -77,12 +77,6 @@ const ShopContainer = (props) => {
                         {!param2 && <ProductCategoryListAll /> }
                     </Grid>
                 </Grid>
-
-                {/* TODO - You may also be interested in section */}
-                <Box sx={{backgroundColor: "white", height: '400px'}}>
-
-                </Box>
-
                 </Box>
 
                 }

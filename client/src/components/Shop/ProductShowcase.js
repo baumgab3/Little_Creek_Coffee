@@ -9,6 +9,7 @@ import ProductHighlight from '../ProductHighlight';
 import ProductImage from '../ProductImage';
 import SmallBreadCrumbs from '../SmallBreadCrumbs';
 import CartContext from '../context/CartContext';
+import SuggestedItems from '../SuggestedItems';
 
 
 const ProductShowcase = (props) => {
@@ -115,6 +116,9 @@ const ProductShowcase = (props) => {
             {/* Tabs menu for product details */}
             <TabsSection productDetails={productDetails} />
 
+            {/* You may also like section */}
+            <SuggestedItems product={productDetails} />
+
             {/* Drawer for smaller screens */}
             <Toolbar sx={{  display: { xs: 'block', sm: 'block', md: 'none' } }}>
                 <Box component="nav">
@@ -135,11 +139,6 @@ const ProductShowcase = (props) => {
                     </Drawer>
                 </Box>
             </Toolbar>
-
-        <br />
-        <br />
-        <br />
-        <br />
 
         {/* close isLoaded check */}
         </> }

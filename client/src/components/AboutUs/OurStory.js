@@ -128,8 +128,6 @@ const OurStory = () => {
                     </Grid>
             })}
         </Grid>
-        <br />
-        <br />
         </Container>
     )
 }

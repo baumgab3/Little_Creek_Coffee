@@ -22,7 +22,6 @@ import Tooltip from '@mui/material/Tooltip';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import HomeIcon from '@mui/icons-material/Home';
 import CartContext from '../context/CartContext';
-import UserContext from '../context/UserContext';
 import { useNavigate } from "react-router-dom";
 
 const MobileNavbar = (props) => {
@@ -32,7 +31,6 @@ const MobileNavbar = (props) => {
     const learningOptions = AdminUtil.getDropDownForLearning();
     const aboutUsOptions = AdminUtil.getDropDownForAboutUs();
     const {cartSize, emptyCart} = useContext(CartContext);
-    const {isLoggedIn, logoutUser} = useContext(UserContext);
     const navigate = useNavigate();
 
     const { window } = props;
@@ -90,7 +88,7 @@ const MobileNavbar = (props) => {
     const logout = () => {
         setOpenLoggedIn(false);
         setMobileOpen(false);
-        logoutUser();
+        props.logoutUser();
         emptyCart();
     }
     
@@ -165,12 +163,12 @@ const MobileNavbar = (props) => {
 
             
             {/* Login  */}
-            {!isLoggedIn && <ListItemButton component={Link} to="/login" >
+            {!props.user && <ListItemButton component={Link} to="/login" >
                <ListItemText onClick={handleDrawerToggle} primary="Login" />
             </ListItemButton> }
 
             {/* Logged In */}
-            {isLoggedIn && 
+            {props.user && 
             <>
             <ListItemButton onClick={handleLoggedInOpen}>
                <ListItemText primary="My Account" />
@@ -187,7 +185,6 @@ const MobileNavbar = (props) => {
                 <ListItemButton component={Link} to="/" sx={{ pl: 4 }}>
                     <ListItemText onClick={logout}  primary="Logout" />
                 </ListItemButton>
-  
                 </List>
             </Collapse>
             </>

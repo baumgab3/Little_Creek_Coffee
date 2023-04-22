@@ -13,7 +13,7 @@ const Checkout = () => {
     if (!cart || cartSize === 0) {
         return (
             <Container>
-                <Box mt={10}>
+                <Box mt={10} sx={{minHeight: '400px'}}>
                     Your cart is currently empty.
                 </Box>
             </Container>
@@ -22,7 +22,7 @@ const Checkout = () => {
 
     return (
     <Container>
-
+        <Box sx={{minHeight: '500px'}}>
         <Grid container spacing={1} mt={10}>
 
             <Grid item xs={12} sm={12} md={7}>
@@ -63,10 +63,7 @@ const Checkout = () => {
 
         </Grid>
 
-        <br/>
-        <br/>
-        <br/>
-
+        </Box>
     </Container>
     )
 }

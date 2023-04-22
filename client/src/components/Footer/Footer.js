@@ -9,7 +9,7 @@ const Footer = () => {
 
     return (
             <Container>
-                <Divider sx={{borderBottomWidth: 5, marginBottom: '15px'}} />
+                <Divider sx={{borderBottomWidth: 5, marginBottom: '15px', marginTop: '100px'}} />
                 {/* TOP FOOTER */}
                 <Grid container align="left" spacing={5}>
                     <Grid item xs={12} sm={12} md={4} rowGap={4}>

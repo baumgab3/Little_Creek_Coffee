@@ -89,7 +89,7 @@ const CreateAccount = () => {
 
 
     return (
-        <Box sx={{minHeight: '600px'}}>
+        <Box sx={{minHeight: '500px'}}>
         <Box sx={{backgroundColor: 'blue', height: ''}} p={2} mt={3} align="center">
             <Typography variant='h4'>
                 Create Account
