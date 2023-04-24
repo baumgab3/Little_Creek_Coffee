@@ -9,6 +9,7 @@ const ProductCategoryListAll = () => {
     const [subCategories, setSubCategories] = useState([]);
 
     useEffect(() => {
+
         if (param1 === "roast") {
             setSubCategories(["light", "medium", "dark", "decaf"]);
         } else if (param1 === "region") {
@@ -18,6 +19,8 @@ const ProductCategoryListAll = () => {
         } else {
             setSubCategories([]);
         }
+
+
     }, [param1]);
 
 
@@ -26,7 +29,6 @@ const ProductCategoryListAll = () => {
         {subCategories.map(sub => {
             return <ProductCategoryList key={sub} category={param1} subCategory={sub} />
         })}
-          
         </>
     )
 }

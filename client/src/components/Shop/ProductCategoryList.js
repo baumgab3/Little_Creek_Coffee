@@ -1,5 +1,5 @@
 import { Grid, Link, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {  useParams } from 'react-router-dom';
 import ProductPreviewCard from './ProductPreviewCard';
 import { Link as RouterLink } from 'react-router-dom';
@@ -34,6 +34,7 @@ const ProductCategoryList = (props) => {
                 .then(products => {
                     setProducts(products);
                     setIsLoaded(true);
+                    
 
                 }, err => {
                     console.log(err);

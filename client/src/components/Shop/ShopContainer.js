@@ -38,7 +38,7 @@ const ShopContainer = (props) => {
     const container = window !== undefined ? () => window().document.body : undefined;    
 
     return <>
-            <Container>
+            <Container sx={{minHeight: {md: '1000px'}}}>
                 {isLoaded && 
                 <Box mt={6} sx={{minHeight: '600px'}}>
                 <Box align="center" sx={{display: {xs:"block", sm: "block", md: "none"}}}>

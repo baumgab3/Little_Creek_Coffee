@@ -106,8 +106,8 @@ const BrowserDrawer = () => {
 
         switch (window.location.pathname) {
             // ROASTS
-            case "/product-category/roast/":
             case "/product-category/roast":
+            case "/product-category/roast/":
                 setActive("roast");
                 break;
             case "/product-category/roast/light":
@@ -191,7 +191,7 @@ const BrowserDrawer = () => {
 
 
     return (
-        <Box align="left" sx={{minHeight: {md: '500px'}}}>
+        <Box align="left" >
             <Box ml={1} mb={1}>
                 <Typography mt={4}>
                     BROWSE
