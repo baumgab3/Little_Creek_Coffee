@@ -21,6 +21,7 @@ import UserAccountDetails from './components/Orders/UserAccountDetails';
 import Dashboard from './components/Dashboard';
 import AddressForm from './components/User/AddressForm';
 import Footer from './components/Footer/Footer';
+import SearchResults from './components/SearchResults';
 
 function App() {
   const drawerWidth = 240;
@@ -53,6 +54,10 @@ function App() {
           <Route exact path="/product-category/:param1/:param2?" element={ <ShopContainer /> } /> 
           <Route exact path="/product/:param1" element={ <ProductShowcase /> } /> 
           <Route exact path="/product/:param1/:args" element={ <ProductShowcase /> } /> 
+
+          {/* Search */}
+          <Route exact path="/search/:params?" element={ <SearchResults /> } /> 
+
 
 
           {/* About Us */}

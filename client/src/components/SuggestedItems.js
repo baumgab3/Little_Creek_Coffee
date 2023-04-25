@@ -1,6 +1,5 @@
 import { Box, Divider, Grid, Typography } from '@mui/material'
-import React from 'react'
-import ProductImage from './ProductImage'
+import React, { useEffect } from 'react'
 import ProductPreviewCard from './Shop/ProductPreviewCard';
 
 
@@ -12,6 +11,9 @@ const SuggestedItems = ({product}) => {
         name: product.Name,
         priceRange: product.priceRange,
     }
+
+    useEffect(() => {
+    }, []);
 
     return (
         <Box mt={5}>

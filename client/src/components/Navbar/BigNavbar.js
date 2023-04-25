@@ -15,7 +15,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import CartContext from '../context/CartContext';
 
-const BigNavbar = ({logoutUser, user, displayName}) => {
+const BigNavbar = ({logoutUser, user, displayName, handleSearch, anchorSearchIconEl, setAnchorSearchIconEl, search, setSearch}) => {
 
     const {cartSize, getCartTotal, emptyCart} = useContext(CartContext);
     const shopOptions = AdminUtil.getDropDownForShop();
@@ -28,23 +28,24 @@ const BigNavbar = ({logoutUser, user, displayName}) => {
     }, [displayName])
 
     // Vars and function for search 
-    const [anchorSearchIconEl, setAnchorSearchIconEl] = useState(null);
-    const [search, setSearch] = useState("");
+    // const [anchorSearchIconEl, setAnchorSearchIconEl] = useState(null);
+    // const [search, setSearch] = useState("");
 
     const isSearchOpen = Boolean(anchorSearchIconEl);
-  
+
     const handleSearchClose = () => {
+        console.log("closeing");
         setSearch("");
         setAnchorSearchIconEl(null);
     }
-    
+
     const handleSearchClick = (event) => {
         setAnchorSearchIconEl(event.currentTarget);
     }
 
-    const handleSearch = () => {
-        console.log("handle search for", search);
-    }
+    // const handleSearch = () => {
+    //     console.log("handle search for", search);
+    // }
 
     // Vars and functions for opening/closing Shop dropdown
     const [anchorShopEl, setAnchorShopEl] = React.useState(null);
@@ -150,9 +151,9 @@ const BigNavbar = ({logoutUser, user, displayName}) => {
                     label="Search"
                     variant="outlined"
                     value = {search}
-                    onChange ={e => setSearch(e.target.value)}
+                    onChange ={(e) => setSearch(e.target.value)}
                     InputProps={{
-                        endAdornment: <SearchIcon onClick={handleSearch} sx={{cursor: 'pointer'}} />
+                        endAdornment: <SearchIcon onClick={() => handleSearch()} sx={{cursor: 'pointer'}} />
                     }}
                     /> 
             </Box>

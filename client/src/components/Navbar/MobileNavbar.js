@@ -71,13 +71,13 @@ const MobileNavbar = (props) => {
     };
 
     // handle search
-    const [search, setSearch] = useState("");
+    // const [search, setSearch] = useState("");
 
-    const handleSearch= () => {
-        // TODO
-        setSearch("");
-        handleDrawerToggle();
-    }
+    // const handleSearch= () => {
+    //     // TODO
+    //     setSearch("");
+    //     handleDrawerToggle();
+    // }
 
     const [openLoggedIn, setOpenLoggedIn] = useState(false);
 
@@ -297,14 +297,14 @@ const MobileNavbar = (props) => {
                 }}
             >
             <TextField
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                value={props.search}
+                onChange={(e) => props.setSearch(e.target.value)}
                 variant="standard"
                 label="Search..."
                 InputProps={{
                     endAdornment: (
                     <InputAdornment position="start">
-                        <IconButton onClick={handleSearch}>
+                        <IconButton onClick={() => {props.handleSearch(); handleDrawerToggle();} }>
                             <SearchIcon />
                         </IconButton>
                     </InputAdornment>
