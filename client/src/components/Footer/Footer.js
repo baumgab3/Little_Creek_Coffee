@@ -5,11 +5,11 @@ import { Link as RouterLink } from "react-router-dom";
 
 const Footer = () => {
 
-    const smallDivider = <Divider sx={{borderBottomWidth: 5, width: "10%"}} />
+    const smallDivider = <Divider sx={{borderBottomWidth: 5, width: "10%", borderColor: 'primary.main'}} />
 
     return (
             <Container>
-                <Divider sx={{borderBottomWidth: 5, marginBottom: '15px', marginTop: '100px'}} />
+                <Divider sx={{borderBottomWidth: 5, marginBottom: '15px', marginTop: '100px', borderColor: 'primary.main'}} />
                 {/* TOP FOOTER */}
                 <Grid container align="left" spacing={5}>
                     <Grid item xs={12} sm={12} md={4} rowGap={4}>
@@ -43,9 +43,9 @@ const Footer = () => {
                         {smallDivider}
 
                         <Box mt={2}>
-                            <Link component={RouterLink} underline="hover">Public Classes</Link> <br/>
-                            <Link component={RouterLink} underline="hover">Public Classes</Link> <br/>
-                            <Link component={RouterLink} underline="hover">Public Classes</Link>
+                            <Link to="/public-classes/" component={RouterLink} underline="hover">Public Classes</Link> <br/>
+                            <Link to="/brewing-guides/" component={RouterLink} underline="hover">Brewing Guides</Link> <br/>
+                            <Link to="/blog/" component={RouterLink} underline="hover">Our Blog</Link>
                         </Box>
 
                     </Grid>

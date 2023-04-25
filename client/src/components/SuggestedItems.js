@@ -6,8 +6,6 @@ import ProductPreviewCard from './Shop/ProductPreviewCard';
 
 const SuggestedItems = ({product}) => {
     
-    console.log(product);
-
     // TODO - this is terrible - fix in backend!
     const productObj = {
         id: product.Id,
