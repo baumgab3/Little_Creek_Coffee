@@ -34,7 +34,6 @@ const BigNavbar = ({logoutUser, user, displayName, handleSearch, anchorSearchIco
     const isSearchOpen = Boolean(anchorSearchIconEl);
 
     const handleSearchClose = () => {
-        console.log("closeing");
         setSearch("");
         setAnchorSearchIconEl(null);
     }
@@ -158,6 +157,7 @@ const BigNavbar = ({logoutUser, user, displayName, handleSearch, anchorSearchIco
                     /> 
             </Box>
         </Popover>
+        
         
         {/* Shop Dropdown */}
         <Button

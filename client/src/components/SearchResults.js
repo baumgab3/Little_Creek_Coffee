@@ -6,6 +6,8 @@ import BrowserDrawer from './Shop/BrowserDrawer';
 import { Link as RouterLink } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
 import LoadingGif from './LoadingGif';
+import axios from 'axios';
+import ProductPreviewCard from './Shop/ProductPreviewCard';
 
 
 const SearchResults = (props) => {
@@ -13,11 +15,24 @@ const SearchResults = (props) => {
     // const { param1, param2 } = useParams();
     const [searchParams] = useSearchParams();
     const [searchString, setSearchString] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [foundProducts, setFoundProducts] = useState([]);
 
     useEffect(() => {
         console.log(searchParams.get('s'));
         setSearchString(searchParams.get("s"));
+
+        const url = `http://localhost:8081/search/${searchParams.get("s")}/`;
+
+        axios.get(url)
+        .then(res => {
+            console.log(res.data);
+            setIsLoaded(true);
+            setFoundProducts(res.data);
+        }).catch(er => {
+
+        })
+
 
     }, [searchParams])
 
@@ -72,12 +87,27 @@ const SearchResults = (props) => {
                         <BrowserDrawer /> 
                     </Grid>
 
-                    { !isLoading && <LoadingGif style="serach" /> }
-                    
-
+                    { !isLoaded && <LoadingGif style="serach" /> }
 
                     <Grid item md={8} sx={{marginTop: {xs :"50px", sm: "50px", md: "55px"}}}>
+                        <Grid container spacing={2} >
+                            {isLoaded && foundProducts.map(product => {
+                                return <Grid key={product.name} item xs={6} sm={4} md={3}>
+                                        <ProductPreviewCard product={product} />
+                                        </Grid>
+                            })}
+
+                            {isLoaded && foundProducts.length === 0 &&
+                              <Box>
+                                <Typography>
+                                    Sorry, no products were found matching your search.
+
+                                </Typography>
+                              </Box>
+                            }
+                        </Grid> 
                     </Grid>
+
                 </Grid>
                 </Box>
 
