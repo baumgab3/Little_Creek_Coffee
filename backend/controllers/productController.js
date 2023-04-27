@@ -58,7 +58,7 @@ const getProductDetails = async (req, res) => {
 
         return res.send(product);
     } catch(err) {
-        throw err;
+        return res.status(500).json({message: "Server error"});
     }
 }
 
@@ -84,7 +84,7 @@ const getProductDetailsShort = async (req, res) => {
         return res.send(product);
 
     } catch(err) {
-        throw err;
+        return res.status(500).json({message: "Server error"});
     }
 }
 
@@ -130,12 +130,43 @@ const getProductPrice = async (req, res) => {
         res.send(prices);
 
     } catch (err) {
-
+        return res.status(500).json({message: "Server error"});
     }
+}
+
+const getSimilarProducts = async (req, res) => {
+
+    try {
+
+        if (!req.params.productId || !req.params.category) {
+            res.send([]);
+        }
+        
+        const productId = req.params.productId;
+        const category = req.params.category;
+        const sqlSelect = `SELECT Id, Name FROM products WHERE Id !='${productId}' AND Category='${category}' LIMIT 4`;
+        const queryResult = await query(sqlSelect);
+        const similarProducts = [];
+
+        for await (const product of queryResult) {
+            const priceObj = await getPriceRange(product.Id);
+            const productObj = JSON.parse(JSON.stringify(product));
+            const name = productObj.Name;
+            similarProducts.push({"id": product.Id ,"name": name, "priceRange": priceObj.priceRange, "hasSale": priceObj.hasSale});
+        }
+
+        res.send(similarProducts);
+
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({message: "Server error"});
+    }
+
 }
 
 module.exports = {
     getProductDetails,
     getProductDetailsShort,
-    getProductPrice
+    getProductPrice,
+    getSimilarProducts
  }

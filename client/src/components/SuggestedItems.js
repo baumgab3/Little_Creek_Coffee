@@ -1,21 +1,40 @@
 import { Box, Divider, Grid, Typography } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ProductPreviewCard from './Shop/ProductPreviewCard';
 
 
 const SuggestedItems = ({product}) => {
-    
-    // TODO - this is terrible - fix in backend!
-    const productObj = {
-        id: product.Id,
-        name: product.Name,
-        priceRange: product.priceRange,
-    }
+
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [suggestItems, setSuggestedItems] = useState([]);
 
     useEffect(() => {
-    }, []);
+        const fetchSuggestedItems = (product) => {
+            const url = `http://localhost:8081/product/${product.Id}/${product.Category}/similar`;
+            
+            fetch(url)
+            .then(res => {
+                if (res.status >= 400) {
+                    setIsLoaded(false);
+                    throw new Error("Server Error!");
+                }
+                return res.json();
+            })
+            .then(products => {
+                setSuggestedItems(products);
+                setIsLoaded(true);
+            }, err => {
+
+            })
+        }
+
+        fetchSuggestedItems(product);
+
+    }, [product]);
 
     return (
+        <>
+        {isLoaded && suggestItems.length > 0 &&
         <Box mt={5}>
             <Divider />
 
@@ -25,21 +44,18 @@ const SuggestedItems = ({product}) => {
 
             <Box>
                 <Grid container spacing={3}>
-                    <Grid item xs={6} sm={4} md={3}>
-                        <ProductPreviewCard product={productObj} />
-                    </Grid>
-                    <Grid item xs={6} sm={4} md={3}>
-                        <ProductPreviewCard product={productObj} />
-                    </Grid>
-                    <Grid item xs={6} sm={4} md={3}>
-                        <ProductPreviewCard product={productObj} />
-                    </Grid>
-                    <Grid item xs={6} sm={4} md={3}>
-                        <ProductPreviewCard product={productObj} />
-                    </Grid>
+                    {suggestItems.map((product) => {
+                        return <>
+                        <Grid key={product.id} item xs={6} sm={4} md={3}>
+                            <ProductPreviewCard product={product} />
+                        </Grid>
+                        </>
+                    })}
                 </Grid>
-            </Box>
+            </Box> 
         </Box>
+        }
+        </>
     )
 }
 

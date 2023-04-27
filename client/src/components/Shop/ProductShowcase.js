@@ -14,8 +14,8 @@ import SuggestedItems from '../SuggestedItems';
 
 const ProductShowcase = (props) => {
 
-    const { window } = props;
-    const container = window !== undefined ? () => window().document.body : undefined;    
+    const { windowProps } = props;
+    const container = windowProps !== undefined ? () => window().document.body : undefined;
     const { param1 } = useParams();
     const [productDetails, setProductDetails] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -24,6 +24,7 @@ const ProductShowcase = (props) => {
 
     useEffect(() => {
         const fetchProductDetails = () => {
+            window.scrollTo(0, 0);
             const url = `http://localhost:8081/product/${param1}`;
 
             fetch(url)
@@ -48,7 +49,6 @@ const ProductShowcase = (props) => {
         fetchProductDetails();
         setMobileOpen(false);
         setAddedToCartMessage("");
-
     }, [param1])
 
     const [mobileOpen, setMobileOpen] = useState(false);

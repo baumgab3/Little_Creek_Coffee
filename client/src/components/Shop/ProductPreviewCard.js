@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { Box, CardActionArea, Grid, Link, Modal } from '@mui/material';
+import { Box, CardActionArea, CircularProgress, Grid, Link, Modal } from '@mui/material';
 import { slugify } from '../../util/AdminUtil';
 import { useNavigate } from "react-router-dom";
 import ProductHighlight from '../ProductHighlight';
@@ -110,7 +110,7 @@ const ProductPreviewCard = (props) => {
             </CardActionArea>
 
             <CardContent sx={{"&:hover" : {color: "primary.main", cursor: "pointer"}}} onClick={() => navigate(`/product/${slugify(product.name)}`)} >
-                <Typography>
+                <Typography sx={{marginTop: '1px'}}>
                     {product.name.toUpperCase()}
                 </Typography>
             </CardContent>
@@ -127,6 +127,12 @@ const ProductPreviewCard = (props) => {
             sx={{display: {xs: "none", sm: "block"}, overflow: 'scroll', bottom: {sm: '40px', md: '0px'}}}
             >
             <Box sx={modalStyle}>
+                {!isLoaded &&
+                    <Box align="center" mt={30}>
+                        <CircularProgress size="4rem" disableShrink />
+                    </Box>
+                }
+
                 {isLoaded &&
                 <Grid container spacing={1}>
                     <Grid item xs={12} sm={12} md={6}>
