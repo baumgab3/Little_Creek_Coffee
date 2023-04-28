@@ -45,11 +45,9 @@ const SuggestedItems = ({product}) => {
             <Box>
                 <Grid container spacing={3}>
                     {suggestItems.map((product) => {
-                        return <>
-                        <Grid key={product.id} item xs={6} sm={4} md={3}>
+                        return <Grid key={product.id} item xs={6} sm={4} md={3}>
                             <ProductPreviewCard product={product} />
                         </Grid>
-                        </>
                     })}
                 </Grid>
             </Box> 
