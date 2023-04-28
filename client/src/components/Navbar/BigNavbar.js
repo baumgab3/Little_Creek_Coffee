@@ -14,6 +14,7 @@ import * as AdminUtil from '../../util/AdminUtil';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import CartContext from '../context/CartContext';
+import { useNavigate } from "react-router-dom";
 
 const BigNavbar = ({logoutUser, user, displayName, handleSearch, anchorSearchIconEl, setAnchorSearchIconEl, search, setSearch}) => {
 
@@ -22,6 +23,7 @@ const BigNavbar = ({logoutUser, user, displayName, handleSearch, anchorSearchIco
     const cafeOptions = AdminUtil.getDropDownForCafes();
     const learningOptions = AdminUtil.getDropDownForLearning();
     const aboutUsOptions = AdminUtil.getDropDownForAboutUs();
+    const navigate = useNavigate();
 
     useEffect(() => {
 
@@ -115,17 +117,16 @@ const BigNavbar = ({logoutUser, user, displayName, handleSearch, anchorSearchIco
         <Toolbar sx={{ display: { xs: 'none', sm: 'none', md: 'none', lg: 'block' } }}>
         <Grid container pt={1} >        
 
-        <Grid item md={3} lg={3} sx={{textAlign: "left"}}>
-
+        {/* This seems to be a material issue, but I need onclick in the grid to make sure the navigate always works */}
+        <Grid item md={3} lg={3} sx={{textAlign: "left"}} onClick={() => navigate("/")} >
             <Button sx = {{color: '#fff' }} >
-                <Link to="/" style={{ textDecoration: 'none', color: 'inherit', marginTop: '2px' }}>
                     <Typography 
                     variant="h6"
                     component="div"
+                    sx={{marginTop: '2px'}}
                     >
                         Little Creek Coffee
                     </Typography> 
-                </Link>
             </Button>
         </Grid>
 

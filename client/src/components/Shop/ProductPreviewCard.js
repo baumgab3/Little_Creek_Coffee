@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { Box, CardActionArea, CircularProgress, Grid, Link, Modal } from '@mui/material';
+import { Box, CardActionArea, CircularProgress, Grid, Modal } from '@mui/material';
 import { slugify } from '../../util/AdminUtil';
 import { useNavigate } from "react-router-dom";
 import ProductHighlight from '../ProductHighlight';

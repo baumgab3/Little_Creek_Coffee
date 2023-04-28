@@ -2,7 +2,7 @@ import { Box, Container } from '@mui/system'
 import React, { useContext, useEffect, useState } from 'react'
 import BrowserDrawer from './BrowserDrawer'
 import {  useParams } from 'react-router-dom';
-import { Button, CardMedia, Drawer, Grid, Toolbar, Typography } from '@mui/material';
+import { Button, Drawer, Grid, Toolbar, Typography } from '@mui/material';
 import TuneIcon from '@mui/icons-material/Tune';
 import TabsSection from './TabsSection';
 import ProductHighlight from '../ProductHighlight';
@@ -49,7 +49,7 @@ const ProductShowcase = (props) => {
         fetchProductDetails();
         setMobileOpen(false);
         setAddedToCartMessage("");
-    }, [param1])
+    }, [param1, setAddedToCartMessage])
 
     const [mobileOpen, setMobileOpen] = useState(false);
 

@@ -19,7 +19,7 @@ const ShopContainer = (props) => {
         setMobileOpen(false);
         setAddedToCartMessage("");
         setIsLoaded(true);
-    }, [param1, param2])
+    }, [param1, param2, setAddedToCartMessage])
 
     const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -35,7 +35,7 @@ const ShopContainer = (props) => {
 
     const { window } = props;
 
-    const container = window !== undefined ? () => window().document.body : undefined;    
+    const container = window !== undefined ? () => window().document.body : undefined;
 
     return <>
             <Container sx={{minHeight: {md: '1000px'}}}>
