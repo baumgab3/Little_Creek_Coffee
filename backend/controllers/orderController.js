@@ -17,15 +17,8 @@ const placeOrder = async (req, res) => {
     try {
         // create id for order
         const orderId = crypto.randomUUID();
-        // get currenet date and store it as yyyy-mm-dd
-        const dateObj = new Date();
-        const year = dateObj.getFullYear();
-        const month = dateObj.getMonth() + 1;
-        const day = dateObj.getDate();
-        const date = `${year}-${month}-${day}`;
-
-        const sqlInsert = `INSERT INTO orders (OrderId, Quantity, SubTotal, PlacedDate, UserId) 
-                            VALUES ('${orderId}', '${orderDetails.quantity}', '${orderDetails.subtotal}', '${date}', '${user.id}')`;
+        const sqlInsert = `INSERT INTO orders (OrderId, Quantity, SubTotal, UserId) 
+                            VALUES ('${orderId}', '${orderDetails.quantity}', '${orderDetails.subtotal}', '${user.id}')`;
 
         await query(sqlInsert); 
 
@@ -36,7 +29,6 @@ const placeOrder = async (req, res) => {
             //get new id for order_items
             const orderItemId = crypto.randomUUID();
 
-            
             // not all items have description, prevent null from being put in db
             if (cartItem.description === null) {
                 cartItem.description = "";
@@ -72,7 +64,7 @@ const getOrdersPreview = async (req, res) => {
         }
 
         const userId = req.params.userId;
-        const sqlStatement = `SELECT * FROM orders WHERE UserId = '${userId}' ORDER BY DATE_FORMAT(PlacedDate, '%Y-%m-%d') desc`;
+        const sqlStatement = `SELECT * FROM orders WHERE UserId = '${userId}' ORDER BY PlacedDate desc`;
         const orders = await query(sqlStatement);
 
         const returnOrders = [];
@@ -89,7 +81,6 @@ const getOrdersPreview = async (req, res) => {
             returnOrders.push(pastOrder);
         }
 
-
         return res.send(returnOrders);
 
     } catch (err) {
@@ -101,13 +92,13 @@ const getOrdersPreview = async (req, res) => {
 
 
 const getOrders = async (req, res) => {
-    
+
     try {
 
         //verfiy authorized user
         if (req.params.id !== req.user.id) {
             return res.status(401).json({message: "You are not authorized to update"});
-        }        
+        }
 
         const userId = req.params.userId;
         // get all orders placed from user
@@ -144,7 +135,6 @@ const getOrders = async (req, res) => {
 const getOrderById = async (req, res) => {
 
     try {
-    
         //verfiy authorized user
         if (req.params.userId !== req.user.id) {
             return res.status(401).json({message: "You are not authorized to update"});
@@ -158,7 +148,6 @@ const getOrderById = async (req, res) => {
         for (const order of orders) {
             const item = {
                 orderId: order.OrderItemId,
-                // productId: order.ProductId,
                 id: order.ProductId,
                 category: order.Category,
                 name: order.ProductName,
@@ -174,7 +163,7 @@ const getOrderById = async (req, res) => {
             if (order.Description) {
                 item.description = order.Description;
             }
-    
+
             returnOrders.push(item);
         }
 
@@ -194,8 +183,7 @@ const getOrderById = async (req, res) => {
             orderDetails : info,
             order: returnOrders,
         }
-    
-        // res.send(returnOrders);
+
         res.send(orderResult);
 
     } catch (err) {
