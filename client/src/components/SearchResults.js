@@ -1,6 +1,6 @@
-import { Box, Breadcrumbs, Button, CircularProgress, Drawer, Grid, Link, Toolbar, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Button, Drawer, Grid, Link, Toolbar, Typography } from '@mui/material';
 import { Container } from '@mui/system';
-import React, { useContext, useEffect, useState } from 'react'
+import React, {useEffect, useState } from 'react'
 import TuneIcon from '@mui/icons-material/Tune';
 import BrowserDrawer from './Shop/BrowserDrawer';
 import { Link as RouterLink } from 'react-router-dom';
@@ -19,14 +19,12 @@ const SearchResults = (props) => {
     const [foundProducts, setFoundProducts] = useState([]);
 
     useEffect(() => {
-        console.log(searchParams.get('s'));
         setSearchString(searchParams.get("s"));
 
         const url = `http://localhost:8081/search/${searchParams.get("s")}/`;
 
         axios.get(url)
         .then(res => {
-            console.log(res.data);
             setIsLoaded(true);
             setFoundProducts(res.data);
         }).catch(er => {
