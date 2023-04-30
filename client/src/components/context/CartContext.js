@@ -25,6 +25,8 @@ export const CartProvider = ({children}) => {
     const [cartSize, setCartSize] = useState(0);
     const {user, logoutUser} = useContext(UserContext);
     const [addedToCartMessage, setAddedToCartMessage] = useState("");
+    const [shipping, setShipping] = useState("0");
+
 
     const addPastOrderToCart = (pastOrderObj) => {
         const pastOrder = pastOrderObj.order;
@@ -190,6 +192,8 @@ export const CartProvider = ({children}) => {
             setAddedToCartMessage,
             emptyCart,
             addPastOrderToCart,
+            shipping,
+            setShipping
         }}>
             {children}
         </CartContext.Provider>

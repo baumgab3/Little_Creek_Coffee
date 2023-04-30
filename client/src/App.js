@@ -10,7 +10,7 @@ import BrewingChange from './components/AboutUs/BrewingChange';
 import InsideLittleCreek from './components/AboutUs/InsideLittleCreek';
 import ShopContainer from './components/Shop/ShopContainer';
 import ProductShowcase from './components/Shop/ProductShowcase';
-import Checkout from './components/Checkout/Checkout';
+import Cart from './components/Checkout/Cart';
 import { CartProvider } from './components/context/CartContext';
 import CreateAccount from './components/CreateAccount';
 import { UserProvider } from './components/context/UserContext';
@@ -22,6 +22,7 @@ import Dashboard from './components/Dashboard';
 import AddressForm from './components/User/AddressForm';
 import Footer from './components/Footer/Footer';
 import SearchResults from './components/SearchResults';
+import Checkout from './components/Checkout/Checkout';
 
 function App() {
   const drawerWidth = 240;
@@ -67,7 +68,8 @@ function App() {
           <Route exact path="/abc-corporation" element={ <InsideLittleCreek/> } />
 
           {/* Checkout */}
-          <Route exact path="/cart" element={ <Checkout/> } />
+          <Route exact path="/cart" element={ <Cart/> } />
+          <Route exact path="/checkout" element={ <Checkout/> } />
 
           {/* Sandbox */}
           <Route exact path="/sandbox" element={ <Sandbox/> } />

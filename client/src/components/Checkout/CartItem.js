@@ -53,7 +53,7 @@ const CartItem = ({item, isPlaced}) => {
                 <Grid item xs={7} sm={6} align="left">
                     <Box mt={1} ml={2}>
                         <Link component={RouterLink} to={url} underline="none">
-                            {item.name}
+                            {item.name.toUpperCase()}
                         </Link>
                     </Box>
                     <Box ml={2}>
