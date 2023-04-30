@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
@@ -30,13 +30,17 @@ const MobileNavbar = (props) => {
     const cafeOptions = AdminUtil.getDropDownForCafes();
     const learningOptions = AdminUtil.getDropDownForLearning();
     const aboutUsOptions = AdminUtil.getDropDownForAboutUs();
-    const {cartSize, emptyCart} = useContext(CartContext);
+    const {cartSize, emptyCart, setShipping} = useContext(CartContext);
     const navigate = useNavigate();
 
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState(false);
 
     const drawerWidth = props.drawerWidth;
+
+    useEffect(() => {
+
+    }, [props.user])
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
@@ -90,6 +94,7 @@ const MobileNavbar = (props) => {
         setMobileOpen(false);
         props.logoutUser();
         emptyCart();
+        setShipping(0);
     }
     
     const drawer = (

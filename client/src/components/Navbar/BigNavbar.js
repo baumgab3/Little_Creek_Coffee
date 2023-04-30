@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 
 const BigNavbar = ({logoutUser, user, displayName, handleSearch, anchorSearchIconEl, setAnchorSearchIconEl, search, setSearch}) => {
 
-    const {cartSize, getCartTotal, emptyCart} = useContext(CartContext);
+    const {cartSize, getCartTotal, emptyCart, setShipping} = useContext(CartContext);
     const shopOptions = AdminUtil.getDropDownForShop();
     const cafeOptions = AdminUtil.getDropDownForCafes();
     const learningOptions = AdminUtil.getDropDownForLearning();
@@ -110,6 +110,7 @@ const BigNavbar = ({logoutUser, user, displayName, handleSearch, anchorSearchIco
 
     const logout = () => {
         logoutUser();
+        setShipping(0);
         emptyCart();
     }
 

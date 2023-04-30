@@ -12,7 +12,7 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
 
-const Login = () => {
+const Login = ({isCheckoutLogin}) => {
 
     const {setUser, setNavbarName} = useContext(UserContext);
     const navigate = useNavigate();
@@ -69,7 +69,11 @@ const Login = () => {
 
                 // set diplay name if user has one (name in navbar)
                 setNavbarName(response.data.user.displayName ? response.data.user.displayName : null);
-                navigate("/");
+                if (isCheckoutLogin) {
+                    navigate("/checkout");
+                } else {
+                    navigate("/");
+                }
             }
         })
         .catch(err => {
@@ -90,14 +94,16 @@ const Login = () => {
 
 
     return (
-        <Box sx={{minHeight: '500px'}}>
-        <Box sx={{backgroundColor: 'blue', height: ''}} p={2} mt={3} align="center">
+        <Box sx={{minHeight: !isCheckoutLogin ? '470px' : '0px'}}>
+        {!isCheckoutLogin &&
+        <Box sx={{backgroundColor: 'blue', height: ''}} p={2} mt={3} mb={5} align="center">
             <Typography variant='h4'>
                 My Account
             </Typography>
         </Box>
+        }
 
-        <Box mt={5} align="center">
+        <Box align="center">
 
             <FormControl >
                 {/* Error Box */}
@@ -128,13 +134,16 @@ const Login = () => {
                 required
                 />
 
-                <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me" />
+                {!isCheckoutLogin && <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me" /> }
 
                 <Button onClick={(e) => handleLogin(e)} sx={{width: "100px"}} variant="contained">LOG IN</Button>
 
+                {!isCheckoutLogin &&
                 <Box mt={2}> 
                     <Link to="/create-account" component={RouterLink} underline="hover">Don't have an account? Create one!</Link>
                 </Box>
+                }
+
             </FormControl>
         </Box>
         </Box>

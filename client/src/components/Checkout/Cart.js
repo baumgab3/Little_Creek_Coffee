@@ -1,4 +1,4 @@
-import { Breadcrumbs, Button, Divider, FormControl, FormControlLabel, FormLabel, Grid, Link, RadioGroup, Stack, Typography } from '@mui/material';
+import { Breadcrumbs, Button, CircularProgress, Divider, FormControl, FormControlLabel, FormLabel, Grid, Link, RadioGroup, Stack, Typography } from '@mui/material';
 import { Box, Container } from '@mui/system'
 import { useContext } from 'react'
 import CartContext from '../context/CartContext';
@@ -135,7 +135,9 @@ const Cart = () => {
                     <Divider sx={{ borderBottomWidth: 5 }} />
 
                     <Box mt={3}>
-                        <Button onClick={() => navigate("/checkout")} sx={{width: 1, height: '50px' }} variant='contained'>proceed to checkout</Button>
+                        <Button  onClick={() => navigate("/checkout")} sx={{width: 1, height: '50px' }} variant='contained'>
+                            proceed to checkout
+                        </Button>
                     </Box>
 
                 </Box>
