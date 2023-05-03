@@ -9,6 +9,52 @@ const getRowCount = async (column, toFind) => {
     return !result ? 0 : result[0].count;
 }
 
+const getCount = async (column, toFind, table) => {
+    const stm  = `SELECT COUNT(${column}) as count FROM ${table} WHERE ${column}='${toFind}'`;
+    const result = await query(stm);
+    return !result ? 0 : result[0].count; 
+}
+
+const getUserInsert = (user, hashedPassword) => {
+    console.log(user);
+    return `INSERT INTO users (UserID, FirstName, LastName, Email, DisplayName, Password) 
+    VALUES ('${user.id}', '${user.firstName}', '${user.lastName}', '${user.email}', '${user.displayName}', '${hashedPassword}')`;
+}
+
+const getBillingInsert = (billing, userId) => {
+    return `INSERT INTO billing_addresses
+            (BillingId, FirstName, LastName, CompanyName, StreetAddress, ApartmentSuit, City, State, ZipCode, Phone, Email, UserId)
+            VALUES 
+            ( '${billing.id}', '${billing.firstName}', '${billing.lastName}', '${billing.companyName}', 
+            '${billing.streetAddress}', '${billing.apartmentSuit}', '${billing.city}', '${billing.state}', '${billing.zip}',
+            '${billing.phone}', '${billing.email}', '${userId}' )`;
+}
+
+const getShippingInsert = (shipping, userId) => {
+    return `INSERT INTO shipping_addresses
+            (ShippingId, FirstName, LastName, CompanyName, StreetAddress, ApartmentSuit, City, State, ZipCode, UserId)
+            VALUES 
+            ( '${shipping.id}', '${shipping.firstName}', '${shipping.lastName}', '${shipping.companyName}', 
+            '${shipping.streetAddress}', '${shipping.apartmentSuit}', '${shipping.city}', '${shipping.state}',
+            '${shipping.zip}', '${userId}' )`;
+}
+
+const getBillingUpdate = (billing, userId) => {
+    return `UPDATE billing_addresses SET
+            FirstName='${billing.firstName}', LastName='${billing.lastName}', CompanyName='${billing.companyName}',
+            StreetAddress='${billing.streetAddress}', ApartmentSuit='${billing.apartmentSuit}', City='${billing.city}',
+            State='${billing.state}', ZipCode='${billing.zip}', Phone='${billing.phone}', Email='${billing.email}'
+            WHERE UserId='${userId}'`;
+}
+
+const getShippingUpdate = (shipping, userId) => {
+    return `UPDATE shipping_addresses SET
+            FirstName='${shipping.firstName}', LastName='${shipping.lastName}', CompanyName='${shipping.companyName}',
+            StreetAddress='${shipping.streetAddress}', ApartmentSuit='${shipping.apartmentSuit}', City='${shipping.city}',
+            State='${shipping.state}', ZipCode='${shipping.zip}'
+            WHERE UserId='${userId}'`;
+}
+
 const getPriceDropDownOptions = async (productId) => {
 
     const sqlPriceStatement = `SELECT * FROM product_pricing WHERE ProductId='${productId}' ORDER BY LENGTH(Id), Id`;
@@ -97,5 +143,11 @@ module.exports = {
     getPriceRange,
     getPriceDropDownOptions,
     getRowCount,
-    getFormattedDate
+    getFormattedDate,
+    getCount,
+    getUserInsert,
+    getBillingInsert,
+    getShippingInsert,
+    getBillingUpdate,
+    getShippingUpdate
 }

@@ -146,6 +146,39 @@ export const CartProvider = ({children}) => {
 
     const placeOrder = () => {
 
+
+        const url = 'http://localhost:8081/orders';
+        const orderDetails = {
+            "quantity": cartSize,
+            "subtotal": getCartTotal()
+        };
+
+        const order = {user, cart, orderDetails};
+        const token = localStorage.getItem('accessToken');
+
+        axios.post(url, order, {
+            headers: {
+                'Authorization' : `Bearer ${token}`
+            }
+        })
+        .then((response) => {
+
+            if (response.status === 200) {
+                 //emptyCart();
+            }
+           
+        })
+        .catch(err => {
+            // not authorized or user messed with their token
+            if (err.response.status === 401 || err.response.status === 403) {
+                // logoutUser();
+                // emptyCart();
+            }
+        })
+    }
+
+    const placeOrder_BAK = () => {
+
         const url = 'http://localhost:8081/orders';
         const orderDetails = {"quantity": cartSize, "subtotal": getCartTotal()};
         const order = {user, cart, orderDetails};

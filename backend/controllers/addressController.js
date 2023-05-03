@@ -236,5 +236,6 @@ module.exports = {
     getBillingAndShippingInfo,
     getAddressById,
     saveAddress,
-    deleteAddress
+    deleteAddress,
+    getInsertAddressQuery
 }

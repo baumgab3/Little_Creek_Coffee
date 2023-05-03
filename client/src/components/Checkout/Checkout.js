@@ -13,16 +13,18 @@ import { red } from '@mui/material/colors';
 
 const Checkout = () => {
 
-    const {cart, getCartTotal, shipping, getUniqueID} = useContext(CartContext);
-    const {user} = useContext(UserContext);
+    const {cart, cartSize, getCartTotal, shipping, getUniqueID, emptyCart} = useContext(CartContext);
+    const {user, setNavbarName, setUser} = useContext(UserContext);
     const navigate = useNavigate();
     const [displayLogin, setDisplayLogin] = useState(false);
     const states = getStates();
     const [displayShipping, setDisplayShipping] = useState(false);
+    const [createNewAccount, setCreateNewAccount] = useState(false);
     const errors = useRef([]);
 
     // Billing vars
     const [isBillingLoaded, setIsBillingLoaded] = useState(false);
+    
     const [billingFname, setBillingFname] = useState("");
     const [billingLname, setBillingLname] = useState("");
     const [billingCompany, setBillingCompany] = useState("");
@@ -33,6 +35,8 @@ const Checkout = () => {
     const [billingZip, setBillingZip] = useState("");
     const [billingPhone, setBillingPhone] = useState("");
     const [billingEmail, setBillingEmail] = useState("");
+
+
     // Billing errors
     const [billingFnameError, setBillingFnameError] = useState(false);
     const [billingLnameError, setBillingLnameError] = useState(false);
@@ -42,6 +46,7 @@ const Checkout = () => {
     const [billingZipError, setBillingZipError] = useState(false);
     const [billingPhoneError, setBillingPhoneError] = useState(false);
     const [billingEmailError, setBillingEmailError] = useState(false);
+    const [duplicateEmailError, setDuplicateEmailError] = useState(false);
     // Shipping vars
     const [isShippingLoaded, setIsShippingLoaded] = useState(false);
     const [shippingFname, setShippingFname] = useState("");
@@ -62,7 +67,7 @@ const Checkout = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0) 
-        
+
         if (!user) {
             setIsBillingLoaded(true);
             setIsShippingLoaded(true);
@@ -143,7 +148,11 @@ const Checkout = () => {
         setBillingState(event.target.value);
     }
 
-    const placeOrder = () => {
+    const handleShippingStateChange = (event) => {
+        setShippingState(event.target.value);
+    } 
+
+    const handlePlaceOrder = () => {
         // reset errors
         errors.current = [];
         setBillingFnameError(false);
@@ -160,6 +169,7 @@ const Checkout = () => {
         setShippingCityError(false);
         setShippingStateError(false);
         setShippingZipError(false);
+        setDuplicateEmailError(false);
 
         if (!billingFname) {
             setBillingFnameError(true);
@@ -225,7 +235,77 @@ const Checkout = () => {
 
         // If no errors then place order
         if (errors.current.length === 0) {
-            alert("valid");
+
+            const billingObj = {
+                firstName: billingFname,
+                lastName: billingLname,
+                companyName: billingCompany,
+                streetAddress: billingAddress,
+                apartmentSuit: billingApartment,
+                city: billingCity,
+                state: billingState,
+                zip: billingZip,
+                phone: billingPhone,
+                email: billingEmail
+            }
+
+            // user wants a seperate address for shipping
+            let shippingObj;
+            if (displayShipping) {
+                shippingObj = {
+                    firstName: shippingFname,
+                    lastName: shippingLname,
+                    companyName: shippingCompany,
+                    streetAddress: shippingAddress,
+                    apartmentSuit: shippingApartment,
+                    city: shippingCity,
+                    state: shippingState,
+                    zip: shippingZip
+                }
+            } else {
+                shippingObj = billingObj;
+            }
+
+            const url = 'http://localhost:8081/orders';
+
+            const order = {
+                user,
+                cart,
+                createNewAccount,
+                billingObj,
+                shippingObj,
+                "quantity": cartSize,
+                "subtotal": getCartTotal()
+            }
+
+            const token = localStorage.getItem('accessToken');
+    
+            axios.post(url, order, {
+                headers: {
+                    'Authorization' : `Bearer ${token}`
+                }
+            })
+            .then((response) => {
+
+                if (createNewAccount) {
+                    setUser(response.data.user);
+                    localStorage.setItem("accessToken", response.data.user.accessToken);
+                    setNavbarName(response.data.user.displayName);
+                }
+
+                emptyCart();
+                navigate("/");
+             })
+            .catch(err => {
+                // not authorized or user messed with their token
+                if (err.response.status === 401 || err.response.status === 403) {
+                    // logoutUser();
+                    // emptyCart();
+                } else if (err.response.status === 409) {
+                    setDuplicateEmailError(true);
+                    errors.current.push("Sorry, given email already exists.")
+                }
+            })
         }
 
     }
@@ -245,7 +325,7 @@ const Checkout = () => {
                     <TextField
                         label="First name"
                         defaultValue={shippingFname}
-                        onChange={(e) => setShippingFname(e.target.value)}
+                        onBlur={(e) => setShippingFname(e.target.value)}
                         error={shippingFnameError}
                         sx={{width: {xs: "100%", sm: "95%"} }}
                         required
@@ -256,7 +336,7 @@ const Checkout = () => {
                     <TextField
                         label="Last name"
                         defaultValue={shippingLname}
-                        onChange={(e) => setShippingLname(e.target.value)}
+                        onBlur={(e) => setShippingLname(e.target.value)}
                         error={shippingLnameError}
                         sx={{width: {xs: "100%", sm: "90%"} }}
                         required
@@ -269,7 +349,7 @@ const Checkout = () => {
                 <TextField
                     label="Company name (optional)"
                     defaultValue={shippingCompany}
-                    onChange={(e) => setShippingCompany(e.target.value)}
+                    onBlur={(e) => setShippingCompany(e.target.value)}
                     sx={{width: "100%"}}
                 />
             </Grid>
@@ -289,7 +369,7 @@ const Checkout = () => {
                     <TextField
                         label="Street address"
                         defaultValue={shippingAddress}
-                        onChange={(e) => setShippingAddress(e.target.value)}
+                        onBlur={(e) => setShippingAddress(e.target.value)}
                         error={shippingAddressError}
                         placeholder="House number and street name"
                         sx={{width: {xs: "100%", sm: "95%"} }}
@@ -301,7 +381,7 @@ const Checkout = () => {
                     <TextField
                         label="Apartment, suite, unit, etc. (optional)"
                         defaultValue={shippingApartment}
-                        onChange={(e) => setShippingApartment(e.target.value)}
+                        onBlur={(e) => setShippingApartment(e.target.value)}
                         placeholder="Apartment, suite, unit, etc. (optional)"
                         sx={{width: {xs: "100%", sm: "90%"} }}
                         required
@@ -314,7 +394,7 @@ const Checkout = () => {
                 <TextField
                     label="Town / City"
                     defaultValue={shippingCity}
-                    onChange={(e) => setShippingCity(e.target.value)}
+                    onBlur={(e) => setShippingCity(e.target.value)}
                     error={shippingCityError}
                     sx={{width: 1}}
                     required
@@ -331,7 +411,7 @@ const Checkout = () => {
                 </InputLabel>
                 <Select
                     label="State"
-                    onChange={handleShippingChange}
+                    onChange={handleShippingStateChange}
                     MenuProps={{ sx: {maxHeight: 250} }}
                     defaultValue={shippingState}
                     error={shippingStateError}
@@ -348,7 +428,7 @@ const Checkout = () => {
             <Grid item xs={12} mt={3} >
                 <TextField
                     defaultValue={shippingZip}
-                    onChange={(e) => setShippingZip(e.target.value)}
+                    onBlur={(e) => setShippingZip(e.target.value)}
                     label="ZIP Code"
                     error={shippingZipError}
                     sx={{width: 1}}
@@ -431,7 +511,7 @@ const Checkout = () => {
                             <TextField
                                 label="First name"
                                 defaultValue={billingFname}
-                                onChange={(e) => setBillingFname(e.target.value)}
+                                onBlur={(e) => setBillingFname(e.target.value)}
                                 error={billingFnameError}
                                 sx={{width: {xs: "100%", sm: "95%"} }}
                                 required
@@ -442,7 +522,7 @@ const Checkout = () => {
                             <TextField
                                 label="Last name"
                                 defaultValue={billingLname}
-                                onChange={(e) => setBillingLname(e.target.value)}
+                                onBlur={(e) => setBillingLname(e.target.value)}
                                 error={billingLnameError}
                                 sx={{width: {xs: "100%", sm: "90%"} }}
                                 required
@@ -455,7 +535,7 @@ const Checkout = () => {
                         <TextField
                             label="Company name (optional)"
                             defaultValue={billingCompany}
-                            onChange={(e) => setBillingCompany(e.target.value)}
+                            onBlur={(e) => setBillingCompany(e.target.value)}
                             sx={{width: 1}}
                         />
                     </Grid>
@@ -475,7 +555,7 @@ const Checkout = () => {
                             <TextField
                                 label="Street address"
                                 defaultValue={billingAddress}
-                                onChange={(e) => setBillingAddress(e.target.value)}
+                                onBlur={(e) => setBillingAddress(e.target.value)}
                                 error={billingAddressError}
                                 placeholder="House number and street name"
                                 sx={{width: {xs: "100%", sm: "95%"} }}
@@ -487,7 +567,7 @@ const Checkout = () => {
                             <TextField
                                 label="Apartment, suite, unit, etc. (optional)"
                                 defaultValue={billingApartment}
-                                onChange={(e) => setBillingApartment(e.target.value)}
+                                onBlur={(e) => setBillingApartment(e.target.value)}
                                 placeholder="Apartment, suite, unit, etc. (optional)"
                                 sx={{width: {xs: "100%", sm: "90%"} }}
                                 required
@@ -500,7 +580,7 @@ const Checkout = () => {
                         <TextField
                             label="Town / City"
                             defaultValue={billingCity}
-                            onChange={(e) => setBillingCity(e.target.value)}
+                            onBlur={(e) => setBillingCity(e.target.value)}
                             error={billingCityError}
                             sx={{width: 1}}
                             required
@@ -535,7 +615,7 @@ const Checkout = () => {
                         <TextField
                             label="ZIP Code"
                             defaultValue={billingZip}
-                            onChange={(e) => setBillingZip(e.target.value)}
+                            onBlur={(e) => setBillingZip(e.target.value)}
                             error={billingZipError}
                             sx={{width: 1}}
                             required
@@ -547,7 +627,7 @@ const Checkout = () => {
                         <TextField
                             label="Phone"
                             defaultValue={billingPhone}
-                            onChange={(e) => setBillingPhone(e.target.value)}
+                            onBlur={(e) => setBillingPhone(e.target.value)}
                             error={billingPhoneError}
                             sx={{width: 1}}
                             required
@@ -559,8 +639,8 @@ const Checkout = () => {
                         <TextField
                             label="Email address"
                             defaultValue={billingEmail}
-                            onChange={(e) => setBillingEmail(e.target.value)}
-                            error={billingEmailError}
+                            onBlur={(e) => setBillingEmail(e.target.value)}
+                            error={billingEmailError || duplicateEmailError}
                             sx={{width: 1}}
                             required
                         />
@@ -572,7 +652,7 @@ const Checkout = () => {
                     <FormControlLabel
                         control={
                             <Checkbox
-                            // onClick={() => handleCheckBox()}
+                            onClick={() => setCreateNewAccount(!createNewAccount)}
                         />}
                         label="Create an account"
                     />
@@ -593,7 +673,7 @@ const Checkout = () => {
                     </Box>
 
                     <TextareaAutosize
-                        // onChange={(e) => setEmailMessage(e.target.value)}
+                        // onBlur={(e) => setEmailMessage(e.target.value)}
                         // value={emailMessage}
                         aria-label="gift-message"
                         minRows={6}
@@ -602,7 +682,7 @@ const Checkout = () => {
                     />
 
                     <TextareaAutosize
-                        // onChange={(e) => setEmailMessage(e.target.value)}
+                        // onBlur={(e) => setEmailMessage(e.target.value)}
                         // value={emailMessage}
                         aria-label="order-notes-message"
                         minRows={6}
@@ -783,7 +863,7 @@ const Checkout = () => {
                         <Divider sx={{ borderBottomWidth: 5 }} />
 
                         <Box mt={3}>
-                            <Button onClick={() => placeOrder()} sx={{width: 1, height: '50px'}} variant='contained'>place order</Button>
+                            <Button onClick={() => handlePlaceOrder()} sx={{width: 1, height: '50px'}} variant='contained'>place order</Button>
                         </Box>
 
                     </Box>

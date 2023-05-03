@@ -6,7 +6,8 @@ const router = express.Router();
 
 // endpoint: /orders
 
-router.post("/", authenticateToken, orderController.placeOrder); 
+// router.post("/", authenticateToken, orderController.placeOrder); 
+router.post("/", orderController.placeOrder); 
 router.get("/:userId", authenticateToken, orderController.getOrdersPreview);
 router.get("/view-order/:orderId/:userId", authenticateToken, orderController.getOrderById);
 

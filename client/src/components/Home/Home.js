@@ -8,6 +8,8 @@ import { Link as RouterLink } from 'react-router-dom';
 
 
 const Home = () => {
+
+
   return (
     <Box>
       <ImageCarousel />
