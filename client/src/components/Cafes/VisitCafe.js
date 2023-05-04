@@ -18,7 +18,7 @@ const VisitCafe = () => {
 
                 <Box mt={5}>
                     {cafes.map(cafe => {
-                        return <Accordion key={cafe.location}>
+                        return <Accordion key={cafe.address}>
                             <AccordionSummary
                             expandIcon={<ExpandMore />}
                             aria-controls={`panel-cafe-content`}
@@ -59,7 +59,7 @@ const VisitCafe = () => {
                                         </Typography>
 
                                         {cafe.hours.map(hour => {
-                                            return <Typography variant="h6">
+                                            return <Typography key={hour} variant="h6">
                                                 {hour}
                                             </Typography>
                                         })}
