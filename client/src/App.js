@@ -23,6 +23,7 @@ import AddressForm from './components/User/AddressForm';
 import Footer from './components/Footer/Footer';
 import SearchResults from './components/SearchResults';
 import Checkout from './components/Checkout/Checkout';
+import VisitCafe from './components/Cafes/VisitCafe';
 
 function App() {
   const drawerWidth = 240;
@@ -59,6 +60,9 @@ function App() {
           {/* Search */}
           <Route exact path="/search/:params?" element={ <SearchResults /> } /> 
 
+
+          {/* CAFES */}
+          <Route exact path="/cafes" element={ <VisitCafe/> } />
 
 
           {/* About Us */}

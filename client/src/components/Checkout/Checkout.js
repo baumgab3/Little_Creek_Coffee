@@ -792,6 +792,7 @@ const Checkout = () => {
                                 loading="lazy"
                                 width="40"
                                 height="40"
+                                alt="creid-card"
                             />
 
                             <img
@@ -799,6 +800,7 @@ const Checkout = () => {
                                 loading="lazy"
                                 width="40"
                                 height="40"
+                                alt="credit-cart"
                             />
 
                             <img
@@ -806,6 +808,7 @@ const Checkout = () => {
                                 loading="lazy"
                                 width="40"
                                 height="40"
+                                alt="credit-card"
                             />
                         </Stack>
 
