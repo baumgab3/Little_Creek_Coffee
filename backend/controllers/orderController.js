@@ -20,7 +20,10 @@ const placeOrder = async (req, res) => {
         let ShippingAddressId;
         let BillingAddressId;
 
-        // handle orders that are being place with a new account or by users who do not want to create an account
+        // first check if given email is taken
+
+
+        // handle orders that are being placed with a new account or by users who do not want to create an account
         if (order.createNewAccount || !user) {
 
             if (order.createNewAccount) {

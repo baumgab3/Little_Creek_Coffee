@@ -1,21 +1,17 @@
-import { Breadcrumbs, Button, CircularProgress, Divider, FormControl, FormControlLabel, FormLabel, Grid, Link, RadioGroup, Stack, Typography } from '@mui/material';
+import { Button, Divider, Grid, Typography } from '@mui/material';
 import { Box, Container } from '@mui/system'
 import { useContext } from 'react'
 import CartContext from '../context/CartContext';
-import UserContext from '../context/UserContext';
 import CartItem from './CartItem';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useNavigate } from "react-router-dom";
 import CheckoutBreadCrumbs from './CheckoutBreadCrumbs';
-import Radio from '@mui/material/Radio';
 import ShippingRadioGroup from './ShippingRadioGroup';
 
 const Cart = () => {
     
-    const {cart, emptyCart, cartSize, getCartTotal, getUniqueID, placeOrder, shipping, setShipping} = useContext(CartContext);
-    const {user} = useContext(UserContext);
+    const {cart, emptyCart, cartSize, getCartTotal, getUniqueID, shipping} = useContext(CartContext);
     const navigate = useNavigate();
-
 
     if (!cart || cartSize === 0) {
         return (
@@ -78,7 +74,7 @@ const Cart = () => {
                 </Box>
                 <Box mt={4} align="right">
                     <Button onClick={emptyCart} color="error" variant="contained" mt={4}>Empty Cart</Button> &nbsp;
-                    {user && cartSize !== 0 && <Button onClick={placeOrder} variant="contained" mt={4}>Place Order</Button>}
+                    {/* {user && cartSize !== 0 && <Button onClick={placeOrder} variant="contained" mt={4}>Place Order</Button>} */}
                 </Box>
             </Grid>
             

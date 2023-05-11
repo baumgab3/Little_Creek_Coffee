@@ -24,6 +24,7 @@ import Footer from './components/Footer/Footer';
 import SearchResults from './components/SearchResults';
 import Checkout from './components/Checkout/Checkout';
 import VisitCafe from './components/Cafes/VisitCafe';
+import PasswordSet from './components/PasswordSet';
 
 function App() {
   const drawerWidth = 240;
@@ -41,7 +42,8 @@ function App() {
           <Route exact path="/home" element={ <Home/> } />
 
           {/* Accounts */}
-          <Route exact path="/login" element={ <Login/> } /> 
+          <Route exact path="/login" element={ <Login/> } />
+          <Route exact path="/set-password" element={ <PasswordSet/> } /> 
           <Route exact path="/create-account" element={ <CreateAccount /> } /> 
           <Route exact path="/my-account" element={ <Dashboard/> } />
           <Route exact path="/my-orders" element={ <UserOrders /> } />
